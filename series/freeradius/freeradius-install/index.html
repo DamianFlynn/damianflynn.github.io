@@ -1,0 +1,361 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><link href=https://gmpg.org/xfn/11 rel=profile><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=content-type content="text/html" charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>FreeRadius - Installing a Working Release! - Incredible Technology made Incredibly Simple</title><meta name=description content="Installing a working copy of FreeRadius (not from Ubuntu)."><meta name=author content><meta name=generator content="Hugo 0.83.1"><meta name=robots content="index, follow, archive"><meta name=googlebot content="index,follow,snippet,archive"><link rel="shortcut icon" href=https://damianflynn.github.io/images/logos/favicon.ico><link rel=apple-touch-icon sizes=57x57 href=/images/logos/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/logos/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/logos/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/logos/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/logos/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/logos/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/logos/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/logos/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/logos/apple-icon-180x180.png><link rel=icon type=image/png sizes=196x196 href=/images/logos/android-icon-192x192.png><link rel=icon type=image/png sizes=192x192 href=/images/logos/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/logos/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/logos/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/logos/favicon-16x16.png><link rel=manifest href=/images/logos/manifest.json><meta name=msapplication-TileColor content="#ffc40d"><meta name=msapplication-TileImage content="/images/logos/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><link rel=mask-icon href=/images/logos/safari-pinned-tab.svg color=#7b7b7b><link rel=preload type=text/css href=/css/northeast-tailwind.min.112d96c7c32fe877174d172528ee68a9714977e2fb67cd840d8e8580be099f2b.css integrity=sha256-ES2Wx8Mv6HcXTRclKO5oqXFJd+L7Z82EDY6FgL4Jnys= as=style onload="this.onload=null,this.rel='stylesheet'"><noscript><link rel=stylesheet type=text/css href=/css/northeast-tailwind.min.112d96c7c32fe877174d172528ee68a9714977e2fb67cd840d8e8580be099f2b.css integrity=sha256-ES2Wx8Mv6HcXTRclKO5oqXFJd+L7Z82EDY6FgL4Jnys=></noscript><link rel=stylesheet type=text/css href=//css/light.min.952e79c89856fbd66b7326d0d8dd11a3a1b410482ce84bf79e3d35b042d0e8c5.css integrity=sha256-lS55yJhW+9ZrcybQ2N0Ro6G0EEgs6Ev3nj01sELQ6MU= media="(prefers-color-scheme: light)"><link rel=stylesheet type=text/css href=//css/dark.min.0f0616773fa32c06c1ead22444679aeb767d0bf344fb76911bed8f8bfdd61957.css integrity=sha256-DwYWdz+jLAbB6tIkRGea63Z9C/NE+3aRG+2Pi/3WGVc= media="(prefers-color-scheme: dark)"><script async src=/js/theme-toggle.min.7b7f87042ab635c831535d6b0f00886ab8a6cf81b47f34bb3213054248f99b50.js integrity="sha256-e3+HBCq2NcgxU11rDwCIarimz4G0fzS7MhMFQkj5m1A="></script><meta property="og:title" content="FreeRadius - Installing a Working Release!"><meta property="og:description" content="Installing a working copy of FreeRadius (not from Ubuntu)."><meta property="og:type" content="article"><meta property="og:url" content="https://damianflynn.github.io/series/freeradius/freeradius-install/"><meta property="article:section" content="series"><meta property="article:published_time" content="2021-05-23T11:52:05-04:00"><meta property="article:modified_time" content="2021-05-28T16:43:29+01:00"><meta itemprop=name content="FreeRadius - Installing a Working Release!"><meta itemprop=description content="Installing a working copy of FreeRadius (not from Ubuntu)."><meta itemprop=datePublished content="2021-05-23T11:52:05-04:00"><meta itemprop=dateModified content="2021-05-28T16:43:29+01:00"><meta itemprop=wordCount content="1497"><meta itemprop=keywords content="FreeRadius,Ubuntu,"><meta name=twitter:card content="summary"><meta name=twitter:title content="FreeRadius - Installing a Working Release!"><meta name=twitter:description content="Installing a working copy of FreeRadius (not from Ubuntu)."><link rel=authorization_endpoint href=https://indieauth.com/auth><link rel=token_endpoint href=https://tokens.indieauth.com/token><link rel=webmention href=https://webmention.io/damianflynn.com/webmention><link rel=pingback href=https://webmention.io/damianflynn.com/xmlrpc><link href=https://twitter.com/damian_flynn rel=me><link href=https://github.com/damianflynn rel=me></head><body class="page-page flex flex-col min-h-screen"><header id=site-header class="relative text-lg md:flex md:items-center"><div class="block relative mx-auto md:flex md:flex-grow md:max-w-screen-lg md:px-3"><div class="flex justify-center items-center flex-shrink-0 mr-0 md:mr-5"><a id=nav-homepage href=/ class="flex items-center m-0 py-3 md:flex-none font-bold font-serif tracking-tight hover:bg-transparent"><img src=/images/logo_hu5006fa24aa3bca9875e76c4fd40f29f5_51376_0x42_resize_box_2.png class="inline-block pr-1 h-7" alt="Incredible Technology made Incredibly Simple">
+Incredible Technology made Incredibly Simple</a></div><div class="flex flex-shrink-0 flex-grow justify-center p-0 md:items-center"><div class="flex justify-start items-center overflow-x-auto p-0 mr-0 md:mr-auto"><a href=/posts/ class="site-header-navlink py-1 px-2 rounded">Posts</a>
+<a href=/series/ class="site-header-navlink py-1 px-2 rounded">Series</a>
+<a href=/publications/ class="site-header-navlink py-1 px-2 rounded">Publications</a>
+<a href=/about/ class="site-header-navlink py-1 px-2 rounded">About</a></div><div class="flex justify-start items-center p-0 ml-0 md:ml-auto"><i id=header-theme-button data-feather=sun class="site-header-navlink p-2 rounded w-8 h-8 cursor-pointer"></i></div></div></div></header><main class="flex-1 mx-4 pb-12 md:mx-12 lg:mx-24 mt-4 sm:mt-16"><article class=sm:mx-4><div class=py-2><div class="flex flex-wrap justify-center space-x-2"><span class="inline-block bg-ne-primary-dark hover:bg-ne-primary-darker px-3 py-0 my-1 rounded-full"><a href=/tags/freeradius/ class="text-ne-on-primary text-sm no-underline hover:bg-transparent tracking-tight font-semibold">#FreeRadius</a></span>
+<span class="inline-block bg-ne-primary-dark hover:bg-ne-primary-darker px-3 py-0 my-1 rounded-full"><a href=/tags/ubuntu/ class="text-ne-on-primary text-sm no-underline hover:bg-transparent tracking-tight font-semibold">#Ubuntu</a></span></div><h1 class="font-serif text-center pt-2 pb-6 px-6">FreeRadius - Installing a Working Release!</h1><div class="flex flex-row overflow-y-hidden overflow-x-auto w-full justify-start md:justify-center items-center space-x-4 text-ne-on-surface text-sm font-bold divide-x-2 divide-ne-on-surface-lighter"><div class="flex flex-shrink-0 items-center"><i data-feather=calendar class="mr-1 w-4 h-4"></i>
+May 23, 2021</div><div class="pl-4 flex flex-shrink-0 items-center"><i data-feather=folder class="mr-1 w-4 h-4"></i><a href=/categories/azure/ class=no-underline>Azure</a></div><div class="pl-4 flex flex-shrink-0 items-center"><i data-feather=clock class="mr-1 w-4 h-4"></i>
+8 min read</div><div class="pl-4 flex flex-shrink-0 items-center"><i data-feather=edit class="mr-1 w-4 h-4"></i>
+May 28, 2021 15:43 UTC</div></div><div class="my-8 rounded overflow-hidden"><div class="post-summary mb-4 text-center italic text-xl">Installing a working copy of FreeRadius (not from Ubuntu).</div></div></div><div class="article-container max-w-screen-md xl:max-w-screen-lg mx-auto"><p>FreeRADIUS is an open source, high-performance, modular, scalable and feature-rich RADIUS server. It ships with both server and radius client, development libraries and numerous additional RADIUS related utilities.</p><p>FreeRADIUS supports request proxying, with fail-over and load balancing, as well as the ability to access many types of back-end databases.</p><p>RADIUS, which stands for “Remote Authentication Dial-In User Service“, is a network protocol used for remote user authentication and accounting. It provides AAA services; namely Authorization, Authentication, and Accounting.</p><h1 id=freeradius>FreeRadius</h1><p>You can view versions of FreeRadius available in your Ubuntu:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>$ sudo apt policy freeradius
+freeradius:
+  Installed: <span style=color:#ff79c6>(</span>none<span style=color:#ff79c6>)</span>
+  Candidate: 3.0.16+dfsg-1ubuntu3.1
+  Version table:
+ *** 3.0.16+dfsg-1ubuntu3.1 <span style=color:#bd93f9>500</span>
+        <span style=color:#bd93f9>500</span> http://azure.archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages
+        <span style=color:#bd93f9>500</span> http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages
+        <span style=color:#bd93f9>100</span> /var/lib/dpkg/status
+     3.0.16+dfsg-1ubuntu3 <span style=color:#bd93f9>500</span>
+        <span style=color:#bd93f9>500</span> http://azure.archive.ubuntu.com/ubuntu bionic/main amd64 Packages
+</code></pre></td></tr></table></div></div><p>Install FreeRadius packages from official Ubuntu APT repository with the commands below:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>sudo apt -y install freeradius freeradius-mysql freeradius-utils
+</code></pre></td></tr></table></div></div><p>Among the packages installed are mysql module and utils package.</p><h2 id=freeradius-network-radius-repositories>FreeRadius &lsquo;Network Radius&rsquo; Repositories</h2><p>However, the Ubuntu 18.04 version of FreeRadius is 3.016, and has some issues which will essentially block our progress. We can use the official packages to deploy the current release of the service (3.0.21)</p><p>Read more here: <a href=https://networkradius.com/packages/>https://networkradius.com/packages/</a></p><p>Add to your apt source list <code>/etc/apt/sources.list</code></p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>deb http://packages.networkradius.com/releases/ubuntu-bionic bionic main
+</code></pre></td></tr></table></div></div><p>Now, we need to trust this new repository, and then update the applications database, before we finally upgrade FreeRadius</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>sudo apt-key adv --keyserver keys.gnupg.net --recv-key 0x41382202
+sudo apt-get update
+sudo apt-get install freeradius
+</code></pre></td></tr></table></div></div><h2 id=configuration>Configuration</h2><blockquote><p>FreeRaidus by default protects all the configuration so that your normal account has no access to the files, and folders. To enable a lower resistance path to working on this server, you can <strong>Assume <code>root</code> access</strong> with the following command</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>sudo su -
+</code></pre></td></tr></table></div></div></blockquote><p>FreeRadius configuration is protected by root; so to sync files, we need to ensure that the source permissions are respected. To allow <code>rsync</code> complete this, we need to append to the <strong>sudoers</strong> file (<code>/etc/sudoers</code>) setup your user like this:</p><p><code>username ALL= NOPASSWD:/usr/bin/rsync</code></p><p>the <strong>NOPASSWD:/usr/bin/rsync</strong> tells sudo that when your user runs <strong>/usr/bin/rsync</strong> or just <strong>rsync</strong> that no password is needed. We can try the following to execute:</p><p><code>rsync -avz -e ssh username@x.x.x.x:/etc/freeradius /etc/freeradius --rsync-path="sudo rsync"</code></p><h3 id=radius-server>Radius Server</h3><p>We will turn off proxy features in the server, and enable logging for authentication.</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>log {
+  auth = yes
+}
+
+proxy_requests  = no
+#$INCLUDE proxy.conf
+
+</code></pre></td></tr></table></div></div><h3 id=radius-clients>Radius Clients</h3><p>To specify the clients allowed to send requests to the RADIUS server. Most of the times we want to configure a router as Network Access Server (NAS), so that WiFi clients connecting will communicate to the RADIUS server via the router. <code>/etc/freeradius/3.0/client.conf</code> configuration file</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>############################ /clients.conf
+
+client localhost {
+  ipaddr = 127.0.0.1
+  proto = *
+  secret = testing123
+  require_message_authenticator = no
+  nas_type = other # localhost isn&#39;t usually a NAS...
+  limit {
+    max_connections = 16
+    lifetime = 0
+    idle_timeout = 30
+  }
+}
+
+# IPv6 Client
+client localhost_ipv6 {
+  ipv6addr= ::1
+  secret= testing123
+}
+
+client private-network-1 {
+  ipaddr= 10.46.0.0/16
+  secret= radius
+}
+</code></pre></td></tr></table></div></div><p>In this sample, the section <strong>private-network-1</strong> lists the IP range of the Radius Clients (ipaddr) and the secret they must provide to be trusted (secret).</p><h3 id=freeradius-default-service>FreeRadius Default Service</h3><p>Next we will update the service so that the modules required for WiFi authentication are enabled, and all additional services are disabled.</p><p>We will replace the content in <code>/etc/freeradius/sites-enabled/default</code> with the following configuration</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">44
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">45
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">46
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">47
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>############################ sites-enabled/default
+server {
+    listen {
+        type = auth
+        port = 1812
+        ipaddr = *
+    }
+    authorize {
+        preprocess
+        eap {
+                ok = return
+        }
+        expiration
+        logintime
+    }
+    authenticate {
+        eap
+    }
+    preacct {
+        preprocess
+        acct_unique
+        suffix
+        files
+    }
+    accounting {
+        detail
+        # unix
+        radutmp
+        # exec
+        attr_filter.accounting_response
+    }
+    session {
+        radutmp
+    }
+    post-auth {
+        # exec
+        Post-Auth-Type REJECT {
+                attr_filter.access_reject
+        }
+    }
+    pre-proxy {
+
+    }
+    post-proxy {
+        eap
+    }
+}
+</code></pre></td></tr></table></div></div><h3 id=freeradius-eap-configuration>FreeRadius EAP Configuration</h3><p>This is the heart of the configuration, we will disable all the options and focus only on using EAP-TLS for the WiFi authentication.</p><p>This configuration will require that we have</p><ol><li>Issued a certifiate for this Radius Server, from our PKI</li><li>The Private Key for this issued Certificate</li><li>The Root Certificate of the chain we are issuing from (intermediate issuing servers are not required)</li><li>Folder to host the passed in client cert for verification</li></ol><h4 id=create-a-certificate-for-the-radius-server>Create a Certificate for the Radius Server</h4><p>There are a few steps to this process, Follow this guide <strong>Create PKI Certificate for Linux Server</strong> to complete the exercise, after which we should have a certificate which matches the requirements called <code>server.pem</code> (1), and a matching private key file called <code>server.key</code> (2) to place in our <code>/etc/freeradius/certs</code> folder.</p><p>We need to ensure also the service has read access to this files</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>chmod <span style=color:#bd93f9>644</span> /etc/freeradius/certs/server.pem
+chmod <span style=color:#bd93f9>644</span> /etc/freeradius/certs/server.key
+</code></pre></td></tr></table></div></div><h4 id=pki-chain-for-radius-server>PKI Chain for Radius Server</h4><p>The certificates we have created for the Server and the Clients which will be authenticating to the server are all issued by the same PKI environment. To successfully validate any certificate, we will need a copy of the public keys for each server in this chain, which will be stored in Base64 format in the <code>ca.pem</code>(3) file.</p><p>Export all the certificates in the chain, for example <em>Root CA</em> and <em>Issuing CA</em> in turn as Base64.</p><p>Copy all the Certificates content into a file called <code>/etc/freeradius/ca.pem</code>, so that it looks similar to the following example - If you issue from your Root CA, then there will be only 1 certificate, or if you have multiple issuers, you will have multiple to paste.</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>-----BEGIN CERTIFICATE-----
+MIIGRDCCBCygAwIBAgITaQAAAASav/V29nA9rgAAAAAABDANBgkqhkiG9w0BAQsF
+....
+.... Root CA Base64 Content
+....
+gQtDSbTj5kKWLuyPEWT3VepWpJ0MRIceZ/UCpf9KCkR8y9hcMEd+1/vDlFD/AJxz
+MvZ0K7TQqxqCJ5OiB3SfH91Bc1D7Yvwn
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+MIIGRDCCBCygAwIBAgITaQAAAASav/V29nA9rgAAAAAABDANBgkqhkiG9w0BAQsF
+....
+.... Issuing CA Base64 Content
+....
+MvZ0K7TQqxqCJ5OiB3SfH91Bc1D7Yvwn
+-----END CERTIFICATE-----
+</code></pre></td></tr></table></div></div><p>If we have a PFX file containing the chain of certificates, we can use openssl to create the &lsquo;ca.pem&rsquo; file</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>openssl pkcs12 -in exported.pfx -cacerts -nokeys -chain -out ca.pem
+</code></pre></td></tr></table></div></div><h4 id=dh-ciphers>DH Ciphers</h4><p>For DH cipher suites to work, you have to run OpenSSL to create the DH file first:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>openssl dhparam -out certs/dh <span style=color:#bd93f9>2048</span>
+</code></pre></td></tr></table></div></div><h4 id=eap-module>EAP Module</h4><p>We begin by creating a soft link for EAP module under <code>/etc/freeradius/3.0/mods-enabled/</code></p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>sudo ln -s /etc/freeradius/3.0/mods-available/eap /etc/freeradius/3.0/mods-enabled/
+</code></pre></td></tr></table></div></div><p>Then change group right of <code>/etc/freeradius/3.0/mods-enabled/eap</code></p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>sudo chgrp -h freerad /etc/freeradius/3.0/mods-available/eap
+sudo chown -R freerad:freerad /etc/freeradius/3.0/mods-enabled/eap
+</code></pre></td></tr></table></div></div><p>Next configure the logic we need the server to follow. We will edit the file for the module <code>/etc/freeradius/mods-available/eap</code> and set as follow&rsquo;s</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">44
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">45
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">46
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">47
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">48
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>############################ /etc/freeradius/mods-available/eap
+
+eap {
+  default_eap_type = tls
+  timer_expire = 60
+  ignore_unknown_eap_types = no
+  cisco_accounting_username_bug = no
+  max_sessions = 4096
+  
+  tls {
+    certdir = ${confdir}/certs
+    cadir = ${confdir}/certs
+    private_key_password = S3cur3!2021
+    private_key_file = ${certdir}/server.key
+    certificate_file = ${certdir}/server.pem
+    ca_path = ${cadir}
+    ca_file = ${cadir}/ca.pem
+    dh_file = ${certdir}/dh
+    random_file = /dev/urandom
+    cipher_list = &#34;HIGH&#34;
+    make_cert_command = &#34;${certdir}/bootstrap&#34;
+    ecdh_curve = &#34;prime256v1&#34;
+    tls_max_version = &#34;&#34;
+    tls_min_version = &#34;1.2&#34;
+    #check_crl = yes
+ 
+    cache {
+      enable = no # Optionally enable
+      lifetime = 24 # hours
+      max_entries = 255
+    }
+    
+    verify {
+      tmpdir = /var/log/freeradius/radiusd
+      client = &#34;/usr/bin/openssl verify -CAfile ${..ca_file} %{TLS-Client-Cert-Filename}&#34;
+    }
+    
+    ocsp {
+      enable = no # optionally enable
+      override_cert_url = no
+      # url = &#34;http://127.0.0.1/ocsp/&#34;
+      url = &#34;http://aez-app-prd-scep.azurewebsites.net/ocsp/&#34;
+      softfail = yes
+      timeout = 10
+      use_nonce = no
+    }
+  }
+}
+</code></pre></td></tr></table></div></div><h4 id=working-folder-for-verification>Working folder for Verification</h4><p>The EAP flow utilizes <em>openssl</em> to validate the clients certificate, in order to complete this, we need to store the certificate to the file system first, and ensure that the service has access to this folder</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>sudo mkdir /var/log/freeradius/radiusd
+sudo chown freerad:freerad /var/log/freeradius/radiusd
+</code></pre></td></tr></table></div></div><h3 id=running-in-debug-mode>Running in Debug mode</h3><p>Our FreeRadius service is now ready to test, to make this process a lot easier, we can choose to start the service interactively in the console, and watch the debug logs.</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>systemctl stop freeradius
+/usr/sbin.freeradius -x &amp;
+</code></pre></td></tr></table></div></div><blockquote><p>This is a great scenario to leverage <strong>tmux</strong>, which will allow you have multiple sessions, and keep the session open even after you disconnect, rendering it simple to return to at a later stage</p></blockquote><p>With the service online, we can emulate a client connecting, and providing its client secret e.g. <em>testing123</em></p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>radtest client@ullensaker.kommune.no testing123 127.0.0.1 <span style=color:#bd93f9>0</span> testing123 -x
+</code></pre></td></tr></table></div></div><p>When you are satisfied that all is good, we can restart in service mode</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-sh data-lang=sh>systemctl start freeradius
+</code></pre></td></tr></table></div></div></div><hr class=mt-16><div class="mx-auto max-w-screen-md xl:max-w-screen-lg"><nav class="flex flex-row w-full justify-between"><div class="flex-initial order-first text-left justify-start" style=max-width:50%></div><div class="flex-initial order-last text-right justify-end" style=max-width:50%><a href=/series/freeradius/freeradius-pkichain/ class="post-footer listview-row flex flex-row items-center justify-center px-2"><div class="ml-4 order-last"><i data-feather=chevron-right class="w-6 h-6"></i></div><div class=order-first><div class="font-bold text-base">Next</div><div class="font-serif transition-none">FreeRadius - PKI Chain</div></div></a></div></nav></div><div class="mt-8 mb-4 mx-auto max-w-screen-md xl:max-w-screen-lg"><div class="text-ne-on-surface font-bold text-base mb-2">Related Posts</div><table class="table-fixed text-lg leading-loose w-full mx-auto"><tbody class=post-footer><tr class="listview-row cursor-pointer" onclick='window.location="/series/freeradius/freeradius-toolchain/"'><td class="pl-1 lg:pl-4 w-16 lg:w-20 font-semibold tracking-tighter text-sm">May 23</td><td class="px-2 font-serif truncate"><a href=/series/freeradius/freeradius-toolchain/ class=hover:bg-transparent>FreeRadius - Tooling OpenSSL</a></td><td class="pr-1 lg:pr-4 w-28 lg:w-32 text-sm tracking-tighter text-right">2 min read</td></tr><tr class="listview-row cursor-pointer" onclick='window.location="/series/freeradius/freeradius-pkichain/"'><td class="pl-1 lg:pl-4 w-16 lg:w-20 font-semibold tracking-tighter text-sm">May 23</td><td class="px-2 font-serif truncate"><a href=/series/freeradius/freeradius-pkichain/ class=hover:bg-transparent>FreeRadius - PKI Chain</a></td><td class="pr-1 lg:pr-4 w-28 lg:w-32 text-sm tracking-tighter text-right">6 min read</td></tr></tbody></table></div><div class="fixed bottom-0 right-0 pb-5 pr-5"><a href=# class="round-button block w-8 h-8 my-2"><button class="w-8 h-8 focus:outline-none" aria-label="Back to Top">
+<i data-feather=chevron-up class=mx-auto></i></button></a>
+<button id=toc-button aria-label="Table of Contents" class="round-button block my-2 focus:outline-none w-8 h-8">
+<i data-feather=align-left class="w-5 h-5 mx-auto"></i></button></div><div id=toc-background-mask class="toc-hidden fixed inset-0" style=backdrop-filter:blur(8px)><div id=toc-container class="fixed inset-y-0 right-0 rounded overflow-auto m-2 p-6 sm:m-3 sm:left-auto transform translate-x-full transition-transform duration-300 ease-out"><div id=toc-top-divider class="block relative border-t-2 mt-2 mb-0 transform translate-y-3"></div><div id=toc-list><nav id=TableOfContents><ol><li><a href=#freeradius>FreeRadius</a><ol><li><a href=#freeradius-network-radius-repositories>FreeRadius &lsquo;Network Radius&rsquo; Repositories</a></li><li><a href=#configuration>Configuration</a><ol><li><a href=#radius-server>Radius Server</a></li><li><a href=#radius-clients>Radius Clients</a></li><li><a href=#freeradius-default-service>FreeRadius Default Service</a></li><li><a href=#freeradius-eap-configuration>FreeRadius EAP Configuration</a></li><li><a href=#running-in-debug-mode>Running in Debug mode</a></li></ol></li></ol></li></ol></nav></div></div></div><script type=text/javascript src=/js/toc-menu.min.b9712f5335b53bb9ccd1becdf9fbdc8878c517bf4f77e0364c4e06906956d2c1.js integrity="sha256-uXEvUzW1O7nM0b7N+fvciHjFF79Pd+A2TE4GkGlW0sE="></script></article></main><footer class="w-full h-32 text-center px-4 pb-4 pt-8 inset-0 text-sm bg-ne-surface-darker"><div class="flex justify-center w-full max-w-screen-lg mx-auto mb-2"><ul class="flex flex-row justify-center text-lg space-x-2 max-w-md"><li><a href=/index.xml aria-label=RSS class="round-button social-button"><i data-feather=rss class="w-5 h-5"></i></a></li></ul></div><p class="text-ne-on-surface-dark font-sans">2011-2021
+<a href=https://damianflynn.github.io/ class="text-ne-on-background-dark hover:text-ne-primary-dark">Incredible Technology made Incredibly Simple</a>
+&copy; Powered by the
+<a href=https://github.com/y1zhou/hugo-northeast target=_blank rel=noopener class="text-ne-on-background-dark hover:text-ne-primary-dark">Northeast theme</a>
+for
+<a href=https://gohugo.io class="text-ne-on-background-dark hover:text-ne-primary-dark">Hugo</a>.</p></footer><script src=/static/js/feather.min.5dfcdd882f92d647a26beb3d974ef2ef27b96bcef8b01abaef32b8bbb2d38ef9.js integrity="sha256-XfzdiC+S1keia+s9l07y7ye5a874sBq67zK4u7LTjvk="></script><script>feather.replace()</script><script defer src=/js/mathjax-config.min.e34fede258d8249f766eeab5beb7f0b344a008826d518cb01dfa44a2a1abdda2.js integrity="sha256-40/t4ljYJJ92buq1vrfws0SgCIJtUYywHfpEoqGr3aI="></script><script defer src=/js/mathjax3/tex-mml-chtml.js></script></body></html>
