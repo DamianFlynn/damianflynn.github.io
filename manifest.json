@@ -1,0 +1,31 @@
+{
+    "name": "Incredible Technology, Incredibly Simple",
+    "short_name": "DamianFlynn.com",
+    "description": "Navigating Azure, DevOps, IoT and Other Stuff",
+    "icons": [{
+      "src": "/images/logos/apple-icon-120x120.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    }, {
+      "src": "/images/logos/apple-icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }, {
+      "src": "/images/logos/apple-icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    }, {
+      "src": "/images/logos/android-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }, {
+      "src": "/images/logos/site-splash.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }],
+    "start_url": "/",
+    "display": "standalone",
+    "orientation" : "any",
+    "background_color": "#FFFFFF",
+    "theme_color": "#FFFFFF"
+  }
