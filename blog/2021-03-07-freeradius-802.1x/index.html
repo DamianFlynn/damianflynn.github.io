@@ -1,0 +1,325 @@
+<!doctype html><html lang=en><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta http-equiv=content-type content="text/html" charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-64134408-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push({page:'Configuring FreeRadius for 802.1x',category:'[IT Pro/DevOps OpenSource Identity]'})}gtag('js',new Date),gtag('config','UA-64134408-2')</script><meta name=HandheldFriendly content="True"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=5"><meta name=referrer content="no-referrer"><link rel=preconnect href=//code.jquery.com crossorigin><link rel=preconnect href=//www.googletagmanager.com crossorigin><link rel=preconnect href=//linkedin.com crossorigin><link rel=preconnect href=//leanpub.com crossorigin><link rel=preconnect href=//www.gravatar.com crossorigin><link rel=preconnect href=//kit.fontawesome.com crossorigin><link rel=preconnect href=//cdnjs.cloudflare.com crossorigin><link rel=preconnect href=//www.facebook.com crossorigin><link rel=preconnect href=//docs.microsoft.com crossorigin><link rel=preconnect href=//twitter.com crossorigin><link rel=preconnect href=//github.com crossorigin><title>Configuring FreeRadius for 802.1x ❚ Incredible Technology made Incredibly Simple</title><link rel="shortcut icon" href=https://damianflynn.com/images/logos/favicon.ico><link rel=apple-touch-icon sizes=57x57 href=/images/logos/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/logos/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/logos/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/logos/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/logos/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/logos/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/logos/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/logos/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/logos/apple-icon-180x180.png><link rel=icon type=image/png sizes=196x196 href=/images/logos/android-icon-192x192.png><link rel=icon type=image/png sizes=192x192 href=/images/logos/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/logos/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/logos/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/logos/favicon-16x16.png><link rel=manifest href=/images/logos/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/logos/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><link rel=canonical href=https://damianflynn.com/blog/2021-03-07-freeradius-802.1x/><meta name=description content="In a pervious post, I covered the steps to deploy the current stable release of FreeRadius, by installing the packages from the NetworkRadius organizations repo"><meta name=keywords content="vcard,governance,automation,code,devops,cloud,resume,azure,portfolio"><meta name=author content="damianflynn.com"><meta name=robots content="index, follow, archive"><meta name=googlebot content="index,follow,snippet,archive"><meta property="og:title" content="Configuring FreeRadius for 802.1x"><meta property="og:description" content="Guide to installing an alternative Radius service, for those who may have implemented Windows NPS Server - License Free and Open Source, Enterprise Ready"><meta property="og:type" content="article"><meta property="og:url" content="https://damianflynn.com/blog/2021-03-07-freeradius-802.1x/"><meta property="og:site_name" content="Incredible Technology made Incredibly Simple"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="700"><meta property="og:image:height" content="204"><meta name=og:image content="https://damianflynn.com/blog/2021-03-07-freeradius-802.1x/images/banner.png"><meta property="article:published_time" content="2021-03-07T10:10:09+00:00"><meta property="article:modified_time" content="2021-07-29T00:21:27+01:00"><meta property="article:section" content="IT Pro/DevOps"><meta property="article:tag" content="Linux"><meta property="article:tag" content="Networking"><meta property="article:tag" content="Azure"><meta property="article:author" content="https://www.facebook.com/damian.flynn.58/"><meta property="article:publisher" content="https://www.facebook.com/damian.flynn.58/"><meta property="fb:admins" content="yes"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://damianflynn.com/blog/2021-03-07-freeradius-802.1x/images/banner.png"><meta name=twitter:url content="https://damianflynn.com/blog/2021-03-07-freeradius-802.1x/"><meta name=twitter:title content="Configuring FreeRadius for 802.1x"><meta name=twitter:description content="Guide to installing an alternative Radius service, for those who may have implemented Windows NPS Server - License Free and Open Source, Enterprise Ready"><meta name=twitter:site content="@damian_flynn"><meta name=twitter:creator content="@damian_flynn"><script type=application/ld+json>{"@context":"https://schema.org","@type":"Person","name":"Damian Flynn","url":"https://damianflynn.com","sameAs":[],"contactPoint":[{"@type":"ContactPoint","telephone":"","email":"info@damianflynn.com","contactType":"author"}]}</script><link rel=authorization_endpoint href=https://indieauth.com/auth><link rel=token_endpoint href=https://tokens.indieauth.com/token><link rel=webmention href=https://webmention.io/www.damianflynn.com/webmention><link rel=pingback href=https://webmention.io/www.damianflynn.com/xmlrpc><link href=https://twitter.com/damian_flynn rel=me><link href=https://github.com/damianflynn rel=me><meta name=google-site-verification content="xxxxxxxxxxxxxxxxxxxxxxx"><meta name=yandex-verification content="xxxxxxxxxxxxxxxxxxxxxxx"><meta name=generator content="Hugo 0.83.1"><link type=text/css rel=stylesheet href=https://damianflynn.com/css/reset.css><link type=text/css rel=stylesheet href=https://damianflynn.com/css/plugins.css><link type=text/css rel=stylesheet href=https://damianflynn.com/css/style.css><link type=text/css rel=stylesheet href=https://damianflynn.com/css/color.css><link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel=stylesheet><link rel=stylesheet id=fonts-css href="//fonts.googleapis.com/css?family=Montserrat%3A400%2C500%2C600%2C700%2C800%2C900%7CPoppins%3A400%2C500%2C600%2C700%2C800%2C900%7CTitillium+Web%3A400%2C600%2C700&subset=cyrillic%2Ccyrillic-ext%2Cdevanagari%2Clatin-ext%2Cvietnamese&ver=1.0.0" type=text/css media=all><link rel=stylesheet type=text/css href=https://damianflynn.com/css/syntax.css><link rel=stylesheet type=text/css href=https://damianflynn.com/css/chroma.css><link href=/index.xml rel=alternate type=application/rss+xml title="Incredible Technology, Incredibly Simple"></head><body><div class=loader-wrap><div class=pin></div></div><div id=main><header class=main-header><a class=logo-holder href=/><img src=/images/resume/logo.png alt></a><div class="nav-button but-hol"><span class=nos></span><span class=ncs></span><span class=nbs></span><div class=menu-button-text>Menu</div></div><div class=header-social><ul><li><a href=https://www.facebook.com/damian.flynn.58 target=_blank><i class="fab fa-facebook-f"></i></a></li><li><a href=https://www.linkedin.com/in/damianflynn57 target=_blank><i class="fab fa-linkedin"></i></a></li><li><a href=https://twitter.com/damian_flynn target=_blank><i class="fab fa-twitter"></i></a></li><li><a href=https://github.com/damianflynn target=_blank><i class="fab fa-github"></i></a></li></ul></div><div class="show-share showshare"><i class="fal fa-retweet"></i>
+<span>Share This</span></div></header><div class=nav-overlay><div class="tooltip color-bg">Close Menu</div></div><div class=nav-holder><a class=header-logo href=index.html><img src=/images/resume/logo2.png alt></a><div class=nav-title><span>Menu</span></div><div class=nav-inner-wrap><nav class="nav-inner sound-nav" id=menu><ul><li><a href=/><span>Home</span></a></li><li><a href=#><span>About</span></a><ul class=sub-menu><li><a href=/about/>About Me</a></li><li><a href=/privacy/>Privacy</a></li><li><a href=/disclaimer/>Disclaimer</a></li></ul></li><li><a href=/blog/><span>Posts</span></a></li><li><a href=#><span>Content</span></a><ul class=sub-menu><li><a href=/tags/>Tags</a></li><li><a href=/series/>Series</a></li><li><a href=/categories/>Categories</a></li></ul></li><li><a href=/contact/><span>Contact</span></a></li></ul></nav></div></div><div id=wrapper class=single-page-wrap><div class=content><div class=single-page-decor></div><div class="single-page-fixed-row blog-single-page-fixed-row"><div class=scroll-down-wrap><div class=mousey><div class=scroller></div></div><span>Scroll Down</span></div><div class=blog-filters><div class="tag-filter blog-btn-filter"><div class=blog-btn>Tags <i class="fa fa-tags" aria-hidden=true></i></div><ul><li><a href=/tags/azure>azure</a></li><li><a href=/tags/linux>linux</a></li><li><a href=/tags/networking>networking</a></li><li><a href=/tags/general>general</a></li><li><a href=/tags/arm>arm</a></li><li><a href=/tags/internet-of-things>internet-of-things</a></li><li><a href=/tags/functions>functions</a></li><li><a href=/tags/iac>iac</a></li></ul></div><div class="category-filter blog-btn-filter"><div class=blog-btn>Categories <i class="fa fa-list-ul" aria-hidden=true></i></div><ul><li><a href=/categories/it-pro/devops>it-pro/devops</a></li><li><a href=/categories/azure>azure</a></li><li><a href=/categories/developer>developer</a></li><li><a href=/categories/opensource>opensource</a></li><li><a href=/categories/cloud>cloud</a></li><li><a href=/categories/identity>identity</a></li><li><a href=/categories/iot>iot</a></li><li><a href=/categories/career>career</a></li></ul></div><div class=blog-search><form action=# class="searh-inner fl-wrap"><input name=se id=se type=text class=search placeholder=Search.. value=Search...>
+<button class="search-submit color-bg" id=submit_btn><i class="fa fa-search"></i></button></form></div></div></div><section data-scrollax-parent=true id=sec1><div class="section-subtitle left-pos" data-scrollax="properties: { translateY: '-250px' }"><span>//</span>Configuring FreeRadius for 802.1x</div><div class=container><div class="fl-wrap post-container"><div class=row><div class=col-md-8><div class="post fl-wrap fw-post h-entry"><h2 class=p-name itemprop="name headline"><span><a class=u-url>Configuring FreeRadius for 802.1x</a></span></h2><div class=parallax-header><a href=#><time class=dt-published>7 March 2021</time></a><span>Category :
+</span><a href=https://damianflynn.com/categories/it-pro/devops/>#IT Pro/DevOps</a> <a href=https://damianflynn.com/categories/opensource/>#OpenSource</a> <a href=https://damianflynn.com/categories/identity/>#Identity</a></div><div class="blog-media fl-wrap nomar-bottom"><div class="single-slider-wrap slider-carousel-wrap"><div class="single-slider cur_carousel-slider-container fl-wrap"><div class=slick-slide-item><img src=/blog/2021-03-07-freeradius-802.1x/images/banner.png alt></div></div><div class="sp-cont sp-cont-prev"><i class="fal fa-long-arrow-left"></i></div><div class="sp-cont sp-cont-next"><i class="fal fa-long-arrow-right"></i></div></div></div><div class="parallax-header fl-wrap"><span>Tags : </span><a href=https://damianflynn.com/tags/linux/>#Linux</a><a href=https://damianflynn.com/tags/networking/>#Networking</a><a href=https://damianflynn.com/tags/azure/>#Azure</a></div><div class="blog-text fl-wrap e-content"><div class=clearfix></div><h6>Guide to installing an alternative Radius service, for those who may have implemented Windows NPS Server - License Free and Open Source, Enterprise Ready</h6><p><p>In a pervious post, I covered the steps to deploy the current stable release of FreeRadius, by installing the packages from the NetworkRadius organizations repository.</p><p>We will now, focus on configuring the FreeRadius server so that it can authenticate 802.1x requests.</p><h2 id=why>Why?</h2><p>Why would we go to this trouble, especially given the fact that Windows has shipped with its own NPS service, for the past 20 years?</p><p>Simple really, In the world of Cloud First, many customers are now selecting the option of Azure AD Joined only, for their machines in preference to AD Joined, or even Hybrid Joined. This matters, as the Windows NPS Service is hardcoded to check if a computer account object is present in the Active Directory; which is obviously not the case for Cloud Only systems. The result - every authentication request will automatically respond as failed validation!</p><h2 id=configuring-free-radius>Configuring Free Radius</h2><p>There are a number of files used to configure the behavior of the FreeRadius service, the default configuration within these files is very verbose, so in this post we will clean up the configuration, and implement the settings required to validate 802.1x requests - Specifically we will check the computer certificate to ensure it is valid.</p><blockquote><p>FreeRaidus by default protects all the configuration so that your normal account has no access to the files, and folders. To enable a lower resistance path to working on this server, you can <strong>Assume <code>root</code> access</strong> with the following command</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>sudo su -
+</code></pre></div></blockquote><h3 id=radius-server>Radius Server</h3><p>We will turn off proxy features in the server, and enable logging for authentication. We begin by editing the core configuration file called <code>/etc/freeradius/radiusd.conf</code></p><div class=highlight><pre class=chroma><code class=language-ini data-lang=ini><span class=na>prefix</span> <span class=o>=</span> <span class=s>/usr</span>
+<span class=na>exec_prefix</span> <span class=o>=</span> <span class=s>/usr</span>
+<span class=na>sysconfdir</span> <span class=o>=</span> <span class=s>/etc</span>
+<span class=na>localstatedir</span> <span class=o>=</span> <span class=s>/var</span>
+<span class=na>sbindir</span> <span class=o>=</span> <span class=s>${exec_prefix}/sbin</span>
+<span class=na>logdir</span> <span class=o>=</span> <span class=s>/var/log/freeradius</span>
+<span class=na>raddbdir</span> <span class=o>=</span> <span class=s>/etc/freeradius</span>
+<span class=na>radacctdir</span> <span class=o>=</span> <span class=s>${logdir}/radacct</span>
+<span class=na>name</span> <span class=o>=</span> <span class=s>freeradius</span>
+<span class=na>confdir</span> <span class=o>=</span> <span class=s>${raddbdir}</span>
+<span class=na>modconfdir</span> <span class=o>=</span> <span class=s>${confdir}/mods-config</span>
+<span class=na>certdir</span> <span class=o>=</span> <span class=s>${confdir}/certs</span>
+<span class=na>cadir</span>   <span class=o>=</span> <span class=s>${confdir}/certs</span>
+<span class=na>run_dir</span> <span class=o>=</span> <span class=s>${localstatedir}/run/${name}</span>
+<span class=na>db_dir</span> <span class=o>=</span> <span class=s>${raddbdir}</span>
+<span class=na>libdir</span> <span class=o>=</span> <span class=s>/usr/lib/freeradius</span>
+<span class=na>pidfile</span> <span class=o>=</span> <span class=s>${run_dir}/${name}.pid</span>
+<span class=na>correct_escapes</span> <span class=o>=</span> <span class=s>true</span>
+<span class=na>max_request_time</span> <span class=o>=</span> <span class=s>30</span>
+<span class=na>cleanup_delay</span> <span class=o>=</span> <span class=s>5</span>
+<span class=na>max_requests</span> <span class=o>=</span> <span class=s>16384</span>
+<span class=na>hostname_lookups</span> <span class=o>=</span> <span class=s>no</span>
+
+<span class=na>log {</span>
+  <span class=na>destination</span> <span class=o>=</span> <span class=s>files
+</span><span class=s>  colourise = yes
+</span><span class=s>  file = ${logdir}/radius.log
+</span><span class=s>  syslog_facility = daemon
+</span><span class=s>  stripped_names = no
+</span><span class=s>  auth = no
+</span><span class=s>  auth_badpass = no
+</span><span class=s>  auth_goodpass = no
+</span><span class=s>  msg_denied = &#34;You are already logged in - access denied&#34;</span>
+<span class=na>}</span>
+
+<span class=na>checkrad</span> <span class=o>=</span> <span class=s>${sbindir}/checkrad</span>
+
+<span class=na>ENV {</span>
+<span class=na>}</span>
+
+<span class=na>security {</span>
+  <span class=na>user</span> <span class=o>=</span> <span class=s>freerad
+</span><span class=s>  group = freerad
+</span><span class=s>  allow_core_dumps = no
+</span><span class=s>  max_attributes = 200
+</span><span class=s>  reject_delay = 1
+</span><span class=s>  status_server = yes</span>
+<span class=na>}</span>
+
+<span class=na>proxy_requests</span>  <span class=o>=</span> <span class=s>yes</span>
+<span class=na>$INCLUDE proxy.conf</span>
+<span class=na>$INCLUDE clients.conf</span>
+
+<span class=na>thread pool {</span>
+  <span class=na>start_servers</span> <span class=o>=</span> <span class=s>5
+</span><span class=s>  max_servers = 32
+</span><span class=s>  min_spare_servers = 3
+</span><span class=s>  max_spare_servers = 10
+</span><span class=s>  max_requests_per_server = 0
+</span><span class=s>  auto_limit_acct = no</span>
+<span class=na>}</span>
+
+<span class=na>modules {</span>
+  <span class=na>$INCLUDE mods-enabled/</span>
+<span class=na>}</span>
+
+<span class=na>instantiate {</span>
+<span class=na>}</span>
+
+<span class=na>policy {</span>
+  <span class=na>$INCLUDE policy.d/</span>
+<span class=na>}</span>
+
+<span class=na>$INCLUDE sites-enabled/</span>
+</code></pre></div><h3 id=proxy-configuration>Proxy Configuration</h3><p>The configuration of the proxy feature is maintained in the file `/etc/freeradius/proxy.conf'</p><div class=highlight><pre class=chroma><code class=language-ini data-lang=ini><span class=na>proxy server {</span>
+  <span class=na>default_fallback</span> <span class=o>=</span> <span class=s>no</span>
+<span class=na>}</span>
+
+<span class=na>home_server localhost {</span>
+  <span class=na>type</span> <span class=o>=</span> <span class=s>auth
+</span><span class=s>  ipaddr = 127.0.0.1
+</span><span class=s>  port = 1812
+</span><span class=s>  secret = testing123
+</span><span class=s>  response_window = 20
+</span><span class=s>  zombie_period = 40
+</span><span class=s>  revive_interval = 120
+</span><span class=s>  status_check = status-server
+</span><span class=s>  check_interval = 30
+</span><span class=s>  check_timeout = 4
+</span><span class=s>  num_answers_to_alive = 3
+</span><span class=s>  max_outstanding = 65536</span>
+
+  <span class=na>coa {</span>
+    <span class=na>irt</span> <span class=o>=</span> <span class=s>2
+</span><span class=s>    mrt = 16
+</span><span class=s>    mrc = 5
+</span><span class=s>    mrd = 30
+</span><span class=s>  }</span>
+
+  <span class=na>limit {</span>
+    <span class=na>max_connections</span> <span class=o>=</span> <span class=s>16
+</span><span class=s>    max_requests = 0
+</span><span class=s>    lifetime = 0
+</span><span class=s>    idle_timeout = 0
+</span><span class=s>  }</span>
+<span class=na>}</span>
+
+<span class=na>home_server_pool my_auth_failover {</span>
+  <span class=na>type</span> <span class=o>=</span> <span class=s>fail-over
+</span><span class=s>  home_server = localhost</span>
+<span class=na>}</span>
+
+<span class=na>realm example.com {</span>
+  <span class=na>auth_pool</span> <span class=o>=</span> <span class=s>my_auth_failover</span>
+<span class=na>}</span>
+
+<span class=na>realm LOCAL {</span>
+<span class=na>}</span>
+</code></pre></div><h3 id=radius-clients>Radius Clients</h3><p>To specify the clients allowed to send requests to the RADIUS server. Most of the times we want to configure a router or wireless access points as a Network Access Server (NAS), so that WiFi clients connecting will communicate to the RADIUS server via the router. We define the client networks in the file <code>/etc/freeradius/clients.conf</code> configuration file</p><pre><code class=language-conf data-lang=conf>############################ /clients.conf
+
+client localhost {
+  ipaddr = 127.0.0.1
+  proto = *
+  secret = testing123
+  require_message_authenticator = no
+  nas_type = other
+  limit {
+    max_connections = 16
+    lifetime = 0
+    idle_timeout = 30
+  }
+}
+
+# IPv6 Client
+client localhost_ipv6 {
+  ipv6addr= ::1
+  secret= testing123
+}
+
+# Our Clients Network
+client private-network-1 {
+  ipaddr= 10.46.0.0/16
+  secret= radius
+  require_message_authenticator = yes
+}
+</code></pre><p>The section <strong>private-network-1</strong> lists the IP range of the Radius Clients (ipaddr) and the secret they must provide to be trusted (secret).</p><h3 id=freeradius-default-service>FreeRadius Default Service</h3><p>Next we will update the service so that the modules required for WiFi authentication are enabled, and all additional services are disabled.</p><p>We will replace the content in <code>/etc/freeradius/sites-enabled/default</code> with the following configuration</p><pre><code class=language-conf data-lang=conf>############################ sites-enabled/default
+
+server {
+
+  listen {
+    type = auth
+    port = 1812
+    ipaddr = *
+  }
+
+  authorize {
+    preprocess
+    eap {
+      ok = return
+    }
+    expiration
+    logintime
+  }
+
+  authenticate {
+    eap
+    Auth-Type eap {
+      eap {
+        handled = 1
+      }
+
+      if (handled &amp;&amp; (Response-Packet-Type == Access-Challenge)) {
+        attr_filter.access_challenge.post-auth
+        handled # override the &quot;updated&quot; code from attr_filter
+      }
+    }
+  }
+  
+  preacct {
+    preprocess
+    acct_unique
+    suffix
+    files
+  }
+  
+  accounting {
+    detail
+    radutmp
+    attr_filter.accounting_response
+  }
+  
+  session {
+    radutmp
+  }
+  
+  post-auth {
+    Post-Auth-Type REJECT {
+      attr_filter.access_reject
+    }
+  
+    Post-Auth-Type Challenge {
+      remove_reply_message_if_eap
+      attr_filter.access_challenge.post-auth
+    }        
+  }
+  
+  pre-proxy {
+  }
+  
+  post-proxy {
+    eap
+  }
+}
+</code></pre><h2 id=freeradius-eap-configuration>FreeRadius EAP Configuration</h2><p>This is the heart of the configuration, we will disable all the options and focus only on using EAP-TLS for the WiFi authentication.</p><p>This configuration will require that we complete the following steps</p><ol><li><p>Issue a certificate for this Radius Server, from the same PKI service which we will be issuing certificates to our client devices.</p></li><li><p>The Private Key for this issued Certificate is stored on this server</p></li><li><p>The Root Certificate of the chain we are issuing from (intermediate issuing servers are not required) is also available on this server</p></li><li><p>A working folder, to be used to host the certificates passed from the clients for verification</p></li></ol><h3 id=create-a-certificate-for-the-radius-server>Create a Certificate for the Radius Server</h3><p>There are a few steps to this process, Follow this guide <strong>Create PKI Certificate for Linux Server</strong> to complete the exercise, after which we should have a certificate which matches the requirements called <code>server.pem</code> (1), and a matching private key file called <code>server.key</code> (2) to place in our <code>/etc/freeradius/certs</code> folder.</p><p>We need to ensure also the service has read access to this files</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>chmod <span class=m>644</span> /etc/freeradius/certs/server.pem
+chmod <span class=m>644</span> /etc/freeradius/certs/server.key
+</code></pre></div><h3 id=pki-chain-for-radius-server>PKI Chain for Radius Server</h3><p>The certificates we have created for the Server and the Clients which will be authenticating to the server are all issued by the same PKI environment. To successfully validate any certificate, we will need a copy of the public keys for each server in this chain, which will be stored in Base64 format in the <code>ca.pem</code>(3) file.</p><h4 id=manually-creating-the-pem-file>Manually Creating the PEM File</h4><p>Export all the certificates in the chain, for example <em>Root CA</em> and <em>Issuing CA</em> in turn as Base64.</p><p>Copy all the Certificates content into a file called <code>/etc/freeradius/ca.pem</code>, so that it looks similar to the following example - If you issue your certificates directly from your Root CA, then there will be only 1 certificate, or more typically you will have multiple issuers, implying you will have multiple to paste.</p><div class=highlight><pre class=chroma><code class=language-ini data-lang=ini><span class=na>-----BEGIN CERTIFICATE-----</span>
+<span class=na>MIIGRDCCBCygAwIBAgITaQAAAASav/V29nA9rgAAAAAABDANBgkqhkiG9w0BAQsF</span>
+<span class=na>....</span>
+<span class=na>.... Root CA Base64 Content</span>
+<span class=na>....</span>
+<span class=na>gQtDSbTj5kKWLuyPEWT3VepWpJ0MRIceZ/UCpf9KCkR8y9hcMEd+1/vDlFD/AJxz</span>
+<span class=na>MvZ0K7TQqxqCJ5OiB3SfH91Bc1D7Yvwn</span>
+<span class=na>-----END CERTIFICATE-----</span>
+<span class=na>-----BEGIN CERTIFICATE-----</span>
+<span class=na>MIIGRDCCBCygAwIBAgITaQAAAASav/V29nA9rgAAAAAABDANBgkqhkiG9w0BAQsF</span>
+<span class=na>....</span>
+<span class=na>.... Issuing CA Base64 Content</span>
+<span class=na>....</span>
+<span class=na>MvZ0K7TQqxqCJ5OiB3SfH91Bc1D7Yvwn</span>
+<span class=na>-----END CERTIFICATE-----</span>
+</code></pre></div><h4 id=creating-pem-from-a-pfx>Creating PEM from a PFX</h4><p>If we have a PFX file containing the chain of certificates, we can use openssl to create the <code>ca.pem</code> file for us</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>openssl pkcs12 -in exported.pfx -cacerts -nokeys -chain -out ca.pem
+</code></pre></div><h3 id=dh-ciphers>DH Ciphers</h3><p>For DH cipher suites to work, you have to run OpenSSL to create the DH file first:</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>openssl dhparam -out certs/dh <span class=m>2048</span>
+</code></pre></div><h3 id=eap-module>EAP Module</h3><p>We begin by creating a soft link for EAP module under <code>/etc/freeradius/3.0/mods-enabled/</code></p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>sudo ln -s /etc/freeradius/3.0/mods-available/eap /etc/freeradius/3.0/mods-enabled/
+</code></pre></div><p>Then change group right of <code>/etc/freeradius/3.0/mods-enabled/eap</code></p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>sudo chgrp -h freerad /etc/freeradius/3.0/mods-available/eap
+sudo chown -R freerad:freerad /etc/freeradius/3.0/mods-enabled/eap
+</code></pre></div><p>Next configure the logic we need the server to follow. We will edit the file for the module <code>/etc/freeradius/mods-available/eap</code> and set the content as follows</p><pre><code class=language-conf data-lang=conf>############################ /etc/freeradius/mods-available/eap
+
+eap {
+  default_eap_type = tls
+  timer_expire = 60
+  ignore_unknown_eap_types = no
+  cisco_accounting_username_bug = no
+  max_sessions = 4096
+
+  tls {
+    certdir = ${confdir}/certs
+    cadir = ${confdir}/certs
+    private_key_password = S3cur3!2021
+    private_key_file = ${certdir}/server.key
+    certificate_file = ${certdir}/server.pem
+    ca_path = ${cadir}
+    ca_file = ${cadir}/ca.pem
+    dh_file = ${certdir}/dh
+    random_file = /dev/urandom
+    cipher_list = &quot;HIGH&quot;
+    make_cert_command = &quot;${certdir}/bootstrap&quot;
+    ecdh_curve = &quot;prime256v1&quot;
+    tls_max_version = &quot;&quot;
+    tls_min_version = &quot;1.2&quot;
+
+    cache {
+      enable = no # Optionally enable
+      lifetime = 24 # hours
+      max_entries = 255
+    }
+
+    verify {
+      tmpdir = /var/log/freeradius/radiusd
+      client = &quot;/usr/bin/openssl verify -CAfile ${..ca_file} %{TLS-Client-Cert-Filename}&quot;
+    }
+
+    ocsp {
+      enable = no # optionally enable
+      override_cert_url = no
+      url = &quot;http://aez-app-prd-scep.azurewebsites.net/ocsp/&quot;
+      softfail = yes
+      timeout = 10
+      use_nonce = no
+    }
+
+  }
+}
+</code></pre><h3 id=working-folder-for-verification>Working folder for Verification</h3><p>The EAP flow utilizes <code>openssl</code> to validate the clients certificate, in order to complete this, we need to store the certificate to the file system first, and ensure that the service has access to this folder</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>sudo mkdir /var/log/freeradius/radiusd
+sudo chown freerad:freerad /var/log/freeradius/radiusd
+</code></pre></div><h2 id=running-in-debug-mode>Running in Debug mode</h2><p>Our FreeRadius service is now ready to test, to make this process a lot easier, we can choose to start the service interactively in the console, and watch the debug logs.</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>systemctl stop freeradius
+/usr/sbin.freeradius -x <span class=p>&amp;</span>
+</code></pre></div><blockquote><p>This is a great scenario to leverage <code>tmux</code>, which will allow you have multiple sessions, and keep the session open even after you disconnect, rendering it simple to return to at a later stage</p></blockquote><p>With the service online, we can emulate a client connecting, and providing its client secret e.g. <em>testing123</em></p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>radtest client@ullensaker.kommune.no testing123 127.0.0.1 <span class=m>0</span> testing123 -x
+</code></pre></div><p>When you are satisfied that all is good, we can restart in service mode</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>systemctl start freeradius
+</code></pre></div><p>Now - Get a Certificate on your test client, and WiFi gateways configured to communicate with our Radius server; and TEST!</p><blockquote><h3 id=synchronizing-multiple-servers>Synchronizing Multiple Servers</h3><p>For production deployments, you will wish to have multiple instances of the FreeRadius server deployed. As the function of the server is primarily stateless, we really only need to synchronies the actual configuration files, to ensure all our instances are built the same.</p><p>The FreeRadius configuration is protected by the root user; therefore to sync files, we need to ensure that the source permissions are respected.</p><p>To allow <code>rsync</code> complete this, we need to append to the <strong>sudoers</strong> file <code>/etc/sudoers</code> setup your user like this:</p><p><code>username ALL= NOPASSWD:/usr/bin/rsync</code></p><p>The <strong>NOPASSWD:/usr/bin/rsync</strong> tells sudo that when your user runs <strong>/usr/bin/rsync</strong> or just <strong>rsync</strong> that no password is needed.</p><p>We can try the following to sync the files from our source server using SSH based authentication.</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>rsync -avz -e ssh username@x.x.x.x:/etc/freeradius /etc/freeradius --rsync-path<span class=o>=</span><span class=s2>&#34;sudo rsync&#34;</span>
+</code></pre></div></blockquote></p></div></div><div class=post-author><div class=author-img><img alt src=https://damianflynn.com/images/authors/damianflynn/damianflynn_400x400.jpg></div><div class=author-content><h5><a class=p-author href=/about/>Damian Flynn</a></h5><p>I define myself as an evangelist; an entrepreneur & author with an ideology rooted in business insights, technology exploration, pattern analysis and high energy. I envision, theorize and develop system architecture and strategic business platforms, soaked in storytelling and innovative technology.</p><div class="team-single-social fl-wrap"><span>Follow :</span><ul><li><a href=https://www.linkedin.com/in/damianflynn57 target=_blank rel=noopener><i class="fab fa-linkedin"></i></a></li><li><a href=https://twitter.com/damian_flynn target=_blank rel=noopener><i class="fab fa-twitter"></i></a></li><li><a href=https://github.com/damianflynn target=_blank rel=noopener><i class="fab fa-github"></i></a></li><li><a href=https://www.facebook.com/damian.flynn.58 target=_blank rel=noopener><i class="fab fa-facebook-f"></i></a></li></ul></div></div></div><div id=comments class="single-post-comm post-mentions" style=display:none><h6 id=comments-title>Mentions</h6><ul class="commentlist clearafix" id=mentions-list></ul></div><div id=comments class=single-post-comm><h6 id=comments-title>Comments</h6><div id=disqus_thread></div><script src=https://utteranc.es/client.js repo=DamianFlynn/damianflynn.github.io issue-term=og:title label=💬Comments theme=github-light crossorigin=anonymous async></script></div></div><div class=col-md-4><div class="blog-sidebar fl-wrap fixed-bar"><div class="widget-wrap fl-wrap"><h4 class=widget-title><span>01.</span> About Author</h4><div class="widget-container fl-wrap"><div class="about-widget fl-wrap"><img src=https://damianflynn.com/images/authors/damianflynn/damianflynn_400x400.jpg alt><h5><a href=#>Damian Flynn</a></h5><div class=clearfix></div><p>I define myself as an evangelist; an entrepreneur & author with an ideology rooted in business insights, technology exploration, pattern analysis and high energy. I envision, theorize and develop system architecture and strategic business platforms, soaked in storytelling and innovative technology.</p><div class="about-widget-social fl-wrap"><span>Find on :</span><ul><ul><li><a href=https://www.linkedin.com/in/damianflynn57 target=_blank rel=noopener><i class="fab fa-linkedin"></i></a></li><li><a href=https://twitter.com/damian_flynn target=_blank rel=noopener><i class="fab fa-twitter"></i></a></li><li><a href=https://github.com/damianflynn target=_blank rel=noopener><i class="fab fa-github"></i></a></li><li><a href=https://www.facebook.com/damian.flynn.58 target=_blank rel=noopener><i class="fab fa-facebook-f"></i></a></li></ul></ul></div></div></div></div><div class="widget-wrap fl-wrap"><h4 class=widget-title><span>02.</span> Last Posts</h4><div class="widget-container fl-wrap"><div class="widget-posts fl-wrap"><ul><li class=clearfix><a href=https://damianflynn.com/blog/2021-03-04-export-pfx-on-windows/exporting-windows-certificate-to-pfx/ class=widget-posts-img><img src=https://damianflynn.com/blog/2021-03-04-export-pfx-on-windows/images/banner.jpg class=respimg alt></a><div class=widget-posts-descr><a href=https://damianflynn.com/blog/2021-03-04-export-pfx-on-windows/exporting-windows-certificate-to-pfx/ title>Creating a PFX from a certificate in Windows</a>
+<span class=widget-posts-date>Thu Mar 4, 2021</span></div></li><li class=clearfix><a href=https://damianflynn.com/blog/2021-03-05-extracting-public-and-private-certs-from-pfx/openssl-to-seperate-certificates-and-private-keys/ class=widget-posts-img><img src=https://damianflynn.com/blog/2021-03-05-extracting-public-and-private-certs-from-pfx/images/banner.png class=respimg alt></a><div class=widget-posts-descr><a href=https://damianflynn.com/blog/2021-03-05-extracting-public-and-private-certs-from-pfx/openssl-to-seperate-certificates-and-private-keys/ title>Extracting Public and Private Certificates from a PFX</a>
+<span class=widget-posts-date>Fri Mar 5, 2021</span></div></li><li class=clearfix><a href=https://damianflynn.com/blog/2021-03-07-freeradius-802.1x/ class=widget-posts-img><img src=https://damianflynn.com/blog/2021-03-07-freeradius-802.1x/images/banner.png class=respimg alt></a><div class=widget-posts-descr><a href=https://damianflynn.com/blog/2021-03-07-freeradius-802.1x/ title>Configuring FreeRadius for 802.1x</a>
+<span class=widget-posts-date>Sun Mar 7, 2021</span></div></li><li class=clearfix><a href=https://damianflynn.com/blog/2021-03-03-requesting-a-certificate/ class=widget-posts-img><img src=https://damianflynn.com/blog/2021-03-03-requesting-a-certificate/images/banner.png class=respimg alt></a><div class=widget-posts-descr><a href=https://damianflynn.com/blog/2021-03-03-requesting-a-certificate/ title>Create PKI Certificate for Linux Server</a>
+<span class=widget-posts-date>Wed Mar 3, 2021</span></div></li></ul></div></div></div><div class="widget-wrap fl-wrap"><h4 class=widget-title><span>03.</span> Tags</h4><div class="widget-container fl-wrap"><a href=/tags/ad style=font-size:.75rem>ad</a>
+<a href=/tags/arm style=font-size:1.4215544671006022rem>arm</a>
+<a href=/tags/automation style=font-size:1.039222766449699rem>automation</a>
+<a href=/tags/az-cli style=font-size:1.039222766449699rem>az-cli</a>
+<a href=/tags/azure style=font-size:1.9785973471159446rem>azure</a>
+<a href=/tags/cbus style=font-size:.75rem>cbus</a>
+<a href=/tags/custom-providers style=font-size:.75rem>custom-providers</a>
+<a href=/tags/delegation style=font-size:.75rem>delegation</a>
+<a href=/tags/ea style=font-size:.75rem>ea</a>
+<a href=/tags/enterprise-agreement style=font-size:1.2084072391776057rem>enterprise-agreement</a>
+<a href=/tags/functions style=font-size:1.3284455328993978rem>functions</a>
+<a href=/tags/general style=font-size:1.4976300056273049rem>general</a>
+<a href=/tags/iac style=font-size:1.3284455328993978rem>iac</a>
+<a href=/tags/internet-of-things style=font-size:1.4215544671006022rem>internet-of-things</a>
+<a href=/tags/linux style=font-size:1.6176682993490967rem>linux</a>
+<a href=/tags/managed-applications style=font-size:.75rem>managed-applications</a>
+<a href=/tags/mqtt style=font-size:.75rem>mqtt</a>
+<a href=/tags/networking style=font-size:1.5619509569636794rem>networking</a>
+<a href=/tags/nodejs style=font-size:.75rem>nodejs</a>
+<a href=/tags/powershell style=font-size:1.039222766449699rem>powershell</a>
+<a href=/tags/private-link style=font-size:.75rem>private-link</a>
+<a href=/tags/raspberrypi style=font-size:1.039222766449699rem>raspberrypi</a>
+<a href=/tags/service-catalog style=font-size:.75rem>service-catalog</a>
+<a href=/tags/spn style=font-size:1.2084072391776057rem>spn</a>
+<a href=/tags/template style=font-size:1.3284455328993978rem>template</a></div></div><div class="widget-wrap fl-wrap"><h4 class=widget-title><span>05.</span> Categories</h4><div class="widget-container fl-wrap"><ul class=cat-item><li><a href=/categories/it-pro/devops>it-pro/devops</a> <span>(15)</span></li><li><a href=/categories/azure>azure</a> <span>(14)</span></li><li><a href=/categories/developer>developer</a> <span>(12)</span></li><li><a href=/categories/opensource>opensource</a> <span>(10)</span></li><li><a href=/categories/cloud>cloud</a> <span>(9)</span></li><li><a href=/categories/identity>identity</a> <span>(8)</span></li><li><a href=/categories/iot>iot</a> <span>(6)</span></li><li><a href=/categories/career>career</a> <span>(5)</span></li></ul></div></div></div></div><div class="limit-box fl-wrap"></div></div><div class=content-nav><ul><li><a href=https://damianflynn.com/blog/2021-07-23-bicep-tags-as-parameters/ class=ln><i class="fal fa-arrow-left"></i><span class=tooltip>Bicep - Tags as Parameters</span></a></li><li><span class=cur-page><span>Posts</span></span></li><li><a href=https://damianflynn.com/blog/2021-03-05-extracting-public-and-private-certs-from-pfx/openssl-to-seperate-certificates-and-private-keys/ class=rn><i class="fal fa-arrow-right"></i><span class=tooltip>Extracting Public and Private Certificates from a PFX</span></a></li></ul></div></div></div><div class=bg-parallax-module data-position-top=50 data-position-left=20 data-scrollax="properties: { translateY: '-250px' }"></div><div class=bg-parallax-module data-position-top=40 data-position-left=70 data-scrollax="properties: { translateY: '150px' }"></div><div class=bg-parallax-module data-position-top=80 data-position-left=80 data-scrollax="properties: { translateY: '350px' }"></div><div class=bg-parallax-module data-position-top=95 data-position-left=40 data-scrollax="properties: { translateY: '-550px' }"></div><div class=sec-lines></div></section><section class="dark-bg2 small-padding order-wrap"><div class=container><div class=row><div class=col-md-8><h3>Do you want to learn more ?</h3></div><div class=col-md-4><a href=/contact/ class="btn flat-btn color-btn">Get In Touch</a></div></div></div></section></div><div class="height-emulator fl-wrap"></div><footer class="main-footer fixed-footer"><div class="footer-inner fl-wrap"><div class=container><div class=partcile-dec data-parcount=90></div><div class=row><div class=col-md-2><div class="footer-title fl-wrap"><span>CONNECT</span></div></div><div class=col-md-5><div class="footer-header fl-wrap"><span>01.</span>Last Twitts</div><div class="footer-box fl-wrap"><div class="twitter-swiper-container fl-wrap" id=twitts-container></div><a href=https://twitter.com/damian_flynn target=_blank rel=noopener class="btn float-btn trsp-btn">Follow</a></div></div><div class=col-md-5><div class="footer-header fl-wrap"><span>02.</span> Subscribe / Contacts</div><div class="footer-box fl-wrap"><p>Want to be notified when I post an udpate. Just sign up and we'll send you a notification by email.</p><div class="subcribe-form fl-wrap"><form id=subscribe class=fl-wrap><input class=enteremail name=email id=subscribe-email placeholder=email spellcheck=false type=text>
+<button type=submit id=subscribe-button class=subscribe-button><i class="fal fa-paper-plane"></i>
+Send</button>
+<label for=subscribe-email class=subscribe-message></label></form></div><div class="footer-contacts fl-wrap h-card vcard"><ul><li><i class="fal fa-phone"></i><span>Name :</span><a href=https://damianflynn.com class="p-name u-url url author metatag" rel=me>Damian Flynn</a></li><li><i class="fal fa-envelope"></i><span>Email :</span><a class="p-nickname u-email email metatag" rel=me href=mailto:info@damianflynn.com>info@damianflynn.com</a></li><li><i class="fal fa-map-marker"></i><span>Address</span><a href=#>Ballina, Ireland</a></li><li><i class="fal fa-map-marker"></i><span>Person</span><img class=u-photo style=width:50;height:50px src=/images/authors/damianflynn/damianflynn_400x400.jpg alt></li></ul></div><div class="footer-socilal fl-wrap"><ul><li><a href=https://www.linkedin.com/in/damianflynn57 target=_blank rel=noopener><i class="fab fa-linkedin"></i></a></li><li><a href=https://twitter.com/damian_flynn target=_blank rel=noopener><i class="fab fa-twitter"></i></a></li><li><a href=https://github.com/damianflynn target=_blank rel=noopener><i class="fab fa-github"></i></a></li><li><a href=https://www.facebook.com/damian.flynn.58 target=_blank rel=noopener><i class="fab fa-facebook-f"></i></a></li></ul></div></div></div></div></div></div><div class="subfooter fl-wrap"><div class=container><div class=policy-box><span>&#169; / 2020 / All rights reserved.</span></div><a href=# class="to-top color-bg"><i class="fal fa-angle-up"></i><span></span></a></div></div></footer><a class="contact-btn color-bg" href=/contact/><i class="fal fa-envelope"></i><span>Get in Touch</span></a></div><div class="share-wrapper isShare"><div class=share-title><span>Share</span></div><div class="close-share soa"><span>Close</span><i class="fal fa-times"></i></div><div class="share-inner soa"><div class=share-container></div></div></div></div><script type=text/javascript src=/js/resume/jquery.min.js></script><script type=text/javascript src=/js/resume/plugins.js></script><script type=text/javascript src=/js/resume/scripts.js></script><script type=text/javascript src=/js/copy-code-button.js | absurl></script><script>var post_url=window.location.href;$(document).ready(function(){$("ul#mentions-list").empty(),$.getJSON("https://webmention.io/api/mentions?jsonp=?",{target:post_url},function(a){var b="",c="",d="";a.links.length!==0&&$("#post-mentions").show(),$.each(a.links,function(e,h){var f=a.links[e].activity.type,g="";if(f&&f=="like")b||(b='<li class="mention-social"><i class="fa fa-thumbs-up"></i> '),b=b+'<a href="'+a.links[e].data.url+'">'+a.links[e].data.author.name+"</a>, ";else if(f&&f=="repost")c||(c='<li class="mention-social"><i class="fa fa-twitter"></i> '),c=c+'<a href="'+a.links[e].data.url+'">'+a.links[e].data.author.name+"</a>, ";else if(f&&f=="link")d||(d='<li class="mention-social"><i class="fa fa-link"></i> '),d=d+'<a href="'+a.links[e].data.url+'">'+a.links[e].data.author.name+"</a>, ";else if(f&&f=="reply"){let b=new Date(a.links[e].verified_date);a.links[e].data.content&&(g=a.links[e].data.content),$("ul#mentions-list").prepend('<li class="mention"><div class="mention-author u-author"><img src="'+a.links[e].data.author.photo+'" class="u-photo"'+'title="'+a.links[e].data.author.name+'" width="40" style="margin-right:10px;border-radius:4px;">'+'<a href="'+a.links[e].data.author.url+'">'+a.links[e].data.author.name+'</a> <span class="commented">replied:</span></div>'+'<div class="mention-text">'+g+"</div>"+'<a href="'+a.links[e].data.url+'" class="small">'+"<time>"+b.getUTCDate()+"/"+(b.getUTCMonth()+1)+"/"+b.getUTCFullYear()+"</time></a>"+"</li>")}}),d&&(d=d.substr(0,d.length-2),d=d+' <span class="commented">linked to this.</span></li>',$("ul#mentions-list").prepend(d)),c&&(c=c.substr(0,c.length-2),c=c+' <span class="commented">reposted this on Twitter.</span></li>',$("ul#mentions-list").prepend(c)),b&&(b=b.substr(0,b.length-2),b=b+' <span class="commented">liked this.</span></li>',$("ul#mentions-list").prepend(b))})})</script><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-64134408-1','auto'),ga('send','pageview'))</script><div id=cookieConsentBanner style=display:none><p>This site uses cookies. Like most websites, I use cookies to make the site work the way you expect it to, improve your experience on the site, analyse site usage, and assist in our marketing efforts. By choosing 'Accept', you agree to the storing of cookies on your device, also I invite you to View my Privacy Policy. <a href=/privacy>Learn more.</a></p><button id=grantCookieConsent>Accept</button></div><script>$(document).ready(function(){var a=localStorage.getItem('cookieConsentStatus');a===null||a!=='granted'?(console.debug("No cookies consent was 'granted' yet. The banner will be shown."),setTimeout(function(){$('#cookieConsentBanner').fadeIn(500)},1500)):console.debug("The cookies consent was already 'granted'. The banner will not be shown.")}),$('#grantCookieConsent').click(function(){localStorage.setItem('cookieConsentStatus','granted'),$('#cookieConsentBanner').fadeOut(500),console.debug("The visitor accepted to consent. The consent is saved to local storage."),typeof dataLayer!='undefined'?(console.debug("DataLayer exists. Pushing an event to trigger any tag that involves setting a cookie."),dataLayer.push({event:'cookieConsentGranted'})):console.debug("GTM's dataLayer variable is not defined. No event will be pushed.")})</script></body></html>
