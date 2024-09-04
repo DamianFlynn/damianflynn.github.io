@@ -26,11 +26,11 @@
 // var intersectionObserver = new IntersectionObserver(function (t) {
 //   t[0].intersectionRatio <= 0 || foodtruck_voice.play();
 // });
-var intersectionObserver = new IntersectionObserver(function (entries) {
-    if (entries[0].intersectionRatio > 0) {
-      // Element is visible, do something here
-    }
-  });
+// var intersectionObserver = new IntersectionObserver(function (entries) {
+//     if (entries[0].intersectionRatio > 0) {
+//       // Element is visible, do something here
+//     }
+//   });
 function _slicedToArray(t, e) {
   return (
     _arrayWithHoles(t) ||
@@ -459,7 +459,7 @@ function _typeof(t) {
     _typeof(t)
   );
 }
-intersectionObserver.observe(document.querySelector("footer")),
+// intersectionObserver.observe(document.querySelector("footer")),
   document.addEventListener("alpine:init", function () {
     Alpine.data("taCookieConsent", function () {
       return {
@@ -547,7 +547,7 @@ intersectionObserver.observe(document.querySelector("footer")),
         },
       };
     });
-  }),
+  });
   document.addEventListener("alpine:init", function () {
     Alpine.data("taGallery", function () {
       return {
@@ -815,7 +815,7 @@ intersectionObserver.observe(document.querySelector("footer")),
         },
       };
     });
-  }),
+  });
   document.addEventListener("alpine:init", function () {
     Alpine.data("taNavigation", function () {
       return {
@@ -927,7 +927,7 @@ intersectionObserver.observe(document.querySelector("footer")),
         },
       };
     });
-  }),
+  });
   document.addEventListener("alpine:init", function () {
     Alpine.data("taToc", function () {
       return {
@@ -1002,7 +1002,7 @@ intersectionObserver.observe(document.querySelector("footer")),
         },
       };
     });
-  }),
+  });
   (window.taYoutube = function () {
     return {
       active: !1,

@@ -130,7 +130,7 @@
           {{- if .Content -}}
             {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
           {{- end -}}
-          /layout/taxonomy/list.html .Content
+          {{- /*/layout/taxonomy/list.html .Content {{$params.logo}}*/ -}}
           </p>
 
           {{- /* Article Count */ -}}
@@ -144,7 +144,7 @@
 
         {{- /* Article Icon */ -}}
         <div class="relative flex-shrink-0 max-w-lg lg:max-w-xl lg:w-1/2 pb-8 lg:pb-0 -mt-12 lg:mt-0 transform md:transform-none scale-110 -z-1">
-          <img src="/images/categories-icon-categories.svg" alt class="w-full lg:absolute-center lg:max-h-96 object-contain"/>
+          <img {{if $params.logo -}}src="{{$params.logo}}"{{- else -}}src="/images/categories-icon-{{$taxonomy}}.svg"{{- end -}} alt class="w-full lg:absolute-center lg:max-h-96 object-contain"/>
         </div>
         
           {{- /* End Block*/ -}}
