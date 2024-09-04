@@ -747,7 +747,7 @@ function initMeta() {
   window._metaThemeColorOnSwitchTheme = () => {
     themeColorMeta.content = metaColors[document.body.getAttribute("theme")];
   };
-  window.switchThemeEventSet.add(window._metaThemeColorOnSwitchTheme);
+  // window.switchThemeEventSet.add(window._metaThemeColorOnSwitchTheme);
   window._metaThemeColorOnSwitchTheme();
 }
 
@@ -774,7 +774,7 @@ function onResize() {
         window._resizeTimeout = window.setTimeout(() => {
           window._resizeTimeout = null;
           for (const event of window.resizeEventSet) event();
-          initSearch();
+          // initSearch();
         }, 100);
       }
     },
@@ -866,11 +866,11 @@ function init() {
   window.resizeEventSet = new Set();
   window.clickMaskEventSet = new Set();
   if (window.objectFitImages) objectFitImages();
-  initMenuMobile();
+  // initMenuMobile();
   initSwitchTheme();
   initSelectTheme();
   initMeta();
-  initSearch();
+  // initSearch();
   initCodeblocks();
   initDetails();
   initLightGallery();
@@ -878,9 +878,9 @@ function init() {
   initTypeit();
   initMapbox();
   initToc();
-  onScroll();
+  //onScroll();
   onResize();
-  onClickMask();
+  //onClickMask();
 }
 
 init();
