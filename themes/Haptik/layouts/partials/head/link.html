@@ -65,8 +65,33 @@ with .Site.Params.app.svgFavicon -}}
   href="{{ .RelPermalink }}"
   title="{{ $.Site.Title }}"
 />
-{{- end -}} {{/* tailwind.css */}} {{ $style := dict "Source" "css/css-styles.css"
-"Minify" true }} {{- partial "plugin/style.html" $style -}}
+{{- end -}} {{/* tailwind.css */}} 
+{{ $style := dict "Source" "css/css-styles.css" "Minify" true }} {{- partial "plugin/style.html" $style -}}
+
+{{/*  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />  */}}
+{{ $style := dict "Source" "css/n8n-chat.css" "Minify" true }} {{- partial "plugin/style.html" $style -}}
+<script type="module">
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	createChat({
+		webhookUrl: 'https://n8n.deercrest.info/webhook/b76d02c0-b406-4d21-b6bf-8ad2c623def3/chat',
+    initialMessages: [
+      'Hi there! 👋',
+      'My name is Nathan. How can I assist you today?'
+    ],
+    i18n: {
+      en: {
+        title: 'Search 🔎 & Chat! 👋',
+        subtitle: "Start a chat. We're here to help you 24/7.",
+        footer: '',
+        getStarted: 'New Conversation',
+        inputPlaceholder: 'Type your question..',
+      },
+    },
+    showWelcomeScreen: false,
+	  defaultLanguage: 'en'
+	});
+</script>
 
 <!-- {{- /* style.min.css */ -}}
 {{- $style := dict "Source" "css/style.scss" -}}
