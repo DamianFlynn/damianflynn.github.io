@@ -76,7 +76,7 @@
         . now.Year }}{{ . }} - {{ end }}{{ now.Year -}} {{- else -}} {{ now.Year
         }} {{- end -}} {{- end -}} {{- /* Author */ -}} {{- if ne
         .Site.Params.footer.author false -}}
-        <a href="{{ $.Site.Author.link | default .Site.Home.RelPermalink }}" target="_blank" rel="noopener noreferrer" > {{ .Site.Author.name }}</a >
+        <a href="{{ $.Site.Params.Author.link | default .Site.Home.RelPermalink }}" target="_blank" rel="noopener noreferrer" > {{ .Site.Params.Author.name }}</a >
         {{- end -}} {{- /* License */ -}} {{- with .Site.Params.footer.license -}} &nbsp;|&nbsp;{{ . | safeHTML }} {{- end -}}
       </p>
       <div class="flex items-center justify-center my-2">
