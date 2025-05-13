@@ -18,7 +18,6 @@
 {{- $link = .Get 3 | default $link -}}
 {{- $column = .Get 4 | default $column -}}
 {{- $linkExtra = .Get 5 | default $linkExtra -}}
-
 {{ end }}
 <div class="showcase-box column-{{ $column }}">
     <div class="showcase-image">
@@ -35,9 +34,9 @@
     <a class="showcase-link" href={{ $link }}>
         {{ T "readMore" }}
     </a>
-    {{- if .Get "linkExtra" -}}
+    {{- if $linkExtra -}}
     <a class="showcase-link-extra" href={{ $linkExtra }}>
         {{ T "abstract" }}
     </a>
-    {{ end }}
+    {{- end -}}
 </div>
