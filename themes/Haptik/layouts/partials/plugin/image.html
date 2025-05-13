@@ -25,24 +25,40 @@ Parameters:
 */}}
 
 {{- $resource := dict -}}
-{{/*  Do not call resources.Get on remote resources. https://github.com/HEIGE-PCloud/DoIt/issues/1300  */}}
-{{- $isUrlRemote := urls.Parse .Src | partial "function/isUrlRemote.html" -}}
-{{- if not $isUrlRemote -}}
-    {{- $resource = (.Resources.Get .Src) | default (resources.Get .Src) -}}
+{{- $src := .Src -}}
+{{- $isRemote := false -}}
+
+{{/*  Check if URL is remote based on protocol  */}}
+{{- if or (strings.HasPrefix $src "http://") (strings.HasPrefix $src "https://") -}}
+    {{- $isRemote = true -}}
+{{- else -}}
+    {{/*  Try to parse URL and check if it's remote  */}}
+    {{- $parsedUrl := urls.Parse $src -}}
+    {{- $isRemote = partial "function/isUrlRemote.html" $parsedUrl -}}
+{{- end -}}
+
+{{- if not $isRemote -}}
+    {{- $resource = (.Resources.Get $src) | default (resources.Get $src) -}}
 {{- end -}}
 
 {{- $cacheRemote := .CacheRemote | default site.Params.image.cacheRemote | default false -}}
 {{- $optimise := .Optimise | default site.Params.image.optimise | default false -}}
 
-{{- if not $resource | and $isUrlRemote | and $cacheRemote -}}
-    {{- with $remoteResource := resources.GetRemote .Src -}}
+{{- if and (not $resource) $isRemote $cacheRemote -}}
+    {{/*  For remote resources, ensure we have a proper URL with protocol  */}}
+    {{- $remoteUrl := $src -}}
+    {{- if not (or (strings.HasPrefix $remoteUrl "http://") (strings.HasPrefix $remoteUrl "https://")) -}}
+        {{- $remoteUrl = print "https://" $remoteUrl -}}
+    {{- end -}}
+    
+    {{- with resources.GetRemote $remoteUrl -}}
         {{- with .Err -}}
             {{- warnf "%s" . -}}
         {{ else }}
-            {{- if $remoteResource.ResourceType | eq "image" -}}
-                {{- $resource = $remoteResource -}}
+            {{- if eq .ResourceType "image" -}}
+                {{- $resource = . -}}
             {{- end -}}
-    {{- end -}}
+        {{- end -}}
     {{- end -}}
 {{- end -}}
 
@@ -59,15 +75,15 @@ Parameters:
     {{- $srcset = delimit $srcsetSlice ", " -}}
 {{- end -}}
 
-{{- $src := $resource.RelPermalink | default .Src -}}
+{{- $finalSrc := $resource.RelPermalink | default $src -}}
 {{- $alt := .Alt | default .Title -}}
 {{- $height := .Height | default $resource.Height | default "" -}}
 {{- $width := .Width | default $resource.Width | default "" -}}
 
 {{- if .Linked -}}
-<a class="lightgallery" href="{{ $src }}" title="{{ .Title | default .Alt }}" data-thumbnail="{{ $src }}"{{ with .Caption }} data-sub-html="<h2>{{ . }}</h2>{{ with $.Title }}<p>{{ . }}</p>{{ end }}"{{ end }}{{ with .Rel }} rel="{{ . }}"{{ end }}>
+<a class="lightgallery" href="{{ $finalSrc }}" title="{{ .Title | default .Alt }}" data-thumbnail="{{ $finalSrc }}"{{ with .Caption }} data-sub-html="<h2>{{ . }}</h2>{{ with $.Title }}<p>{{ . }}</p>{{ end }}"{{ end }}{{ with .Rel }} rel="{{ . }}"{{ end }}>
 {{- end -}}
-<img {{ with .Class }}class="{{ . }}"{{ end }} {{ with .Loading }}loading="{{ . }}"{{ end }} src="{{ $src }}" {{ with $srcset }}srcset="{{ . }}"{{ end }} {{ with .Sizes }}sizes="{{ . }}"{{ end }} {{ with $alt }}alt="{{ . }}"{{ end }} {{ with $height }}height="{{ . }}"{{ end }} {{ with $width }}width="{{ . }}"{{ end }}>
+<img {{ with .Class }}class="{{ . }}"{{ end }} {{ with .Loading }}loading="{{ . }}"{{ end }} src="{{ $finalSrc }}" {{ with $srcset }}srcset="{{ . }}"{{ end }} {{ with .Sizes }}sizes="{{ . }}"{{ end }} {{ with $alt }}alt="{{ . }}"{{ end }} {{ with $height }}height="{{ . }}"{{ end }} {{ with $width }}width="{{ . }}"{{ end }}>
 {{- if .Linked -}}
 </a>
 {{- end -}}

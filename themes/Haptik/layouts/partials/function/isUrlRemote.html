@@ -1,1 +1,9 @@
-{{- return .Host | and .Path | and (strings.HasSuffix .Path "/" | not) -}}
+{{- $isRemote := false -}}
+{{- if .Host -}}
+  {{- $isRemote = true -}}
+{{- else if strings.HasPrefix .Path "http://" -}}
+  {{- $isRemote = true -}}
+{{- else if strings.HasPrefix .Path "https://" -}}
+  {{- $isRemote = true -}}
+{{- end -}}
+{{- return $isRemote -}}

@@ -1,10 +1,15 @@
-{{ $url := .Destination }}
-{{ with resources.GetRemote $url }}
-  {{ with .Err }}
-    {{ errorf "Failed to download image %s" . }}
+{{ $src := .Destination }}
+{{ $isExternal := strings.HasPrefix $src "http" }}
+{{ $title := .Title }}
+{{ $alt := .Text }}
+
+{{ if not $isExternal }}
+  {{ $resource := (.Page.Resources.GetMatch $src) | default (resources.Get $src) }}
+  {{ if $resource }}
+    {{ $src = $resource.RelPermalink }}
   {{ else }}
-    <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" {{- with $.Text }} alt="{{ . }}"{{ end -}} {{- with $.Title }} title="{{ . }}"{{ end -}} style="width: auto;height: auto;">
+    {{ $src = path.Join .Page.RelPermalink $src }}
   {{ end }}
-{{ else }}
-  {{ errorf "Invalid image url %q" $url }}
 {{ end }}
+
+<img src="{{ $src }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}"{{ end }} />
