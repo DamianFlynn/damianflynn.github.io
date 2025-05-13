@@ -1,8 +1,8 @@
 {{- /* header */ -}}
 <div role="navigation" class="absolute inset-x-0 top-0 z-10 w-full text-center h-16 sm:h-20 lg:h-24 xl:h-28" x-data="taNavigation">
-  <a href="{{ .Site.Home.RelPermalink }}" class="absolute left-0 top-0 h-full flex-center w-16 sm:w-20 lg:w-24 xl:w-28 p-3 sm:p-4 lg:p-5 xl:p-6 bg-white">
+  <a href="{{ .Site.Home.RelPermalink }}" class="absolute left-0 top-0 h-full flex-center w-16 sm:w-20 lg:w-24 xl:w-28 p-3 sm:p-4 lg:p-5 xl:p-6 {{ if eq $.RelPermalink "/" }}bg-white{{ else }}bg-secondary-500{{ end }}">
     <span class="sr-only">To the home page</span>
-    <img src="/images/img-logo-damian-flynn-blue.svg" alt="Logo Damian Flynn" class="w-full"/>
+    <img src="{{ if eq $.RelPermalink "/" }}/images/img-logo-damian-flynn-blue.svg{{ else }}/images/img-logo-damian-flynn-white.svg{{ end }}" alt="Logo Damian Flynn" class="w-full"/>
   </a>
   <div class="absolute lg:hidden right-0 top-0 text-white w-16 h-16 sm:w-20 sm:h-20 p-3 sm:p-4" >
     <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentcolor">
@@ -16,12 +16,12 @@
       {{- with .Page -}}
       {{- $url = .RelPermalink -}}
       {{- end -}}
-      <div class="relative flex-center {{ if $.IsMenuCurrent `main` . | or ($.HasMenuCurrent `main` .) | or (eq $.RelPermalink $url) }} font-extrabold{{ end }} text-white px-4">
+      <div class="relative flex-center {{ if $.IsMenuCurrent `main` . | or ($.HasMenuCurrent `main` .) | or (eq $.RelPermalink $url) }} font-extrabold{{ end }} {{ if eq $.RelPermalink "/" }}text-white{{ else if $.IsMenuCurrent `main` . | or ($.HasMenuCurrent `main` .) | or (eq $.RelPermalink $url) }}text-secondary-500{{ else }}text-primary-500{{ end }} px-4">
         <a class="menu-item{{ if $.IsMenuCurrent `main` . | or ($.HasMenuCurrent `main` .) | or (eq $.RelPermalink $url) }} active{{ end }}"
         href="{{ $url }}" {{ with .Title }} title="{{ . }}" {{ end }}{{ if (urls.Parse $url).Host }}
         rel="noopener noreferrer" target="_blank" {{ end }}>{{- .Pre | safeHTML }} {{ .Name }} {{ .Post | safeHTML -}}</a>
         {{ if $.IsMenuCurrent `main` . | or ($.HasMenuCurrent `main` .) | or (eq $.RelPermalink $url) }}
-        <div class="absolute inset-x-0 -bottom-1 rounded-xl bg-white h-2"></div>
+        <div class="absolute inset-x-0 -bottom-1 rounded-xl {{ if eq $.RelPermalink "/" }}bg-white{{ else }}bg-secondary-500{{ end }} h-2"></div>
         {{ end }}
       </div>
       {{- end -}}
