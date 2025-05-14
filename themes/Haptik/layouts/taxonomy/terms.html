@@ -91,14 +91,13 @@
           </ol>
         </nav>
 
-        {{- /* Article Info */ -}}
+        <!-- Replace the debug text with proper content -->
         <div class="text-6xl leading-none font-bold mb-2">{{ .Title }}</div>
         <p class="text-2xl leading-tight mb-4">
-        {{- /* Introduction*/ -}}
+        {{- /* Introduction */ -}}
         {{- if .Content -}}
           {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
         {{- end -}}
-        /layout/taxonomy/terms.html .Content
         </p>
 
         {{- /* Article Count */ -}}
