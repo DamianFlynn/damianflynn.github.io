@@ -1,0 +1,55 @@
+{{- define "title" -}}
+    {{- .Title }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+    {{- $params := .Scratch.Get "params" -}}
+    <div class="relative bg-gradient-to-t from-gray-100 to-white pt-16 sm:pt-20 lg:pt-24 xl:pt-28 isolate">
+      <div class="absolute inset-x-0 -bottom-72 h-96">
+        <div class="w-full h-full flex-center overflow-hidden">
+          <img src="/images/img-exclude-white.svg" alt class="w-full h-full min-w-[768px]" />
+        </div>
+      </div>
+
+      <div class="flex flex-col-reverse lg:flex-row justify-between w-full max-w-screen-2xl mx-auto text-secondary-500 px-12 lg:pl-40 xl:pr-0 pt-8 xl:pt-16 pb-20 isolate">
+        <div class="max-w-2xl lg:max-w-xl break-hyphen">
+          {{- /* breadcrumb */ -}}
+          <nav aria-label="breadcrumb">
+            <ol class="flex flex-wrap items-center text-sm leading-none font-bold mb-4 sm:mb-2">
+              <li class="pr-1">
+                <a href="/index.html" class="flex items-center text-primary-500 py-1">
+                  <div class="h-5 w-5">
+                    <svg class="w-full h-full" fill="currentcolor" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 576 512" ><path d="M280.37 148.26 96 300.11V464a16 16 0 0016 16l112.06-.29a16 16 0 0015.92-16V368a16 16 0 0116-16h64a16 16 0 0116 16v95.64a16 16 0 0016 16.05L464 480a16 16 0 0016-16V3e2L295.67 148.26a12.19 12.19.0 00-15.3.0zM571.6 251.47 488 182.56V44.05a12 12 0 00-12-12h-56a12 12 0 00-12 12v72.61L318.47 43a48 48 0 00-61 0L4.34 251.47a12 12 0 00-1.6 16.9l25.5 31A12 12 0 0045.15 301l235.22-193.74a12.19 12.19.0 0115.3.0L530.9 301a12 12 0 0016.9-1.6l25.5-31a12 12 0 00-1.7-16.93z"></path></svg>
+                  </div>
+                  <span class="ml-2">Home</span>
+                </a>
+              </li>
+
+              <li class="flex items-center text-secondary-500">
+                <div class="h-4 w-4">
+                  <svg class="w-full h-full" fill="currentcolor" viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="m15 0h525.355a15 15 0 0115 15v38.555a15 15 0 01-15 15H15a15 15 0 01-15-15V15a15 15 0 0115-15z" transform="matrix(-.5 .8660254 -.8660254 -.5 424.048 32.277)"></path></svg>
+                </div>
+                <span class="px-1 py-1">{{ .Title }}</span>
+              </li>
+            </ol>
+          </nav>
+
+          <h1 class="text-5xl font-bold text-primary-500 leading-tense mb-4">{{ .Title }}</h1>
+          
+
+        </div>
+      </div>
+    </div>
+
+    <div id="main" class="w-full max-w-screen-2xl mx-auto px-8 lg:px-40 my-24 isolate">
+      <div class="w-full">
+        {{- /* Items */ -}}
+                  {{- if .Content -}}
+            <div class="content">
+              {{ .Content }}
+            </div>
+          {{- end -}}
+
+      </div>
+    </div>
+{{- end -}}
