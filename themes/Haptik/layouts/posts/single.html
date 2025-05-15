@@ -98,20 +98,43 @@
         </div>
         <div class="flex items-center">
           <div class="w-16 h-16 overflow-hidden rounded-full shadow-lg">
-            {{- $author := .Params.author | default .Site.Params.Author.name | default (T "author") -}}
-            {{- $link := .Params.authorlink | default .Site.Params.Author.link | default .Site.Home.RelPermalink -}}
-            {{- $gravatar := 0 -}}
-            {{- with .Site.Params.Author.gravataremail -}}
-                {{- $gravatar = md5 . | printf "https://www.gravatar.com/avatar/%v?s=240&d=mp" -}}
-            {{- end -}}
-            {{- $avatar := .Params.authoravatar | default .Site.Params.Author.avatar | default $gravatar | default false -}}
-            {{- $options := dict "Class" "author" "Destination" $link "Title" "Author" "Rel" "author" "Content" $author -}}
-            {{- if $avatar -}}
-                {{- dict "Width" "16" "Height" "16" "Src" $avatar "Alt" (printf "%v avatar" $author)  "Class" "w-full h-full object-cover" | partial "plugin/image.html" -}}
-            {{- else -}}
-                {{- partial "plugin/fontawesome.html" (dict "Style" "solid" "Icon" "user-circle") -}}
-            {{- end -}}
-            {{- partial "plugin/link.html" $options -}}
+{{- $authorName := .Params.author -}}
+
+{{- if $authorName -}}
+  {{- if reflect.IsSlice $authorName -}}
+    {{- $authorName = index $authorName 0 -}}
+  {{- end -}}
+
+  {{- $authorData := index site.Data.authors $authorName -}}
+  
+  {{- if $authorData -}}
+    <!-- Author data found -->
+    {{- $avatar := $authorData.avatar -}}
+    {{- $link := $authorData.link | default .Site.Home.RelPermalink -}}
+    
+    {{- if not $avatar -}}
+      {{- with $authorData.gravatarEmail -}}
+        {{- $avatar = md5 . | printf "https://www.gravatar.com/avatar/%v?s=240&d=mp" -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- if $avatar -}}
+      <img src="{{ $avatar }}" alt="{{ $authorData.name }} avatar" class="w-full h-full object-cover">
+    {{- else -}}
+      {{- partial "plugin/fontawesome.html" (dict "Style" "solid" "Icon" "user-circle") -}}
+    {{- end -}}
+    
+    <a href="{{ $link }}" class="author" title="Author" rel="author">{{ $authorData.name }}</a>
+  {{- else -}}
+    <!-- No author data found -->
+    {{- partial "plugin/fontawesome.html" (dict "Style" "solid" "Icon" "user-circle") -}}
+    {{ $authorName }}
+  {{- end -}}
+{{- else -}}
+  <!-- Default author display -->
+  {{- partial "plugin/fontawesome.html" (dict "Style" "solid" "Icon" "user-circle") -}}
+  {{ .Site.Params.Author.name | default "Author" }}
+{{- end -}}
           </div>
           <div class="ml-4">
             <div class="text-secondary-500 text-lg font-bold">

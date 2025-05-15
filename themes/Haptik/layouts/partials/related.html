@@ -1,5 +1,5 @@
 {{- $params := .Scratch.Get "params" -}} {{ $related := first
-$params.related.count (where (where .Site.Pages ".Params.tags" "intersect"
+3 (where (where .Site.Pages ".Params.tags" "intersect"
 .Params.tags) "Permalink" "!=" .Permalink) }} {{ with $related }}
 
 <div class="relative -mx-8 lg:-mx-40 xl:-mx-40 2xl:-mx-40 h-16 mb-32">

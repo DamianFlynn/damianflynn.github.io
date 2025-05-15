@@ -1,0 +1,27 @@
+{{- if strings.HasPrefix .Href "<a" -}}
+    {{- safeHTML .Href -}}
+{{- else -}}
+    {{- $content := .Content | default .Href -}}
+    {{- $title := .Title | default $content -}}
+    {{- $href := .Href -}}
+    {{- $external := strings.HasPrefix $href "http" -}}
+    
+    {{- /* Handle array content */ -}}
+    {{- if reflect.IsSlice $content -}}
+        {{- $content = index $content 0 -}}
+    {{- end -}}
+    {{- if reflect.IsSlice $title -}}
+        {{- $title = index $title 0 -}}
+    {{- end -}}
+    
+    <a href="{{ $href }}"
+        {{- with .Class }} class="{{ . }}"{{ end -}}
+        {{- if .Title }} title="{{ $title }}"{{ end -}}
+        {{- if $external }}
+            rel="{{ with .Rel }}{{ . }} {{ end }}noopener noreferrer" target="_blank"
+        {{- else }}
+            {{- with .Rel }} rel="{{ . }}"{{ end -}}
+        {{- end -}}
+        {{- with .Download }} download="{{ . }}"{{ end -}}
+    >{{- $content | safeHTML -}}</a>
+{{- end -}}

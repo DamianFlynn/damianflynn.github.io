@@ -89,74 +89,55 @@
             </div>
           </div>
         </div>
-
-<div class="2xl:-mr-24 2xl:-ml-24 my-12">
-  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-12">
-    {{ $latestShown := first 5 .Paginator.Pages }}
-    {{ $allPosts := where .Site.RegularPages "Type" "posts" }}
-    
-    
-    {{ $latestPermalinks := slice }}
-    {{ range $latestShown }}
-      {{ $latestPermalinks = $latestPermalinks | append .Permalink }}
-    {{ end }}
-    {{ $remainingPosts := where $allPosts "Permalink" "not in" $latestPermalinks }}
-    
-    {{ if $remainingPosts }}
-      {{ $randomPosts := shuffle $remainingPosts | first 4 }}
-      {{ range $post := $randomPosts }}
-        {{ $seriesNames := $post.Params.series }}
-        {{ $seriesName := "" }}
-        {{ if $seriesNames }}
-          {{ $seriesName = index $seriesNames 0 }}
-        {{ end }}
-        <a href="{{ $post.RelPermalink | relLangURL }}">
-          <div class="flex-center shadow-glow bg-gradient-radius to-teal-50 border border-teal-50 rounded-lg h-40 p-2 mb-2">
-            {{ if $post.Params.featuredImage }}
-              <img src="{{ $post.Params.featuredImage }}" alt="{{ $post.Title }} Featured Image" class="h-full object-contain" />
-            {{ else if $seriesName }}
-              {{ $series_path := printf "/series/%s" (urlize $seriesName) }}
-              {{ $series_page := site.GetPage $series_path }}
-              {{ if and $series_page $series_page.Params.logo }}
-                <img src="{{ $series_page.Params.logo }}" alt="{{ $seriesName }} Logo" class="h-full object-contain" />
-              {{ else if and $series_page $series_page.Params.featuredImage }}
-                <img src="{{ $series_page.Params.featuredImage }}" alt="{{ $seriesName }}" class="h-full object-contain" />
-              {{ else }}
-                <img src="/images/hugo-go-hugo-static-website-builder-logo.svg" alt="{{ $post.Title }}" class="h-full object-contain" />
-              {{ end }}
-            {{ else }}
-              <img src="/images/hugo-go-hugo-static-website-builder-logo.svg" alt="{{ $post.Title }}" class="h-full object-contain" />
-            {{ end }}
-          </div>
-          <div class="p-2">
-            <p class="text-xl font-bold text-primary-500 leading-tight mb-2">
-              {{ $post.Title }}
-            </p>
-            <div class="text-md text-gray-600 leading-baggy">
-              <p>
-                {{ with $post.Params.summary }}
-                  {{ . | truncate 120 }}
-                {{ else }}
-                  {{ $post.Summary | truncate 120 }}
-                {{ end }}
-              </p>
-              {{ if $seriesName }}
-              <p class="text-sm text-primary-500 mt-2">
-                From series: {{ $seriesName }}
-              </p>
-              {{ end }}
+        <section id="topics">
+          <div class="w-full sm:w-2/3 text-center text-secondary-500 mx-auto mb-8" >
+            <h2 class="relative text-5xl font-bold leading-tense overflow-hidden mb-4">
+              <div id="various-topics" class="absolute -top-28"></div>
+              Various topics
+            </h2>
+            <div class="text-lg leading-normal">
+              I enjoy diving into the details so, for those who know me
+              personally, it is not surprising that I chose to summarize this
+              knowledge in some articles.
             </div>
           </div>
-        </a>
-      {{ end }}
-    {{ else }}
-      <div class="col-span-full text-center text-gray-500">
-        <p>No additional posts found. Add more posts to your content directory.</p>
-      </div>
-    {{ end }}
-  </div>
-</div>
 
+        <div class="2xl:-mr-24 2xl:-ml-24 my-12">
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-12">
+
+{{ $allSeries := .Site.Taxonomies.series.ByCount }}
+{{ $latestSeries := first 4 $allSeries }}
+{{ range $series := $latestSeries }}
+  {{ $series_name := $series.Name }}
+  {{ $series_path := (printf "/series/%s" (urlize $series.Name)) }}
+  {{ $series_page := site.GetPage $series_path }}
+  {{ if $series_page }}
+    
+      <a href="{{ $series_path | relLangURL }}">
+        <div class="flex-center shadow-glow bg-gradient-radius to-teal-50 border border-teal-50 rounded-lg h-40 p-2 mb-2" >
+          {{ if $series_page.Params.logo }}
+          <img src="{{ $series_page.Params.logo }}" alt="{{ $series_name }} Logo" class="h-full object-contain" /> <!-- Adjust size as needed -->
+        {{ else }}
+          <img src="/images/hugo-go-hugo-static-website-builder-logo.svg" alt class="h-full object-contain" />
+        {{ end}}
+        </div>
+        <div class="p-2">
+          <p class="text-xl font-bold text-primary-500 leading-tight mb-2" >
+            {{ $series_page.Title }} ({{ $series.Count }})<br>
+          </p>
+          <div class="text-md text-gray-600 leading-baggy">
+            <p>
+              {{ $series_page.Summary | default "No summary available." }}
+            </p>
+          </div>
+        </div>
+      </a>
+  {{ end }}
+{{ end }}
+
+            </div>
+          </div>
+        </section>
 
         <div class="relative -mx-8 lg:-mx-40 xl:-mx-40 2xl:-mx-40 h-16 mb-32">
           <div class="overflow-hidden absolute-center -z-1">

@@ -1,0 +1,20 @@
+{{- $author := .Params.author -}}
+
+{{- if $author -}}
+  {{- if reflect.IsSlice $author -}}
+    {{- $author = index $author 0 -}}
+  {{- end -}}
+  
+  {{- $authorData := index site.Data.authors $author -}}
+  {{- if $authorData -}}
+    {{- if $authorData.link -}}
+      <a href="{{ $authorData.link }}" target="_blank" rel="noopener noreferrer">{{ $authorData.name }}</a>
+    {{- else -}}
+      {{ $authorData.name }}
+    {{- end -}}
+  {{- else -}}
+    {{ $author }}
+  {{- end -}}
+{{- else -}}
+  {{ .Site.Params.Author.name | default "Author" }}
+{{- end -}}
