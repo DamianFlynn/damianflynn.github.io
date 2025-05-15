@@ -15,11 +15,11 @@ enableEmoji = true
 # Use Hugo modules
 [module]
   [[module.imports]]
-    path = "github.com/damianflynn/hugo-haptic-theme"
+    path = "github.com/DamianFlynn/hugo-haptic-theme"
+    # Remove any version constraint to use the latest commit
   
-  # If you have a separate content module, uncomment this:
   [[module.imports]]
-    path = "github.com/damianflynn/garden"
+    path = "github.com/DamianFlynn/garden"
     [[module.imports.mounts]]
       source = "content"
       target = "content"
