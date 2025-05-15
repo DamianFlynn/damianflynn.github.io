@@ -116,7 +116,7 @@
       <a href="{{ $series_path | relLangURL }}">
         <div class="flex-center shadow-glow bg-gradient-radius to-teal-50 border border-teal-50 rounded-lg h-40 p-2 mb-2" >
           {{ if $series_page.Params.logo }}
-          <img src="{{ $series_page.Params.logo }}" alt="{{ $series_name }} Logo" class="h-full object-contain" /> <!-- Adjust size as needed -->
+          <img src="{{$series_path}}/{{ $series_page.Params.logo }}" alt="{{ $series_name }} Logo" class="h-full object-contain" /> <!-- Adjust size as needed -->
         {{ else }}
           <img src="/images/hugo-go-hugo-static-website-builder-logo.svg" alt class="h-full object-contain" />
         {{ end}}
