@@ -5,8 +5,27 @@ defaultContentLanguage = "en"
 title = "Incredible Technology, Incredibly Simple"
 description = "Streamlining the Digital Landscape with Cloud, DevOps, AI and Intelligent Buildings"
 keywords = ["Azure", "DevOps", "IaC", "AI"]
-theme = "Haptik"
 
 enableRobotsTXT = true
 enableGitInfo = true
 enableEmoji = true
+
+# Remove theme = "Haptic" if present
+
+# Use Hugo modules
+[module]
+  [[module.imports]]
+    path = "github.com/DamianFlynn/hugo-haptic-theme"
+    # Remove any version constraint to use the latest commit
+  
+  [[module.imports]]
+    path = "github.com/DamianFlynn/garden"
+    [[module.imports.mounts]]
+      source = "content"
+      target = "content"
+    [[module.imports.mounts]]
+      source = "data"
+      target = "data"
+    [[module.imports.mounts]]
+      source = "static"
+      target = "static"
