@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VPN on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/tags/vpn/</link><description>Recent content in VPN on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 19 Jul 2024 15:23:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/tags/vpn/index.xml" rel="self" type="application/rss+xml"/><item><title>Configuration the Ubiquity EdgeRouter with WireGuard</title><link>https://damianflynn.github.io/posts/configuration-the-ubiquity-edgerouter-with-wireguard/</link><pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/configuration-the-ubiquity-edgerouter-with-wireguard/</guid><description>&lt;p>Virtual Private Networks are unmissable; however with many states now banning and actively blocking these tunnels the search for an alternative approach is appropriate, if we are to protect our identity and intellectual property.&lt;/p>
+&lt;p>One technology which claims to have fantastic throughput when compared to the stable IPSEC solutions, and based on benchmarks I have calculated leaves OpenVPN protocols in the dust, Wireguard positions itself as an in-kernel VPN solution which is very easy to implement and highly secure.&lt;/p></description></item><item><title>Configure Wireguard on UniFi USG</title><link>https://damianflynn.github.io/posts/configure-wireguard-on-unifi-usg/</link><pubDate>Sat, 17 Aug 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/configure-wireguard-on-unifi-usg/</guid><description>&lt;p>&lt;strong>Install the Wireguard Package&lt;/strong>&lt;/p>
+&lt;p>SSH directly to your USG, and run the following commands:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">curl -L https://github.com/Lochnair/vyatta-wireguard/releases/download/0.0.20190123/wireguard-ugw3-0.0.20190702-1.deb -o /tmp/wireguard.deb
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">dpkg -i /tmp/wireguard.deb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h1 id="create-the-tunnel-secrets">Create the Tunnel Secrets&lt;/h1>
+&lt;p>To keep stuff private, we will encrypt the traffic using a long password, known as a ‘Key’. To make sure this is unique, we will use a tool provided by Wireguard to make a random key for us.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> /config/auth
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">umask&lt;/span> &lt;span class="m">077&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mkdir wireguard
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> wireguard
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">wg genkey &amp;gt; wg_private.key
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">wg pubkey &amp;lt; wg_private.key &amp;gt; wg_public.key
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="configure-the-tunnels">Configure the Tunnels&lt;/h2>
+&lt;p>While still connected to the USG, we will now create the Interface which will be our end of the tunnel. If we consider this as a Bridge, then as we configure this interface, we will provide the address for our side and also the address of the far side.&lt;/p></description></item></channel></rss>
