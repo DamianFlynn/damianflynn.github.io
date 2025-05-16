@@ -8,6 +8,5 @@ require (
 )
 
 // For local development using your folder structure - adjust these paths!
-replace github.com/DamianFlynn/hugo-haptic-theme => ../hugo-haptic-theme
-
-replace github.com/DamianFlynn/garden => ../garden
+// replace github.com/DamianFlynn/hugo-haptic-theme => ../hugo-haptic-theme
+// replace github.com/DamianFlynn/garden => ../garden
