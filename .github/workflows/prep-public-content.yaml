@@ -1,0 +1,100 @@
+name: Prepare Public Content
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 * * * *' # run every hour
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+
+    steps:
+      # /home/runner/work/notion/notion/garden/
+      - name: Checkout Garden repo
+        uses: actions/checkout@v3
+        with:
+          repository: DamianFlynn/garden
+          path: garden
+          token: ${{secrets.API_TOKEN_GITHUB}}
+
+      - name: Prune the Garden
+        run: |
+          cp garden/go.mod go.mod.stash
+          cd garden
+          find . -mindepth 1 -not -regex "^\./\.git.*" 
+          find . -mindepth 1 -not -regex "^\./\.git.*" -delete
+          cd ..
+          cp go.mod.stash garden/go.mod
+          mkdir ./garden/content -p
+          mkdir ./garden/content/posts -p
+          mkdir ./garden/assets/indices -p
+          touch ./garden/assets/indices/contentIndex.json
+          touch ./garden/assets/indices/linkIndex.json
+          mkdir ./garden/static -p
+          touch ./garden/static/linkmap
+
+      # /home/runner/work/notion/notion/notion/.git/
+      - name: Checkout Notion repo
+        uses: actions/checkout@v3
+        with:
+          path: notion
+
+      - name: Export Notion Notes with Docker
+        id: notion-export
+        run: |
+          docker run \
+            --env NOTION_TOKEN=${{ secrets.NOTION_TOKEN }} \
+            --env NOTION_PAGE_URL=https://www.notion.so/Content-Management-252a519e13ee46c5b576691e1026e7e0 \
+            --env NOTION_PAGE_IDS=42464b089a234424a6396c013fa6cef6:. \
+            --env NOTION_DATABASE_IDS=4bb8f075358d4efeb575192baa1d62b9:. \
+            --volume ${{ github.workspace }}/garden/content:/app/content \
+            --volume ${{ github.workspace }}/garden/static:/app/static \
+            ghcr.io/damianflynn/notion-to-markdown:latest
+        continue-on-error: true
+
+      # Uncomment if needed for debugging
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@v3
+
+      # Uncomment if you want to restore the obsidian export
+      # - name: Export Obsidian Notes
+      #   id: obsidian-export
+      #   uses: DamianFlynn/py-obsidian-parser@main
+      #   with:
+      #     hugo-content-dir: ./garden/content/posts
+      #     obsidian-vault-dir: obsidian
+      #     export-dir: blog
+      #   continue-on-error: true
+      #
+      # - name: Housekeeping
+      #   run: |
+      #     rm -rf obsidian
+      #
+      # - name: Link and Index Builder
+      #   run: |
+      #     export PATH=$PATH:$(go env GOPATH)/bin
+      #     go install github.com/jackyzha0/hugo-obsidian@latest
+      #     hugo-obsidian -input=./garden/content -output=./garden/assets/indices -index -root=./garden
+      #
+      # - name: Linkmap Renderer
+      #   run: |
+      #     sed -i 's/garden\/content//g' ./garden/assets/indices/linkIndex.json
+      #     sed -i 's/garden\/content//g' ./garden/assets/indices/contentIndex.json
+
+      - name: Publish Content
+        shell: bash
+        run: |
+          cd garden
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Content update"
+          git push https://$USERNAME:$REPO_KEY@github.com/DamianFlynn/garden.git
+        env:
+          REPO_KEY: ${{secrets.API_TOKEN_GITHUB}}
+          USERNAME: github-actions[bot]
+        continue-on-error: true
