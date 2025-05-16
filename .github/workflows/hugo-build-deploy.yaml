@@ -38,6 +38,12 @@ on:
           - production
           - preview
 
+# Add permissions block at the top level
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   # Production build job
   # Builds and deploys the production version of the site without drafts
