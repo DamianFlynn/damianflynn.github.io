@@ -113,7 +113,8 @@ jobs:
       - name: Install Hugo Modules
         run: |
           echo "Starting module update..."
-          hugo mod get -v -u
+          hugo mod tidy
+          hugo mod get -u
           echo "---------------"
           echo "MODULE VERSIONS"
           echo "---------------"
@@ -192,7 +193,8 @@ jobs:
       - name: Install Hugo Modules
         run: |
           echo "Starting module update..."
-          hugo mod get -v -u
+          hugo mod tidy
+          hugo mod get -u
           echo "---------------"
           echo "MODULE VERSIONS"
           echo "---------------"
