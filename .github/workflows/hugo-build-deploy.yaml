@@ -111,8 +111,19 @@ jobs:
 
       # Install required Hugo modules from go.mod
       - name: Install Hugo Modules
-        run: hugo mod get -u
-
+        run: |
+          echo "Starting module update..."
+          hugo mod get -v -u
+          echo "---------------"
+          echo "MODULE VERSIONS"
+          echo "---------------"
+          hugo mod graph
+          echo "---------------"
+          echo "GARDEN MODULE DETAILS"
+          echo "---------------"
+          go list -m -json github.com/DamianFlynn/garden
+        
+        
       # Build the production version of the site
       - name: Build Production Site
         run: hugo --minify
@@ -179,7 +190,17 @@ jobs:
 
       # Install required Hugo modules from go.mod
       - name: Install Hugo Modules
-        run: hugo mod get -u
+        run: |
+          echo "Starting module update..."
+          hugo mod get -v -u
+          echo "---------------"
+          echo "MODULE VERSIONS"
+          echo "---------------"
+          hugo mod graph
+          echo "---------------"
+          echo "GARDEN MODULE DETAILS"
+          echo "---------------"
+          go list -m -json github.com/DamianFlynn/garden
 
       # Build the preview version of the site including drafts, expired and future content
       - name: Build Preview Site
