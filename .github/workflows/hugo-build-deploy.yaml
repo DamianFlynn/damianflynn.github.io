@@ -100,7 +100,7 @@ jobs:
 
       # Cache Hugo modules to speed up builds
       - name: Cache Hugo modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cache/hugo_cache
@@ -180,7 +180,7 @@ jobs:
 
       # Cache Hugo modules to speed up builds (with preview-specific cache key)
       - name: Cache Hugo modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cache/hugo_cache
