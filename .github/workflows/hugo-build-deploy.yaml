@@ -83,7 +83,7 @@ jobs:
     steps:
       # Checkout the website repository
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Set up the Hugo environment with extended version for SCSS support
       - name: Setup Hugo
@@ -163,7 +163,7 @@ jobs:
     steps:
       # Checkout the website repository
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Set up the Hugo environment with extended version for SCSS support
       - name: Setup Hugo
