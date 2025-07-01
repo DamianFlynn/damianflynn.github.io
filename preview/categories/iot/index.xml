@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IoT on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/preview/categories/iot/</link><description>Recent content in IoT on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 13 May 2025 22:43:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/preview/categories/iot/index.xml" rel="self" type="application/rss+xml"/><item><title>IoT - Azure IoT Operations</title><link>https://damianflynn.github.io/preview/posts/iot-azure-iot-operations/</link><pubDate>Fri, 25 Apr 2025 23:07:00 +0000</pubDate><guid>https://damianflynn.github.io/preview/posts/iot-azure-iot-operations/</guid><description>&lt;p>An Azure Arc-enabled Kubernetes cluster is a prerequisite for deploying Azure IoT Operations. This article describes how to prepare a cluster before you deploy Azure IoT Operations. This article includes guidance for Ubuntu&lt;/p>
+&lt;blockquote>
+&lt;p>[!warning] ⚠️
+Microsoft supports Azure Kubernetes Service (AKS) Edge Essentials for deployments on Windows and K3s for deployments on Ubuntu. If you want to deploy Azure IoT Operations to a multi-node solution, use K3s on Ubuntu.
+Starting from an Ubuntu server, which has be Arc Enabled, we can use this as a base for the Azure IoT Operations.&lt;/p></description></item><item><title>IoT - Azure Arc Connected K3s</title><link>https://damianflynn.github.io/preview/posts/iot-azure-arc-connected-k3s/</link><pubDate>Thu, 24 Apr 2025 12:24:00 +0000</pubDate><guid>https://damianflynn.github.io/preview/posts/iot-azure-arc-connected-k3s/</guid><description>Transform your on-premises infrastructure into a cloud-integrated powerhouse by combining K3s Kubernetes with Azure Arc on an Ubuntu server. This guide walks you through every step—from deploying K3s and configuring user access to connecting your cluster to Azure Arc, enabling observability with Grafana, and integrating full-scale monitoring with Azure Monitor. Whether you&amp;rsquo;re building edge deployments or hybrid IoT solutions, this tutorial gives you a production-grade environment with the flexibility of the cloud and control of local resources.</description></item><item><title>Optimizing my GL-MT3000 for UPnP Streaming with Audio Transcoding</title><link>https://damianflynn.github.io/preview/posts/optimizing-my-gl-mt3000-for-upnp-streaming-with-audio-transcoding/</link><pubDate>Wed, 21 Aug 2024 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/preview/posts/optimizing-my-gl-mt3000-for-upnp-streaming-with-audio-transcoding/</guid><description>&lt;p>Recently, I tackled the challenge of configuring my GL-MT3000 router to serve as a UPnP media server with audio transcoding capabilities. Here&amp;rsquo;s how I did it without overloading this nifty little device.&lt;/p>
+&lt;h3 id="setting-up-the-upnpdlna-server">Setting Up the UPnP/DLNA Server&lt;/h3>
+&lt;p>First things first, I needed a lightweight DLNA server. After some research, I settled on &lt;code>minidlna&lt;/code>. Here&amp;rsquo;s how I got it up and running:&lt;/p>
+&lt;ol>
+&lt;li>I SSH&amp;rsquo;d into my router and ran:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">opkg update
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">opkg install minidlna
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>Then, I edited /etc/config/minidlna to point to my media storage (I use an external USB drive) and enabled audio transcoding:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-plain" data-lang="plain">&lt;span class="line">&lt;span class="cl">list media_dir &amp;#39;/tmp/mountd/disk1_part1&amp;#39;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">option enable_transcode_audio &amp;#39;1&amp;#39;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>I also made sure to enable UPnP sharing in the GL-MT3000&amp;rsquo;s web interface under &amp;ldquo;Applications&amp;rdquo; &amp;gt; &amp;ldquo;File Sharing&amp;rdquo;.&lt;/li>
+&lt;/ol>
+&lt;h3 id="tackling-audio-transcoding">Tackling Audio Transcoding&lt;/h3>
+&lt;p>My Roku and iPads sometimes struggle with AC3 audio, so I needed a way to transcode it to stereo. FFmpeg to the rescue!&lt;/p></description></item></channel></rss>
