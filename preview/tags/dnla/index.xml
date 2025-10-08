@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DNLA on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/preview/tags/dnla/</link><description>Recent content in DNLA on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 20 Aug 2024 23:26:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/preview/tags/dnla/index.xml" rel="self" type="application/rss+xml"/><item><title>Optimizing my GL-MT3000 for UPnP Streaming with Audio Transcoding</title><link>https://damianflynn.github.io/preview/posts/optimizing-my-gl-mt3000-for-upnp-streaming-with-audio-transcoding/</link><pubDate>Wed, 21 Aug 2024 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/preview/posts/optimizing-my-gl-mt3000-for-upnp-streaming-with-audio-transcoding/</guid><description>&lt;p&gt;Recently, I tackled the challenge of configuring my GL-MT3000 router to serve as a UPnP media server with audio transcoding capabilities. Here&amp;rsquo;s how I did it without overloading this nifty little device.&lt;/p&gt;
+&lt;h3 id="setting-up-the-upnpdlna-server"&gt;Setting Up the UPnP/DLNA Server&lt;/h3&gt;
+&lt;p&gt;First things first, I needed a lightweight DLNA server. After some research, I settled on &lt;code&gt;minidlna&lt;/code&gt;. Here&amp;rsquo;s how I got it up and running:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;I SSH&amp;rsquo;d into my router and ran:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;opkg update
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;opkg install minidlna
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;Then, I edited /etc/config/minidlna to point to my media storage (I use an external USB drive) and enabled audio transcoding:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-plain" data-lang="plain"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;list media_dir &amp;#39;/tmp/mountd/disk1_part1&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;option enable_transcode_audio &amp;#39;1&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;I also made sure to enable UPnP sharing in the GL-MT3000&amp;rsquo;s web interface under &amp;ldquo;Applications&amp;rdquo; &amp;gt; &amp;ldquo;File Sharing&amp;rdquo;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="tackling-audio-transcoding"&gt;Tackling Audio Transcoding&lt;/h3&gt;
+&lt;p&gt;My Roku and iPads sometimes struggle with AC3 audio, so I needed a way to transcode it to stereo. FFmpeg to the rescue!&lt;/p&gt;</description></item></channel></rss>
