@@ -135,7 +135,7 @@ jobs:
 
       # Deploy the built site to GitHub Pages on the gh-pages branch
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
@@ -214,7 +214,7 @@ jobs:
       # Deploy the preview site to a separate branch with a preview subdirectory
       - name: Deploy Preview to GitHub Pages
         id: deploy-preview
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
