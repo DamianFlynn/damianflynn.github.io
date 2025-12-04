@@ -87,7 +87,7 @@ jobs:
 
       # Set up the Hugo environment with extended version for SCSS support
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: 'latest'
           extended: true
@@ -167,7 +167,7 @@ jobs:
 
       # Set up the Hugo environment with extended version for SCSS support
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: 'latest'
           extended: true
