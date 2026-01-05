@@ -1,47 +1,47 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Conference on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/tags/conference/</link><description>Recent content in Conference on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 19 Jul 2024 15:22:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/tags/conference/index.xml" rel="self" type="application/rss+xml"/><item><title>Global Transit Network For Azure Virtual WAN</title><link>https://damianflynn.github.io/posts/global-transit-network-for-azure-virtual-wan/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/global-transit-network-for-azure-virtual-wan/</guid><description>&lt;p&gt;The Journey started with the concept of VNets, with work loads, and have evolved in the direction of Subnets, and quickly became a very complex list of islands which were disconnected&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Security&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Public Cloud&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;SaaS, Internet&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Users&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Branch Offices
-Virtual WAN is a managed service&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Managed by Microsoft with global scale, and multplie endpoints.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Each Hub can support 60Gb of connectivity;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Including 20Gb of ExpressRoute.&lt;/li&gt;
-&lt;li&gt;20Gb of User VPN&lt;/li&gt;
-&lt;li&gt;20Gb Site to Site&lt;/li&gt;
-&lt;li&gt;Supports 10K users per hub, 1000 sites per hub&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Transit Routing&lt;/p&gt;</description></item><item><title>Managed Applications and Custom Resource Providers</title><link>https://damianflynn.github.io/posts/managed-applications-and-custom-resource-providers/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/managed-applications-and-custom-resource-providers/</guid><description>&lt;p&gt;Magnify the power of extending Azure platform by enabling customers and partners to easily bring in custom solutions to azure. These can be scoped for offering to our own enterprise, or just some selected customers; or even all customers.&lt;/p&gt;
-&lt;p&gt;Challenges with extending azure include many of the typical thoughts we face&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;As part of my deployment i need to do extra works&lt;/li&gt;
-&lt;li&gt;Need to interface with external APIs, create users, storage tables, calling APIs external to Azure, while deploying ARM templates&lt;/li&gt;
-&lt;li&gt;200 Services, which service should i be selected, What is the correct VM SKU? what would be more cost efficient&lt;/li&gt;
-&lt;li&gt;How do I integrate my service into Azure; What is the correct option to expose my service to my enterprise, or all azure users&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id="how-do-we-deploy-and-offer"&gt;How do we deploy and offer?&lt;/h1&gt;
-&lt;h2 id="deployment-script"&gt;Deployment Script&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;New&lt;/strong&gt; resource type - &lt;code&gt;Microsoft.Resources/DeploymentScripts&lt;/code&gt;&lt;/p&gt;</description></item><item><title>Web Application Gateway</title><link>https://damianflynn.github.io/posts/web-application-gateway/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/web-application-gateway/</guid><description>&lt;p&gt;Delivering PaaS Services Privately on Azure VNets with Private Link&lt;/p&gt;
-&lt;p&gt;Mission Critical HTTP Applications, there are many things to consider&lt;/p&gt;
-&lt;p&gt;Personalised, Micro-Services, Rich Context…. To support this MS have a number of services i the Suite - Azure Frontdoor, Application Gateway, Azure CDN, Web Application Firewall, Azure Load Balancer, and Azure Traffic Manager&lt;/p&gt;
-&lt;h1 id="azure-application-gateway"&gt;Azure Application Gateway&lt;/h1&gt;
-&lt;p&gt;Regional Gateway as a service&lt;/p&gt;
-&lt;p&gt;Standard V2 SKU in GA, Currently Available in 26 regions, Builtin Zone Redundancy, Static VIP, HTTP Header/cookies insertion/modification&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Conference on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/tags/conference/</link><description>Recent content in Conference on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 19 Jul 2024 15:22:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/tags/conference/index.xml" rel="self" type="application/rss+xml"/><item><title>Global Transit Network For Azure Virtual WAN</title><link>https://damianflynn.github.io/posts/global-transit-network-for-azure-virtual-wan/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/global-transit-network-for-azure-virtual-wan/</guid><description>&lt;p>The Journey started with the concept of VNets, with work loads, and have evolved in the direction of Subnets, and quickly became a very complex list of islands which were disconnected&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Security&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Public Cloud&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>SaaS, Internet&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Users&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Branch Offices
+Virtual WAN is a managed service&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Managed by Microsoft with global scale, and multplie endpoints.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Each Hub can support 60Gb of connectivity;&lt;/p>
+&lt;ul>
+&lt;li>Including 20Gb of ExpressRoute.&lt;/li>
+&lt;li>20Gb of User VPN&lt;/li>
+&lt;li>20Gb Site to Site&lt;/li>
+&lt;li>Supports 10K users per hub, 1000 sites per hub&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Transit Routing&lt;/p></description></item><item><title>Managed Applications and Custom Resource Providers</title><link>https://damianflynn.github.io/posts/managed-applications-and-custom-resource-providers/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/managed-applications-and-custom-resource-providers/</guid><description>&lt;p>Magnify the power of extending Azure platform by enabling customers and partners to easily bring in custom solutions to azure. These can be scoped for offering to our own enterprise, or just some selected customers; or even all customers.&lt;/p>
+&lt;p>Challenges with extending azure include many of the typical thoughts we face&lt;/p>
+&lt;ul>
+&lt;li>As part of my deployment i need to do extra works&lt;/li>
+&lt;li>Need to interface with external APIs, create users, storage tables, calling APIs external to Azure, while deploying ARM templates&lt;/li>
+&lt;li>200 Services, which service should i be selected, What is the correct VM SKU? what would be more cost efficient&lt;/li>
+&lt;li>How do I integrate my service into Azure; What is the correct option to expose my service to my enterprise, or all azure users&lt;/li>
+&lt;/ul>
+&lt;h1 id="how-do-we-deploy-and-offer">How do we deploy and offer?&lt;/h1>
+&lt;h2 id="deployment-script">Deployment Script&lt;/h2>
+&lt;p>&lt;strong>New&lt;/strong> resource type - &lt;code>Microsoft.Resources/DeploymentScripts&lt;/code>&lt;/p></description></item><item><title>Web Application Gateway</title><link>https://damianflynn.github.io/posts/web-application-gateway/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/web-application-gateway/</guid><description>&lt;p>Delivering PaaS Services Privately on Azure VNets with Private Link&lt;/p>
+&lt;p>Mission Critical HTTP Applications, there are many things to consider&lt;/p>
+&lt;p>Personalised, Micro-Services, Rich Context…. To support this MS have a number of services i the Suite - Azure Frontdoor, Application Gateway, Azure CDN, Web Application Firewall, Azure Load Balancer, and Azure Traffic Manager&lt;/p>
+&lt;h1 id="azure-application-gateway">Azure Application Gateway&lt;/h1>
+&lt;p>Regional Gateway as a service&lt;/p>
+&lt;p>Standard V2 SKU in GA, Currently Available in 26 regions, Builtin Zone Redundancy, Static VIP, HTTP Header/cookies insertion/modification&lt;/p></description></item></channel></rss>
