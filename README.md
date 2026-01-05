@@ -1,20 +1,77 @@
-# Notion-Hugo
+# damianflynn.com
 
-![image](https://user-images.githubusercontent.com/52968553/188502839-1de28ae0-6111-4387-99fe-fbc7d87dbc4c.png)
+My personal blog powered by Hugo, featuring a modular architecture with separate repositories for theme, content, and configuration.
 
-Notion-Hugo allows you to use [Notion](https://www.notion.so/) as your CMS and deploy your pages as a static website with [Hugo](https://gohugo.io/). So you have the full power of Notion for creating new content, with Hugo and its wonderful [ecosystem of themes](https://themes.gohugo.io/) take care of the rest for you.
+## Architecture
 
-## Get Started
+This website uses a modular Hugo setup with three repositories:
 
-### Create a new GitHub repository from this template
+- **[damianflynn.github.io](https://github.com/DamianFlynn/damianflynn.github.io)** (this repo) - Main Hugo site configuration
+- **[hugo-haptic-theme](https://github.com/DamianFlynn/hugo-haptic-theme)** - Custom theme
+- **[garden](https://github.com/DamianFlynn/garden)** - Content managed via Notion
 
-Click the green "Use this template" button in the upper-right corner to create your repo from this template. Choose "public" for the repository visibility.
+Content is authored in [Notion](https://www.notion.so/) and automatically published using n8n workflows.
 
-<picture>
-  <source width="382" media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/52968553/188245872-0aa640e4-ea85-4fc7-8035-7a267b7a28a2.png">
-  <source width="382" media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/52968553/188245777-5b5d0e3d-b125-47cd-aa08-ed8e75f20773.png">
-  <img width="382" alt="Use this template button" src="https://user-images.githubusercontent.com/52968553/188245777-5b5d0e3d-b125-47cd-aa08-ed8e75f20773.png">
-</picture>
+## Quick Start
+
+### For Local Development
+
+See [DEVELOPMENT.md](DEVELOPMENT.md) for detailed setup instructions.
+
+```bash
+# Clone all three repositories side-by-side
+cd ~/Development/damianflynn
+git clone https://github.com/DamianFlynn/damianflynn.github.io.git
+git clone https://github.com/DamianFlynn/hugo-haptic-theme.git
+git clone https://github.com/DamianFlynn/garden.git
+
+# Start development server
+cd damianflynn.github.io
+hugo server -D
+```
+
+## Deployment
+
+This site uses automated deployments:
+
+### Production
+- **Platform**: GitHub Pages
+- **URL**: https://damianflynn.github.io
+- **Trigger**: Push to `main` branch or scheduled daily builds
+- **Workflow**: [.github/workflows/deploy-production.yaml](.github/workflows/deploy-production.yaml)
+
+### Preview
+- **Platform**: Cloudflare Pages (or Azure Static Web Apps)
+- **Trigger**: Pull requests or manual workflow dispatch
+- **Workflow**: [.github/workflows/deploy-preview.yaml](.github/workflows/deploy-preview.yaml)
+- **Features**: Includes drafts, future, and expired content
+
+## Updating Modules
+
+### Update Content
+
+Content is managed in the [garden](https://github.com/DamianFlynn/garden) repository.
+
+```bash
+hugo mod get -u github.com/DamianFlynn/garden
+hugo mod tidy
+```
+
+### Update Theme
+
+Theme is managed in [hugo-haptic-theme](https://github.com/DamianFlynn/hugo-haptic-theme).
+
+```bash
+hugo mod get -u github.com/DamianFlynn/hugo-haptic-theme
+hugo mod tidy
+```
+
+---
+
+## Notion Integration Setup
+
+<details>
+<summary>Click to expand Notion integration instructions</summary>
 
 ### Create a Notion integration
 
@@ -103,45 +160,10 @@ Click the commit changes button at the bottom to save the file.
 <img width="779" alt="Commit changes" src="https://user-images.githubusercontent.com/52968553/188318414-b45d159c-274a-47e6-9ff6-b01f4e05379c.png">
 </picture>
 
-Navigate to Settings -> Pages to enable GitHub Pages for your repository.
+</details>
 
-<picture>
-<source media="(prefers-color-scheme: light)" width="719" srcset="https://user-images.githubusercontent.com/52968553/235363799-db61e5ea-83ef-41ef-b19f-09314db296b0.png">
-<source media="(prefers-color-scheme: dark)" width="719" srcset="https://user-images.githubusercontent.com/52968553/235363817-72cb9203-2b2a-4da1-b6c0-260a31257696.png">
-<img width="719" alt="Enable GitHub Pages" src="https://user-images.githubusercontent.com/52968553/235363799-db61e5ea-83ef-41ef-b19f-09314db296b0.png"></picture>
+## License
 
-There is one final step to make your website work correctly. Copy the url of your new website, then go to file `config/_default/config.toml` and change the `baseURL` from `https://example.org/` to the url you just copied. Commit the changes and wait for your website to be deployed.
+- **Code**: [MIT License](LICENSE)
+- **Content**: [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/)
 
-Now, visit your website and you will see your content from Notion is rendered into static webpages successfully.
-
-## Next Step
-
-Visit the [wiki](https://github.com/HEIGE-PCloud/Notion-Hugo/wiki) to learn more about how to
-
-- Pick a different Hugo theme
-- Deploy to other platforms
-- Configure Notion-Haptic
-
-## FAQ
-
-### Will the notion-hugo blog be synced with me Notion?
-
-Yes. By default, the notion-hugo blog will be re-generated every 1 hour through `CD` action in Github Actions. You can change this in `.github/workflows/cd.yml` using `cron` option:
-
-```
-name: CD
-
-on:
-  ...
-
-  schedule:
-    - cron: '0 * * * *' # run every hour
-```
-
-Be aware that Github will allow you to re-run the job no more often than once per 5 minutes. 
-
-### What if I want to re-deploy immediately as Notion database updates?
-
-This repo at the moment supports only cron option. 
-
-But, as an idea or direction - you could look for ways to listen for updates in Notion database and trigger Github Action when Notion database is updated. Usually webhooks are used for that purpose - but at the moment Notion has no official webhook support. So you would need to find a work around.

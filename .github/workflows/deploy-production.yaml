@@ -1,0 +1,80 @@
+# Production Deployment to GitHub Pages
+#
+# This workflow builds and deploys the production version of the site
+# Excludes drafts, expired, and future content
+
+name: Deploy Production
+
+on:
+  # Triggers when changes are pushed to the main branch
+  push:
+    branches: [main]
+  # Triggers when a webhook is received from the garden repository with new content
+  repository_dispatch:
+    types: [garden-content-update]
+  # Runs daily at midnight to refresh content from the source
+  schedule:
+    - cron: '0 0 * * *'  # Run at midnight daily
+  # Allows manual triggering of the workflow
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-deploy-production:
+    name: Build and Deploy Production
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://damianflynn.github.io
+    concurrency:
+      group: production-deployment
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.139.0'
+          extended: true
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
+
+      - name: Install Hugo Modules
+        run: |
+          echo "📦 Installing Hugo modules..."
+          hugo mod tidy
+          hugo mod get -u
+          echo ""
+          echo "📊 Module Graph:"
+          hugo mod graph
+      
+      - name: Validate Content
+        run: |
+          echo "🔍 Checking for content issues..."
+          # This will fail if there are duplicate keys or other issues
+          hugo --ignoreCache --quiet || echo "⚠️  Build warnings detected"
+        continue-on-error: true
+        
+      - name: Build Production Site
+        run: hugo --minify --gc --ignoreCache
+        env:
+          HUGO_ENV: production
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          cname: damianflynn.github.io
