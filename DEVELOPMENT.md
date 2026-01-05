@@ -86,14 +86,17 @@ use ../hugo-haptic-theme
 use ../garden
 EOF
 
-# Initialize Hugo modules
-hugo mod tidy
+# Tell Hugo to use the workspace file
+export HUGO_MODULE_WORKSPACE=go.work
 
-# Verify the setup
+# Or add to your shell profile (~/.zshrc or ~/.bashrc)
+echo 'export HUGO_MODULE_WORKSPACE=go.work' >> ~/.zshrc
+
+# Verify the setup shows local paths
 hugo mod graph
 ```
 
-You should see output showing the local module paths.
+You should see output showing `../hugo-haptic-theme` and `../garden` as local paths.
 
 ## Daily Development Workflow
 
@@ -101,6 +104,9 @@ You should see output showing the local module paths.
 
 ```bash
 cd ~/Development/damianflynn/damianflynn.github.io
+
+# Make sure HUGO_MODULE_WORKSPACE is set
+export HUGO_MODULE_WORKSPACE=go.work
 
 # Start Hugo server with drafts and live reload
 hugo server -D
@@ -115,7 +121,7 @@ The site will be available at: http://localhost:1313
 - Changes to **theme files** (layouts, CSS, JS) → instant browser refresh
 - Changes to **content files** (markdown) → instant browser refresh  
 - Changes to **config files** (TOML) → instant browser refresh
-- Works across all three repositories thanks to `go.work`!
+- Works across all three repositories thanks to `go.work` + `HUGO_MODULE_WORKSPACE`!
 
 ### Working on Content (Garden)
 
