@@ -16,7 +16,6 @@ enableEmoji = true
 [module]
   [[module.imports]]
     path = "github.com/DamianFlynn/hugo-haptic-theme"
-    # Remove any version constraint to use the latest commit
   
   [[module.imports]]
     path = "github.com/DamianFlynn/garden"
