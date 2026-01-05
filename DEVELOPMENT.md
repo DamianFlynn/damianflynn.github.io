@@ -38,10 +38,21 @@ git clone https://github.com/DamianFlynn/garden.git
 
 ### 2. Set Up Local Development
 
-The `go.work` file is already configured to use local modules. This means Hugo will use your local copies of the theme and content instead of fetching from GitHub.
+Create a `go.work` file for local development. This file tells Go to use your local copies of the theme and content modules instead of fetching from GitHub.
+
+**Important:** The `go.work` file is listed in `.gitignore` and should never be committed to the repository (it would break CI/CD).
 
 ```bash
 cd damianflynn.github.io
+
+# Create go.work file
+cat > go.work << 'EOF'
+go 1.22
+
+use .
+use ../hugo-haptic-theme
+use ../garden
+EOF
 
 # Initialize Hugo modules
 hugo mod tidy
