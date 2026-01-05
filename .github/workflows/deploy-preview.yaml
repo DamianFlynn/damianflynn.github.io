@@ -2,13 +2,17 @@
 #
 # This workflow builds and deploys preview versions including drafts, 
 # expired, and future content to Cloudflare Pages
+# Can test development theme versions via go.mod or branches
 
 name: Deploy Preview
 
 on:
-  # Triggers on pull requests
+  # Triggers on pull requests to test config changes
   pull_request:
     branches: [main]
+  # Triggers when garden repository is updated with new content
+  repository_dispatch:
+    types: [garden-content-update]
   # Manual trigger for testing
   workflow_dispatch:
 

@@ -2,6 +2,7 @@
 #
 # This workflow builds and deploys the production version of the site
 # Excludes drafts, expired, and future content
+# Uses stable theme version from go.mod
 
 name: Deploy Production
 
