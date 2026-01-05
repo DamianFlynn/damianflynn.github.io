@@ -1,9 +1,0 @@
-// Go workspace for local Hugo development
-// This allows you to work with local versions of your modules
-// without modifying go.mod
-
-go 1.22
-
-use .
-use ../hugo-haptic-theme
-use ../garden

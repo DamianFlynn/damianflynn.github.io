@@ -6,3 +6,7 @@ resources
 public
 **/.DS_Store
 /content
+
+# Go workspace file (local development only)
+go.work
+go.work.sum
