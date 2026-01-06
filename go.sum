@@ -1,4 +1,4 @@
-github.com/DamianFlynn/garden v0.0.0-20250515182533-099b31e0c469 h1:zc9bXX+1KnAGpLTzPdf5u7R/JG/JLBomav/EN/JAHNY=
-github.com/DamianFlynn/garden v0.0.0-20250515182533-099b31e0c469/go.mod h1:3pEp3ivPLW5W5nRjzkMld11oXla5SAZd/BJoDfJqYVs=
-github.com/DamianFlynn/hugo-haptic-theme v0.1.1-0.20250515190355-a2f71f183ec1 h1:OzKSNJj1IlWekdR/WwUVOEXypT0KnRNygif69CUY+G8=
-github.com/DamianFlynn/hugo-haptic-theme v0.1.1-0.20250515190355-a2f71f183ec1/go.mod h1:GhKU0WPK1INAQRSoJdU89kHXEn3FPYziD6C0gYQO2lQ=
+github.com/DamianFlynn/garden v0.0.0-20260105232523-ca4dbcacb6be h1:7AXK08SoRCOtRAqWW74JzCzV2i65tF4SbizJ/NPPcQI=
+github.com/DamianFlynn/garden v0.0.0-20260105232523-ca4dbcacb6be/go.mod h1:3pEp3ivPLW5W5nRjzkMld11oXla5SAZd/BJoDfJqYVs=
+github.com/DamianFlynn/hugo-haptic-theme v0.1.1-0.20260106082628-8889bdbc2676 h1:g7bjiDBYUi1fg8LDi278R9V9I17XVGBf1gCfmS7E/8c=
+github.com/DamianFlynn/hugo-haptic-theme v0.1.1-0.20260106082628-8889bdbc2676/go.mod h1:GhKU0WPK1INAQRSoJdU89kHXEn3FPYziD6C0gYQO2lQ=
