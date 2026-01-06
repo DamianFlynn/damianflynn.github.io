@@ -3,7 +3,7 @@ module github.com/DamianFlynn/damianflynn.github.io
 go 1.22
 
 require (
-	github.com/DamianFlynn/garden v0.0.0-20260105232523-ca4dbcacb6be // indirect
+	github.com/DamianFlynn/garden v0.0.0-20260106225945-72f0c8324f51 // indirect
 	github.com/DamianFlynn/hugo-haptic-theme v0.1.2-0.20260106165822-926756f118cc // indirect
 )
 
