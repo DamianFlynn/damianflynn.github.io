@@ -2,24 +2,65 @@
 
 My personal blog powered by Hugo, featuring a modular architecture with separate repositories for theme, content, and configuration.
 
+🌐 **Live Site**: https://damianflynn.github.io  
+🔬 **Preview Site**: https://preview.damianflynn-preview.pages.dev
+
 ## Architecture
 
-This website uses a modular Hugo setup with three repositories:
+```mermaid
+graph TB
+    subgraph "Content Creation"
+        A[Notion] -->|Export| B[garden Repository]
+    end
+    
+    subgraph "Development"
+        C[hugo-haptic-theme<br/>Custom Theme] -->|go.work| D[Local Development]
+        B -->|go.work| D
+        E[damianflynn.github.io<br/>Site Config] -->|go.work| D
+        D -->|Hugo Server| F[localhost:1313]
+    end
+    
+    subgraph "Theme Releases"
+        C -->|git push main| G[Latest Changes]
+        G -->|Test & Verify| H[git tag v0.x.x]
+    end
+    
+    subgraph "Preview Environment"
+        B -->|Push to main| I[Trigger Preview Build]
+        I -->|go mod: latest main| J[Hugo Build<br/>with Drafts]
+        J -->|Deploy| K[Cloudflare Pages<br/>preview.damianflynn-preview.pages.dev]
+    end
+    
+    subgraph "Production Environment"
+        B -->|Push to main| L[Trigger Production Build]
+        E -->|Push to main| L
+        H -->|Update go.mod| L
+        L -->|go mod: tagged version| M[Hugo Build<br/>published only]
+        M -->|Deploy| N[GitHub Pages<br/>damianflynn.github.io]
+    end
+    
+    style F fill:#90EE90
+    style K fill:#FFD700
+    style N fill:#87CEEB
+    style H fill:#FFA500
+```
 
-- **[damianflynn.github.io](https://github.com/DamianFlynn/damianflynn.github.io)** (this repo) - Main Hugo site configuration
-- **[hugo-haptic-theme](https://github.com/DamianFlynn/hugo-haptic-theme)** - Custom theme
-- **[garden](https://github.com/DamianFlynn/garden)** - Content managed via Notion
+## Repository Structure
 
-Content is authored in [Notion](https://www.notion.so/) and automatically published using n8n workflows.
+This blog is built from three separate repositories:
+
+| Repository | Purpose | Technology |
+|-----------|---------|------------|
+| **[damianflynn.github.io](https://github.com/DamianFlynn/damianflynn.github.io)** | Main site configuration | Hugo config, workflows |
+| **[hugo-haptic-theme](https://github.com/DamianFlynn/hugo-haptic-theme)** | Custom theme | Hugo layouts, CSS, JS |
+| **[garden](https://github.com/DamianFlynn/garden)** | Content from Notion | Markdown posts, images |
 
 ## Quick Start
 
-### For Local Development
-
-See [DEVELOPMENT.md](DEVELOPMENT.md) for detailed setup instructions.
+### Local Development
 
 ```bash
-# Clone all three repositories side-by-side
+# Clone all repositories side-by-side
 cd ~/Development/damianflynn
 git clone https://github.com/DamianFlynn/damianflynn.github.io.git
 git clone https://github.com/DamianFlynn/hugo-haptic-theme.git
@@ -27,150 +68,179 @@ git clone https://github.com/DamianFlynn/garden.git
 
 # Start development server
 cd damianflynn.github.io
-hugo server -D
+./dev-server.sh
 ```
 
-## Deployment
+Visit http://localhost:1313 - changes to theme/content auto-reload instantly!
 
-This site uses automated deployments with **environment-specific versioning**:
+**See [SETUP.md](SETUP.md) for complete setup instructions.**
 
-### Production (Stable)
-- **Platform**: GitHub Pages
-- **URL**: https://damianflynn.github.io
-- **Theme**: Tagged releases (e.g., `v0.1.1`) - manually updated
-- **Content**: Latest `main` branch - auto-updates
-- **Trigger**: Push to `main` branch or content updates from garden
-- **Workflow**: [.github/workflows/deploy-production.yaml](.github/workflows/deploy-production.yaml)
+## Deployment Strategy
 
-### Preview (Testing)
-- **Platform**: Cloudflare Pages
-- **URL**: https://preview.damianflynn-preview.pages.dev
-- **Theme**: Latest `main` branch - auto-updates
-- **Content**: Latest `main` branch - auto-updates
-- **Features**: Includes drafts, future, and expired content
-- **Trigger**: Manual dispatch or content updates from garden
-- **Workflow**: [.github/workflows/deploy-preview.yaml](.github/workflows/deploy-preview.yaml)
+### Environment Versioning
 
-**See [docs/WORKFLOW.md](docs/WORKFLOW.md) for complete versioning strategy and deployment workflows.**
+| Environment | Theme Version | Content Version | Purpose |
+|-------------|---------------|-----------------|---------|
+| **Local** | Local files (`go.work`) | Local files | Instant development feedback |
+| **Preview** | Latest `main` branch | Latest `main` | Test unreleased features |
+| **Production** | Tagged releases (e.g., `v0.1.1`) | Latest `main` | Stable public site |
 
-## Updating Modules
+### How Deployments Work
 
-### Update Content
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant Theme as hugo-haptic-theme
+    participant Garden as garden (content)
+    participant Site as damianflynn.github.io
+    participant Preview as Cloudflare Pages
+    participant Prod as GitHub Pages
+    
+    Note over Dev,Theme: Theme Development
+    Dev->>Theme: Edit layouts/CSS
+    Dev->>Dev: Test locally (instant reload)
+    Dev->>Theme: git push main
+    Note over Theme: Theme changes ready for testing
+    
+    Dev->>Garden: Update content
+    Garden->>Site: Trigger preview build
+    Garden->>Site: Trigger production build
+    
+    Note over Site,Preview: Preview Build
+    Site->>Preview: Hugo build with latest theme main
+    Preview-->>Dev: https://preview.damianflynn-preview.pages.dev
+    
+    Note over Dev: Verify theme works correctly
+    
+    Dev->>Theme: git tag v0.2.0
+    Dev->>Site: Update go.mod to v0.2.0
+    Site->>Prod: Hugo build with tagged theme
+    Prod-->>Dev: https://damianflynn.github.io
+```
 
-Content is managed in the [garden](https://github.com/DamianFlynn/garden) repository.
+### Deployment Triggers
+
+**Preview** (Cloudflare Pages):
+- Garden content updates (automatic)
+- Manual trigger via GitHub Actions
+
+**Production** (GitHub Pages):
+- Garden content updates (automatic)
+- Main site config/workflow changes
+- Theme version updates in go.mod
+
+## Common Tasks
+
+### Writing New Content
+
+1. Create/edit in Notion → Export to garden repository
+2. Or edit directly: `cd ~/Development/damianflynn/garden/content/posts/`
+3. Test locally (auto-reloads)
+4. Commit and push → Both environments deploy automatically
 
 ```bash
-hugo mod get -u github.com/DamianFlynn/garden
-hugo mod tidy
+cd ~/Development/damianflynn/garden
+git add .
+git commit -m "Add article: My New Post"
+git push origin main
+# Preview and production deploy automatically
 ```
 
-### Update Theme
+### Developing Theme Features
 
-Theme is managed in [hugo-haptic-theme](https://github.com/DamianFlynn/hugo-haptic-theme).
+1. Edit theme files: `~/Development/damianflynn/hugo-haptic-theme/`
+2. Test locally (auto-reloads)
+3. Push to test in preview
+4. Tag when stable for production
 
 ```bash
-hugo mod get -u github.com/DamianFlynn/hugo-haptic-theme
-hugo mod tidy
+cd ~/Development/damianflynn/hugo-haptic-theme
+# Edit layouts, CSS, JS...
+git add .
+git commit -m "Feature: Add dark mode toggle"
+git push origin main
+# Preview uses this automatically
+
+# After testing, release to production:
+git tag -a v0.2.0 -m "Release v0.2.0: Dark mode support"
+git push origin v0.2.0
+
+cd ~/Development/damianflynn/damianflynn.github.io
+HUGO_MODULE_WORKSPACE=go.work hugo mod get github.com/DamianFlynn/hugo-haptic-theme@v0.2.0
+git add go.mod go.sum
+git commit -m "Update theme to v0.2.0"
+git push origin main
 ```
 
----
+### Updating Site Configuration
 
-## Notion Integration Setup
+```bash
+cd ~/Development/damianflynn/damianflynn.github.io
+# Edit config/_default/*.toml files
+git add config/
+git commit -m "Update site navigation"
+git push origin main
+# Production deploys automatically
+```
 
-<details>
-<summary>Click to expand Notion integration instructions</summary>
+## Project Files
 
-### Create a Notion integration
+```
+damianflynn.github.io/
+├── config/              # Hugo configuration
+│   └── _default/
+│       ├── config.toml  # Site settings
+│       ├── params.toml  # Theme parameters
+│       ├── menu.toml    # Navigation
+│       └── ...
+├── .github/
+│   └── workflows/
+│       ├── deploy-production.yaml   # GitHub Pages deployment
+│       └── deploy-preview.yaml      # Cloudflare Pages deployment
+├── go.mod              # Module dependencies (production versions)
+├── go.work            # Local development workspace (gitignored)
+├── dev-server.sh      # Local development helper script
+└── public/            # Generated site (gitignored)
+```
 
-Visit [my integrations](https://www.notion.so/my-integrations) and login with your Notion account.
+## Technology Stack
 
-Click on "Create new integration" to create a new internal integration.
+- **[Hugo](https://gohugo.io/)** v0.154.2+ Extended - Static site generator
+- **[Go](https://go.dev/)** 1.22+ - Module system
+- **[GitHub Actions](https://github.com/features/actions)** - CI/CD
+- **[GitHub Pages](https://pages.github.com/)** - Production hosting
+- **[Cloudflare Pages](https://pages.cloudflare.com/)** - Preview hosting
+- **[Notion](https://notion.so/)** - Content authoring
 
-<img width="891" alt="Create new integration" src="https://user-images.githubusercontent.com/52968553/188289065-d2e3626e-d250-4d42-9fb4-8f641f4807ea.png">
+## Documentation
 
-In the capabilities section, select "Read Content" and "Read user information including email address". The "Read Content" permission is necessary for Notion-Hugo to pull your Notion content, and the "Read user information including email address" permission is used to fill front matters with author information. Notion-Hugo does not collect any of your information.
+- **[SETUP.md](SETUP.md)** - Complete setup guide for local development and cloud deployments
+- **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** - Common issues and solutions
 
-<img width="891" alt="Setup capabilities" src="https://user-images.githubusercontent.com/52968553/188289098-d318ebba-46a5-4d41-bfcd-ac0f09f35f82.png">
+## Versioning Strategy
 
-Click the submit button to finish creating the Notion integration.
+The theme uses [Semantic Versioning](https://semver.org/):
 
-### Setup secrets for GitHub Action
+- **v0.1.x** - Bug fixes and patches
+- **v0.x.0** - New features (backward compatible)
+- **vx.0.0** - Breaking changes
 
-Copy the Internal Integration Token.
+Content in the `garden` repository is always deployed from the latest `main` branch.
 
-<img width="816" alt="Copy the Internal Integration Token" src="https://user-images.githubusercontent.com/52968553/188298208-23d96254-f8a7-4571-8863-0d920bb82143.png">
+## Contributing
 
-Navigate to the GitHub repo you just created, click on Settings -> Secrets -> Actions.
+This is a personal blog, but if you find issues or have suggestions:
 
-Click the "New Repository Secret" button on the top right.
-
-<picture>
-<source media="(prefers-color-scheme: light)" width="1148" srcset="https://user-images.githubusercontent.com/52968553/188298495-f4b1aa17-fff2-4b5e-adab-2aaddce22262.png">
-<source media="(prefers-color-scheme: dark)" width="1148" srcset="https://user-images.githubusercontent.com/52968553/188298501-b479534e-db88-4c07-9e72-6bf9f9fd5a8d.png">
-<img width="1148" alt="Setup secrets for GitHub Action" src="https://user-images.githubusercontent.com/52968553/188298495-f4b1aa17-fff2-4b5e-adab-2aaddce22262.png">
-</picture>
-
-Add a new secret with name `NOTION_TOKEN`, paste the copied token into the secret field. Click the green "Add secret" button to save the change.
-
-<picture>
-<source media="(prefers-color-scheme: light)" width="824" srcset="https://user-images.githubusercontent.com/52968553/188298507-5402a19f-dc35-45a9-b7b7-867f38cdb001.png">
-<source media="(prefers-color-scheme: dark)" width="824" srcset="https://user-images.githubusercontent.com/52968553/188298515-3c98fbf3-128e-46ef-971f-b22b6d4da9e1.png">
-<img width="824" alt="Add secret NOTION_TOKEN" src="https://user-images.githubusercontent.com/52968553/188298507-5402a19f-dc35-45a9-b7b7-867f38cdb001.png">
-</picture>
-
-### Duplicate the Notion Template
-
-Duplicate this [Notion Template](https://pcloud.notion.site/Notion-Haptic-04bcc51cfe4c49938229c35e4f0a6fb6
-) into your own workspace.
-
-### Add connection to the Notion Page
-
-Visit the page you just duplicated, click the ellipsis button on the top right and add the integration you just created as a connection.
-
-<picture>
-<source width="553" media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/52968553/235363588-5083d629-258f-4d46-8977-fedc0285cac0.png">
-<source width="553" media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/52968553/235363618-5458ea76-89c5-4817-9ea3-4d2267b34b08.png">
-<img width="553" alt="Add connection to the Notion Page" src="https://user-images.githubusercontent.com/52968553/235363588-5083d629-258f-4d46-8977-fedc0285cac0.png">
-</picture>
-
-### Configure you Hugo site
-
-On the page you just shared with the integration, click on the "share" button again, then click the "copy link" button on the bottom right to copy the link to this page.
-
-<picture>
-<source width="539" media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/52968553/188318147-b0bd8af1-b48c-4a10-b313-3789102f00ce.png">
-<source width="528" media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/52968553/188318215-8d15e203-f262-495c-9e5f-81d8e1287e30.png">
-<img width="539" alt="Copy link" src="https://user-images.githubusercontent.com/52968553/188318147-b0bd8af1-b48c-4a10-b313-3789102f00ce.png">
-</picture>
-
-Now navigate back to your GitHub repository, open the `notion-hugo.config.ts` file, click to edit the file.
-
-<picture>
-<source media="(prefers-color-scheme: light)" width="379" srcset="https://user-images.githubusercontent.com/52968553/188318344-f0b1e7af-f86f-44b5-99b5-74a26410477b.png">
-<source media="(prefers-color-scheme: dark)" width="379" srcset="https://user-images.githubusercontent.com/52968553/188318353-930de66c-ab2a-420a-838c-1ac271ae2cba.png">
-<img width="379" alt="Edit the file on GitHub" src="https://user-images.githubusercontent.com/52968553/188318344-f0b1e7af-f86f-44b5-99b5-74a26410477b.png">
-</picture>
-
-Replace the `page_url` with the link you just copied.
-
-<picture>
-<source media="(prefers-color-scheme: light)" width="779" srcset="https://user-images.githubusercontent.com/52968553/188318385-0e49a502-14b9-4abd-8496-e14defbf9138.png">
-<source media="(prefers-color-scheme: dark)" width="779" srcset="https://user-images.githubusercontent.com/52968553/188318389-0fe16143-772b-4c9f-b958-74eb7d5514b2.png">
-<img width="779" alt="Replace page_url" src="https://user-images.githubusercontent.com/52968553/188318385-0e49a502-14b9-4abd-8496-e14defbf9138.png">
-</picture>
-
-Click the commit changes button at the bottom to save the file.
-
-<picture>
-<source media="(prefers-color-scheme: light)" width="779" srcset="https://user-images.githubusercontent.com/52968553/188318414-b45d159c-274a-47e6-9ff6-b01f4e05379c.png">
-<source media="(prefers-color-scheme: dark)" width="779" srcset="https://user-images.githubusercontent.com/52968553/188318494-b82db93b-cb72-4dcd-acfd-31accdae7ab0.png">
-<img width="779" alt="Commit changes" src="https://user-images.githubusercontent.com/52968553/188318414-b45d159c-274a-47e6-9ff6-b01f4e05379c.png">
-</picture>
-
-</details>
+1. Open an issue in the relevant repository
+2. For theme issues: [hugo-haptic-theme/issues](https://github.com/DamianFlynn/hugo-haptic-theme/issues)
+3. For site issues: [damianflynn.github.io/issues](https://github.com/DamianFlynn/damianflynn.github.io/issues)
 
 ## License
 
-- **Code**: [MIT License](LICENSE)
-- **Content**: [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/)
+- Site content: © Damian Flynn
+- Theme code: GPL-3.0 License (see [hugo-haptic-theme/LICENSE](https://github.com/DamianFlynn/hugo-haptic-theme/blob/main/LICENSE))
+
+---
+
+Built with ❤️ using Hugo and Go modules
 

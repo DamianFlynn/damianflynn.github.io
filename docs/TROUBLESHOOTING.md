@@ -77,6 +77,66 @@ hugo mod graph
 
 ## Debugging Locally
 
+### Clear Hugo Caches
+
+If you encounter persistent build errors, outdated module versions, or deprecated warnings that won't go away even after fixing the code:
+
+```bash
+# Clean all caches and generated files
+./dev-server.sh clean
+```
+
+This comprehensive clean will:
+- Clear Hugo's module cache
+- Remove Hugo's system cache directory (`~/Library/Caches/hugo_cache/`)
+- Delete generated `resources/`, `public/`, and `_vendor/` directories
+
+### Module Cache Issues
+
+Hugo maintains multiple caches that can cause persistent errors:
+
+**System Cache:** `~/Library/Caches/hugo_cache/` (macOS)
+```bash
+sudo rm -rf ~/Library/Caches/hugo_cache
+```
+
+**Module Cache:** Hugo's internal module cache
+```bash
+hugo mod clean
+```
+
+**Vendored Modules:** `_vendor/` directory takes **precedence** over `go.mod`
+```bash
+rm -rf _vendor/
+```
+
+**Generated Resources:**
+```bash
+rm -rf resources/ public/
+```
+
+### Deprecated Code Warnings
+
+If you fix deprecated code but Hugo still shows the warning:
+
+1. **Check for backup files:** Hugo processes ALL `.html` files, including `.old`, `.bak`, or `.backup` files
+   ```bash
+   # Find backup files in theme
+   cd ../hugo-haptic-theme
+   find layouts -name "*.html.*" -o -name "*.bak"
+   ```
+
+2. **Clear all caches:** Old module versions may be cached
+   ```bash
+   ./dev-server.sh clean
+   ```
+
+3. **Update module to latest:** Ensure you're using the fixed version
+   ```bash
+   HUGO_MODULE_WORKSPACE=go.work hugo mod get github.com/DamianFlynn/hugo-haptic-theme@latest
+   hugo mod tidy
+   ```
+
 ### Test Production Build
 
 ```bash
@@ -108,7 +168,27 @@ hugo mod graph
 hugo mod vendor
 ls _vendor
 ```
+### Local Development Issues
 
+**go.work replacement not working:**
+1. Verify `go.work` exists in repository root
+2. Check `HUGO_MODULE_WORKSPACE` environment variable is set
+3. Clean the module cache: `hugo mod clean`
+4. Remove `_vendor/` directory if it exists
+
+**Live reload not working:**
+1. Check Hugo server is running: `pgrep -f "hugo server"`
+2. Verify browser console for WebSocket errors
+3. Ensure files are being saved (check timestamps)
+4. Try hard refresh: `Cmd+Shift+R` (macOS) or `Ctrl+Shift+R` (Windows/Linux)
+
+**Outdated module version:**
+After pushing theme changes, update to specific commit:
+```bash
+HUGO_MODULE_WORKSPACE=go.work hugo mod get github.com/DamianFlynn/hugo-haptic-theme@COMMIT_HASH
+hugo mod tidy
+./dev-server.sh
+```
 ## Garden Content Issues
 
 ### Finding Duplicate Keys in Frontmatter

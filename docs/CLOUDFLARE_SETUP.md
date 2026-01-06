@@ -26,18 +26,21 @@ This guide walks you through setting up Cloudflare Pages for your Hugo preview d
 
 1. Navigate to your [Cloudflare profile](https://dash.cloudflare.com/profile/api-tokens)
 2. Click "Create Token"
-3. Use the "Edit Cloudflare Workers" template
-4. Under "Account Resources", select your account
-5. Under "Zone Resources", select "All zones"
-6. Click "Continue to summary" then "Create Token"
-7. **Copy the token** (you won't be able to see it again)
+3. Click "Create Custom Token" (not the Workers template)
+4. **Set Token Name:** `GitHub Pages Deployment`
+5. **Set Permissions:**
+   - **Account** → **Cloudflare Pages** → **Edit**
+6. **Account Resources:** Select your account
+7. **Set TTL:** 6 months maximum (or leave as default for 1 year)
+8. Click "Continue to summary" then "Create Token"
+9. **Copy the token** (you won't be able to see it again) 
 
 ### 3. Get Cloudflare Account ID
 
 1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
 2. Click on "Workers & Pages" in the left sidebar
 3. Your Account ID is shown on the right side
-4. **Copy the Account ID**
+4. **Copy the Account ID** 
 
 ### 4. Add Secrets to GitHub
 
@@ -48,16 +51,18 @@ This guide walks you through setting up Cloudflare Pages for your Hugo preview d
    - Name: `CLOUDFLARE_API_TOKEN`, Value: [paste the API token]
    - Name: `CLOUDFLARE_ACCOUNT_ID`, Value: [paste the Account ID]
 
-### 5. Create Cloudflare Pages Project (Optional)
+### 5. Create Cloudflare Pages Project
 
-You can either:
-- **Let GitHub Actions create it automatically** (recommended)
-- Or manually create it:
-  1. Go to Cloudflare Dashboard → Workers & Pages
-  2. Click "Create application" → "Pages" tab
-  3. Click "Create using direct upload"
-  4. Project name: `damianflynn-preview`
-  5. Skip the initial deployment
+The project needs to exist before GitHub Actions can deploy to it:
+
+1. Go to Cloudflare Dashboard → **Workers & Pages**
+2. Click **"Create application"**
+3. Click **"Upload your static files"** (for direct upload method)
+4. **Project name:** `damianflynn-preview` (must match exactly!)
+5. **Drag a dummy file** or skip - we'll deploy via GitHub Actions
+6. Click **"Save and Deploy"**
+
+The project is now ready to receive deployments from GitHub Actions.
 
 ### 6. Test the Workflow
 
@@ -107,6 +112,21 @@ Edit [.github/workflows/deploy-preview.yaml](.github/workflows/deploy-preview.ya
 
 ## Troubleshooting
 
+### Authentication Error: "Unable to authenticate request"
+
+**Error message:**
+```
+Cloudflare API returned non-200: 400
+API returned: {"success":false,"errors":[{"code":10001,"message":"Unable to authenticate request"}]}
+```
+
+**Cause:** API token doesn't have the correct permissions for Cloudflare Pages.
+
+**Solution:**
+1. Create a **new custom token** (not the Workers template)
+2. Set permission: **Account** → **Cloudflare Pages** → **Edit**
+3. Update the `CLOUDFLARE_API_TOKEN` secret in GitHub with the new token
+
 ### Deployment fails with "Project not found"
 
 The first deployment creates the project automatically. If it fails:
@@ -116,8 +136,13 @@ The first deployment creates the project automatically. If it fails:
 ### API Token permission errors
 
 Ensure your API token has:
-- Account: Cloudflare Pages - Edit permission
-- Zone: All zones (or specific zone if you added a custom domain)
+- **Account:** Cloudflare Pages → **Edit** permission (not Workers!)
+- Created using "Create Custom Token", not a template
+
+Common issues:
+- Using "Edit Cloudflare Workers" template (wrong - that's for Workers, not Pages)
+- Token expired or revoked
+- Wrong account selected when creating token
 
 ### Preview URL not showing in PR
 

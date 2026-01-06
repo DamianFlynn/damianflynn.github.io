@@ -4,6 +4,21 @@
 
 set -e
 
+# Handle clean command
+if [ "$1" = "clean" ]; then
+    echo "🧹 Cleaning Hugo caches and generated files..."
+    echo ""
+    echo "Removing Hugo module cache..."
+    hugo mod clean || true
+    echo "Removing Hugo cache directory..."
+    sudo rm -rf ~/Library/Caches/hugo_cache || true
+    echo "Removing generated resources..."
+    rm -rf resources/ public/ _vendor/ || true
+    echo ""
+    echo "✅ Clean complete! Run './dev-server.sh' to start the server."
+    exit 0
+fi
+
 echo "🚀 Starting Hugo development server with local modules..."
 echo ""
 
