@@ -5,18 +5,18 @@ Starting from an Ubuntu server, which has be Arc Enabled, we can use this as a b
 
 1. Arc Enabled Ubuntu Server
 1. K3s Kubernetes on Ubuntu (Single or Multi-Node)
-## Installing K3s
+# Installing K3s
 
 K3s provides an installation script that is a convenient way to install it as a service on `systemd` or `openrc` based systems. This script is available at [https://get.k3s.io](https://get.k3s.io/). To install K3s using this method, connect to the server using `ssh` and then run:
 
 ```bash
-sysadmin@otedge001:~$ curl -sfL https://get.k3s.io | sh -
+sysadmin@iotedge:~$ curl -sfL https://get.k3s.io | sh -
 [sudo] password for sysadmin: 
 
 [INFO]  Finding release for channel stable
-[INFO]  Using v1.32.3+k3s1 as release
-[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.32.3+k3s1/sha256sum-amd64.txt
-[INFO]  Downloading binary https://github.com/k3s-io/k3s/releases/download/v1.32.3+k3s1/k3s
+[INFO]  Using v1.33.5+k3s1 as release
+[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.33.5+k3s1/sha256sum-amd64.txt
+[INFO]  Downloading binary https://github.com/k3s-io/k3s/releases/download/v1.33.5+k3s1/k3s
 [INFO]  Verifying binary download
 [INFO]  Installing k3s to /usr/local/bin/k3s
 [INFO]  Skipping installation of SELinux RPM
@@ -29,7 +29,9 @@ sysadmin@otedge001:~$ curl -sfL https://get.k3s.io | sh -
 [INFO]  systemd: Creating service file /etc/systemd/system/k3s.service
 [INFO]  systemd: Enabling k3s unit
 Created symlink /etc/systemd/system/multi-user.target.wants/k3s.service → /etc/systemd/system/k3s.service.
-[INFO]  systemd: Starting k3s
+[INFO]  Host iptables-save/iptables-restore tools not found
+[INFO]  Host ip6tables-save/ip6tables-restore tools not found
+[INFO]  systemd: Starting k3ss
 ```
 
 After running this installation:
@@ -37,7 +39,11 @@ After running this installation:
 * The K3s service will be configured to automatically restart after node reboots or if the process crashes or is killed
 * Additional utilities will be installed, including kubectl, crictl, ctr, k3s-killall.sh, and k3s-uninstall.sh
 * A kubeconfig file will be written to /etc/rancher/k3s/k3s.yaml and the kubectl installed by K3s will automatically use it
-A single-node server installation is a fully-functional Kubernetes cluster, including all the datastore, control-plane, kubelet, and container runtime components necessary to host workload pods. It is not necessary to add additional server or agents nodes, but you may want to do so to add additional capacity or redundancy to your cluster.
+A single-node server installation is a fully-functional Kubernetes cluster, including all the datastore, control-plane, kubelet, and container runtime components necessary to host workload pods. 
+
+## Optional Additional K3s Nodes
+
+It is not necessary to add additional server or agents nodes, but you may want to do so to add additional capacity or redundancy to your cluster.
 
 To install additional agent nodes and add them to the cluster, run the installation script with the `K3S_URL` and `K3S_TOKEN` environment variables. Here is an example showing how to join an agent:
 
@@ -50,7 +56,7 @@ Setting the `K3S_URL` parameter causes the installer to configure K3s as an ag
 
 > [!tip] 💡 
 > Each machine must have a unique hostname. If your machines do not have unique hostnames, pass the K3S_NODE_NAME environment variable and provide a value with a valid and unique hostname for each node.
-### K3s Configuration
+## K3s Configuration
 
 When you install K3s on Ubuntu using the quick install script, it places the Kubernetes configuration file at `/etc/rancher/k3s/k3s.yaml`, which is only accessible by the root user. To use `kubectl` as a non-root user, it’s best to create your own user-level kubeconfig file. 
 
@@ -72,6 +78,7 @@ chmod 0600 ~/.kube/config
 
 # Set the environment variable so kubectl knows to use your local config
 export KUBECONFIG=~/.kube/config
+$ echo 'export KUBECONFIG=~/.kube/config' >> .bashrc
 
 # Switch to the K3s context (usually named 'default' after install)
 kubectl config use-context default
@@ -83,13 +90,13 @@ sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 After either fix, you should be able to run:
 
 ```bash
-sysadmin@otedge001:~$ kubectl version --client
-Client Version: v1.32.3+k3s1
-Kustomize Version: v5.5.0
+sysadmin@iotedge:~$ kubectl version --client
+Client Version: v1.33.5+k3s1
+Kustomize Version: v5.6.0
 
-sysadmin@otedge001:~$ kubectl get nodes
-NAME        STATUS   ROLES                  AGE   VERSION
-otedge001   Ready    control-plane,master   14m   v1.32.3+k3s1
+sysadmin@iotedge:~$ kubectl get nodes
+NAME      STATUS   ROLES                  AGE    VERSION
+iotedge   Ready    control-plane,master   8m4s   v1.33.5+k3s1
 ```
 
 And see your K3s node(s) listed.
@@ -102,6 +109,8 @@ And see your K3s node(s) listed.
   echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
   
   sudo sysctl -p
+  fs.inotify.max_user_instances = 8192
+  fs.inotify.max_user_watches = 524288
   ```
   
   1. For better performance, increase the file descriptor limit:
@@ -109,6 +118,9 @@ And see your K3s node(s) listed.
   echo fs.file-max = 100000 | sudo tee -a /etc/sysctl.conf
   
   sudo sysctl -p
+  fs.inotify.max_user_instances = 8192
+  fs.inotify.max_user_watches = 524288
+  fs.file-max = 100000
   ```
   
   
@@ -141,8 +153,8 @@ sudo apt install azure-cli -y
 # Test this all worked
 az version
 {
-  "azure-cli": "2.71.0",
-  "azure-cli-core": "2.71.0",
+  "azure-cli": "2.78.0",
+  "azure-cli-core": "2.78.0",
   "azure-cli-telemetry": "1.1.0",
   "extensions": {}
 }
@@ -179,14 +191,20 @@ Connect your K3s cluster to Azure Arc, we will use the following. To prevent unp
   1. Add 169.254.169.254 to the -proxy-skip-range parameter of the az connectedk8s connect command. Azure Device Registry uses this local endpoint to get access tokens for authorization.
   Azure IoT Operations doesn't support proxy servers that require a trusted certificate.
   
+  
+
+> [!warning] ⚠️ 
+> Region Decision
+  The Container Metrics Extension is available in westcentralus, eastus2euap, centraluseuap, eastus2, eastus, westus2, southcentralus, southeastasia, koreacentral, centralus, japaneast, australiaeast, northeurope, uksouth, francecentral, westus, northcentralus, eastasia, westus3, usgovvirginia, westeurope, canadacentral, canadaeast, australiasoutheast, centralindia, switzerlandnorth, germanywestcentral, norwayeast, germanynorth, japanwest, ukwest, koreasouth, southafricanorth, southindia, brazilsouth, uaenorth, norwaywest, swedensouth.
+  
   ```bash
 # Create a new resource group for each cluster
-# This will be North Europe, with a resoruce group called iot-edge01
-az group create --location NorthEurope --resource-group iot-edge01  --subscription df56d048-2e20-4ab6-82b7-11643163aa53
+# This will be North Europe, with a resoruce group called iot-ops
+az group create --location NorthEurope --resource-group iot-ops --subscription df56d048-2e20-4ab6-82b7-11643163aa53
 
 # Connect K8s
 # Naming the cluster as you like, example is to use the machine name
-az connectedk8s connect --name otedge001 --location NorthEurope --resource-group iot-edge01  --subscription df56d048-2e20-4ab6-82b7-11643163aa53 --enable-oidc-issuer --enable-workload-identity --disable-auto-upgrade
+az connectedk8s connect --name iotedge --location NorthEurope --resource-group iot-ops  --subscription df56d048-2e20-4ab6-82b7-11643163aa53 --enable-oidc-issuer --enable-workload-identity --disable-auto-upgrade
 
 Argument '--enable-oidc-issuer' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
 Argument '--enable-workload-identity' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
@@ -251,7 +269,7 @@ Step: 2025-04-24T13-52-59Z: Agent state has reached terminal state.
   "distribution": "k3s",
   "distributionVersion": null,
   "gateway": null,
-  "id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.Kubernetes/connectedClusters/otedge001",
+  "id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.Kubernetes/connectedClusters/iotedge",
   "identity": {
     "principalId": "bcba8744-7ed9-4e0a-8909-c10d0db2d354",
     "tenantId": "d993d9e4-644e-4d0a-ba80-0e010d0ea023",
@@ -264,7 +282,7 @@ Step: 2025-04-24T13-52-59Z: Agent state has reached terminal state.
   "location": "NorthEurope",
   "managedIdentityCertificateExpirationTime": null,
   "miscellaneousProperties": null,
-  "name": "otedge001",
+  "name": "iotedge",
   "offering": null,
   "oidcIssuerProfile": {
     "enabled": true,
@@ -274,7 +292,7 @@ Step: 2025-04-24T13-52-59Z: Agent state has reached terminal state.
   "privateLinkScopeResourceId": null,
   "privateLinkState": "Disabled",
   "provisioningState": "Succeeded",
-  "resourceGroup": "iot-edge01",
+  "resourceGroup": "iot-ops",
   "securityProfile": {
     "workloadIdentity": {
       "enabled": true
@@ -302,18 +320,18 @@ Check the started POD's in the "azure-arc" namespace
 ```bash
 kubectl get pods -o wide -n azure-arc
 NAME                                          READY   STATUS    RESTARTS      AGE   IP           NODE        NOMINATED NODE   READINESS GATES
-cluster-metadata-operator-b76b5b684-x2gfg     2/2     Running   0             9h    10.42.0.26   otedge001   <none>           <none>
-clusterconnect-agent-56498f5fc9-g9tkm         3/3     Running   0             9h    10.42.0.31   otedge001   <none>           <none>
-clusteridentityoperator-747fc6c5c-9mjcq       2/2     Running   4 (87s ago)   9h    10.42.0.35   otedge001   <none>           <none>
-config-agent-f94fbb799-jst99                  2/2     Running   0             9h    10.42.0.29   otedge001   <none>           <none>
-controller-manager-5cff79bbcf-2jv4t           2/2     Running   0             9h    10.42.0.30   otedge001   <none>           <none>
-extension-events-collector-7574559c9f-sdz55   2/2     Running   0             9h    10.42.0.34   otedge001   <none>           <none>
-extension-manager-c56d45d8c-ngbhf             3/3     Running   0             9h    10.42.0.32   otedge001   <none>           <none>
-flux-logs-agent-74f5446b47-gr2k2              1/1     Running   0             9h    10.42.0.36   otedge001   <none>           <none>
-kube-aad-proxy-9cd74fbb5-s5j5f                2/2     Running   0             9h    10.42.0.37   otedge001   <none>           <none>
-logcollector-5f6d749774-tw2j9                 1/1     Running   0             9h    10.42.0.28   otedge001   <none>           <none>
-metrics-agent-85f4bf4b4d-lvs75                2/2     Running   0             9h    10.42.0.33   otedge001   <none>           <none>
-resource-sync-agent-7689dd6fbc-qxwt8          2/2     Running   0             9h    10.42.0.27   otedge001   <none>           <none>
+cluster-metadata-operator-b76b5b684-x2gfg     2/2     Running   0             9h    10.42.0.26   iotedge   <none>           <none>
+clusterconnect-agent-56498f5fc9-g9tkm         3/3     Running   0             9h    10.42.0.31   iotedge   <none>           <none>
+clusteridentityoperator-747fc6c5c-9mjcq       2/2     Running   4 (87s ago)   9h    10.42.0.35   iotedge   <none>           <none>
+config-agent-f94fbb799-jst99                  2/2     Running   0             9h    10.42.0.29   iotedge   <none>           <none>
+controller-manager-5cff79bbcf-2jv4t           2/2     Running   0             9h    10.42.0.30   iotedge   <none>           <none>
+extension-events-collector-7574559c9f-sdz55   2/2     Running   0             9h    10.42.0.34   iotedge   <none>           <none>
+extension-manager-c56d45d8c-ngbhf             3/3     Running   0             9h    10.42.0.32   iotedge   <none>           <none>
+flux-logs-agent-74f5446b47-gr2k2              1/1     Running   0             9h    10.42.0.36   iotedge   <none>           <none>
+kube-aad-proxy-9cd74fbb5-s5j5f                2/2     Running   0             9h    10.42.0.37   iotedge   <none>           <none>
+logcollector-5f6d749774-tw2j9                 1/1     Running   0             9h    10.42.0.28   iotedge   <none>           <none>
+metrics-agent-85f4bf4b4d-lvs75                2/2     Running   0             9h    10.42.0.33   iotedge   <none>           <none>
+resource-sync-agent-7689dd6fbc-qxwt8          2/2     Running   0             9h    10.42.0.27   iotedge   <none>           <none>
 ```
 
 ### Enable Custom Locations on the Cluster
@@ -322,12 +340,13 @@ Get the Clusters Issuer URL, as we need to add this to the kube-apiserver
 
 ```bash
 # Grab the Issuer URL
-az connectedk8s show --resource-group iot-edge01 --name otedge001 --query oidcIssuerProfile.issuerUrl --output tsv
+az connectedk8s show --resource-group iot-ops --name iotedge --query oidcIssuerProfile.issuerUrl --output tsv
 
-https://europe.oic.prod-arc.azure.com/d993d9e4-644e-4d0a-ba80-0e010d0ea023/b1ba6b46-f5cf-49cb-b278-1af11d320898/
+https://europe.oic.prod-arc.azure.com/d993d9e4-644e-4d0a-ba80-0e010d0ea023/1b033fd7-d326-4aae-a6bc-5b215ca2074c/
+
 ```
 
-Add the following content to a new configuration file at `etc/rancher/k3s/config.yaml` file, replacing the `<SERVICE_ACCOUNT_ISSUER>` placeholder with your cluster's issuer URL, that we just retrieved using the command `sudo vi /etc/rancher/k3s/config.yaml` and add the content
+Add the following content to a **new configuration** file at `etc/rancher/k3s/config.yaml` file, replacing the `<SERVICE_ACCOUNT_ISSUER>` placeholder with your cluster's issuer URL, that we just retrieved using the command `sudo vi /etc/rancher/k3s/config.yaml` and add the content
 
 ```plain text
 kube-apiserver-arg:
@@ -339,12 +358,14 @@ Now, prepare for enabling the Azure Arc service, custom location, on your Arc cl
 
 ```bash
 export OBJECT_ID=$(az ad sp show --id bc313c14-388c-4e7d-a58e-70017303ee3b --query id -o tsv)
+
+echo $OBJECT_ID
 ```
 
 Use the [`az connectedk8s enable-features`](https://learn.microsoft.com/en-us/cli/azure/connectedk8s#az-connectedk8s-enable-features) command to enable the custom location feature on your Arc cluster. This command uses the OBJECT_ID environment variable saved from the previous step to set the value for the custom-locations-oid parameter.
 
 ```bash
-sysadmin@otedge001:~$ az connectedk8s enable-features --resource-group iot-edge01 --name otedge001 --custom-locations-oid $OBJECT_ID --features cluster-connect custom-locations
+sysadmin@iotedge:~$ az connectedk8s enable-features --resource-group iot-ops --name iotedge --custom-locations-oid $OBJECT_ID --features cluster-connect custom-locations
 
 This command is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
 This operation might take a while...
@@ -361,7 +382,7 @@ Step: 2025-04-24T23-22-58Z: Pulling HelmChart: mcr.microsoft.com/azurearck8s/bat
 Important! Custom Location feature enablement can't be validated when using a manually provided OID. If the custom location feature is not enabled, you may encounter an error when creating the custom location.
 After creating the custom location, run `az customlocation show` and check that ProvisioningState is Succeeded. If ProvisoningState is Failed, then re-try this command with a  valid custom location OID to enable the feature.
 For guidance, refer to: https://aka.ms/enable-customlocation
-"Successsfully enabled features: ['cluster-connect', 'custom-locations'] for the Connected Cluster otedge001"
+"Successsfully enabled features: ['cluster-connect', 'custom-locations'] for the Connected Cluster iotedge"
 ```
 
 Now, we can restart the k3s Cluster
@@ -410,7 +431,12 @@ type: kubernetes.io/service-account-token
 EOF
 ```
 
-Now, lets get the token we need to use in the Azure Portal
+
+> [!warning] ⚠️ 
+> This token is very sensitive as it allows access to the K3s Instance, it must be handled therefore as a secret. We will leverage it in two scenarios:
+  1. Enable the Azure Portal to access to control plane of the k3s environment
+  1. Using the Azure CLI to proxy connections for local machines for kubectl tools to manage the cluster via the ARC Relay.
+  Now, lets get the token we need to use in the Azure Portal
 
 ```bash
 TOKEN=$(kubectl get secret arc-user-secret -o jsonpath='{$.data.token}' | base64 -d | sed 's/$/\n/g')
@@ -431,30 +457,55 @@ Paste the token we just created, and click the button **Sign In**. After a momen
 
 Lets activate the quickstart demo application from Azure (azure-vote) to test the deployment via Azure and to see a running workload by using the Azure UI.
 
-Navigate to Workloads \ Add with YAML \ Deploy a quickstart application… and follow the steps.
+![Image](img-1dfeb56e-image.png)
 
-![Image](img-1dfeb56e-image-10.png)
+Navigate from Workloads → Add then click the link *Not sure where to start? Deploy a quickstart application…* and follow the steps to deploy **create a basic web application**
 
-The link to the application will be posted directly after the deployment. Just wait some seconds for the service to be ready.
+![Image](img-1dfeb56e-image.png)
 
-![Image](img-1dfeb56e-image-7.png)
+Follow the wizard, it will present a simply overview, then the Manifest that will be implemented, which will deploy the test in a new namespace called **azure-store **along with a container for rabbitmq, and a web application called **order-service **and some additional services
 
-You can now check the running POD’s in your Kubernetes environment for the azure-vote demo application.
+![Image](img-1dfeb56e-image.png)
 
-* kubectl get pods -o wide -n azure-vote
-![Image](img-1dfeb56e-image-9.png)
+checking on the host, we should also see these pods have been deployed without issue
 
+```bash
+sysadmin@iotedge:~$ kubectl get pods -o wide -n azure-store
+NAME                               READY   STATUS    RESTARTS   AGE   IP           NODE      NOMINATED NODE   READINESS GATES
+order-service-65cc8855c-rmwrr      1/1     Running   0          68s   10.42.0.25   iotedge   <none>           <none>
+product-service-77ff9f6fd6-vp5p5   1/1     Running   0          68s   10.42.0.27   iotedge   <none>           <none>
+rabbitmq-5dcdf9484-9lhmf           1/1     Running   0          68s   10.42.0.24   iotedge   <none>           <none>
+store-front-698cc8c565-b4cxc       1/1     Running   0          68s   10.42.0.26   iotedge   <none>           <none>
+
+```
+
+K3s Has no LoadBalancer, so it will stay in pending state, we need to swap to node port to expose the store front locally
+
+```bash
+sysadmin@iotedge:~$ kubectl patch svc store-front -n azure-store -p '{"spec":{"type":"NodePort"}}'
+service/store-front patched
+
+# 1. Check the service status
+kubectl get svc store-front -n azure-store
+
+NAME          TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+store-front   NodePort   10.43.132.215   <none>        80:30663/TCP   86m
+
+```
+
+
+Now, the site is listening on TCP 80, or HTTP on the Cluster IP address
 
 ## Access the k3s from a Developer Computer with Azure Arc
 
 Using the Azure Portal to access the Kubernetes cluster is nice but as a developer, I am used to using `kubectl` or any custom dashboards. To access the Kubernetes cluster from my Windows computer, I will use the following Azure CLI command, remember to replace *<TOKEN>* with the previously created token.
 
 ```bash
-PS C:\Users\sysadmin> az connectedk8s proxy --resource-group iot-edge01 --name otedge001 --token eyJhbGciOiJSUzI1NiIsImtpZCI6IkdQa2ZwTDhmSUxGcWtsRDhndV9zOTNGRE8tNmd5R3lZVE8zVUR4ZDZSRncifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImFyYy11c2VyLXNlY3JldCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJhcmMtdXNlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjY0MDU0N2JmLTk5MGYtNGNkNi05NzdlLTkyYWEzMDcxZjkzZCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmFyYy11c2VyIn0.TxDTXr1yqTRlIbCvQjYKTHd8FvxvriPPZcKyPYq6jaTu3TzsPa_p2YRRsjmVKjxDplBJGZkhlv-ysbPN3NEqEVna-vdH3aEPQ4hvtTl_xSeIy1P_SraKghINn3imYwJ_ndDRQnyeZq6Q8bW6bufoMSxQ7ptgwabHuDSog-n9eDr2E3Zv1BBGU0A5Of_72lGxvzm2SWoNTf7Sj4XUZvk_MgVE-o99n6QxI5tNkTr6E3mw4OJqTSjhMD4Nzi5yR2JvU_OlqJvR5HgTY4y8lZfoop_hB3QKzw_hzB4xqrGJ8AptrQnXKcHoUJIPmdTtJauBztNjW0x9D9zdXIkuu4QDSQ
+PS C:\Users\sysadmin> az connectedk8s proxy --resource-group iot-ops --name iotedge --token eyJhbGciOiJSUzI1NiIsImtpZCI6IkdQa2ZwTDhmSUxGcWtsRDhndV9zOTNGRE8tNmd5R3lZVE8zVUR4ZDZSRncifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImFyYy11c2VyLXNlY3JldCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJhcmMtdXNlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjY0MDU0N2JmLTk5MGYtNGNkNi05NzdlLTkyYWEzMDcxZjkzZCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmFyYy11c2VyIn0.TxDTXr1yqTRlIbCvQjYKTHd8FvxvriPPZcKyPYq6jaTu3TzsPa_p2YRRsjmVKjxDplBJGZkhlv-ysbPN3NEqEVna-vdH3aEPQ4hvtTl_xSeIy1P_SraKghINn3imYwJ_ndDRQnyeZq6Q8bW6bufoMSxQ7ptgwabHuDSog-n9eDr2E3Zv1BBGU0A5Of_72lGxvzm2SWoNTf7Sj4XUZvk_MgVE-o99n6QxI5tNkTr6E3mw4OJqTSjhMD4Nzi5yR2JvU_OlqJvR5HgTY4y8lZfoop_hB3QKzw_hzB4xqrGJ8AptrQnXKcHoUJIPmdTtJauBztNjW0x9D9zdXIkuu4QDSQ
 
 Proxy is listening on port 47011
-Merged "otedge001" as current context in C:\Users\sysadmin\.kube\config
-Start sending kubectl requests on 'otedge001' context using kubeconfig at C:\Users\sysadmin\.kube\config
+Merged "iotedge" as current context in C:\Users\sysadmin\.kube\config
+Start sending kubectl requests on 'iotedge' context using kubeconfig at C:\Users\sysadmin\.kube\config
 Press Ctrl+C to close proxy.
 ```
 
@@ -487,55 +538,191 @@ az provider register --namespace Microsoft.Monitor
 az provider register --namespace Microsoft.Dashboard
 az provider register --namespace Microsoft.Insights
 az provider register --namespace Microsoft.OperationalInsights
+```
 
+### Azure Monitor
 
+Create the Azure Monitor Work Space
+
+```bash
 # Create an Azure Monitor workspace to enable metric collection for your Azure Arc-enabled Kubernetes cluster.
 # This workspace stores Prometheus data which we will be sending from our Cluster
 # Note: Save the Azure Monitor workspace ID from the output of this command. 
-az monitor account create --name otedge001-ws --resource-group iot-edge01 --location NorthEurope --query id -o tsv
-/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourcegroups/iot-edge01/providers/microsoft.monitor/accounts/otedge001-ws
+az monitor account create --name iotedge-ws --resource-group iot-ops --location NorthEurope --query id -o tsv
 
-# Create an Azure Managed Grafana instance to visualize your Prometheus metrics.
-# Note: Save the Grafana ID from the output of this command. 
-az grafana create --name otedge001-graf --resource-group iot-edge01 --location NorthEurope --query id -o tsv
-/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.Dashboard/grafana/otedge001-graf
-
-# Create a Log Analytics workspace for Container Insights.
-# Note: Save the Log Analytics workspace ID from the output of this command.
-az monitor log-analytics workspace create --name otedge001-la --resource-group iot-edge01 --location NorthEurope --query id -o tsv
-/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.OperationalInsights/workspaces/otedge001-la
+/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourcegroups/iot-ops/providers/microsoft.monitor/accounts/iotedge-ws
 ```
 
-### Enable metrics collection for the cluster
+### Azure Grafana
+
+Next, we can add Grafana
+
+```bash
+# Create an Azure Managed Grafana instance to visualize your Prometheus metrics.
+# Note: Save the Grafana ID from the output of this command. 
+az grafana create --name iotedge-graf --resource-group iot-ops --location NorthEurope --query id -o tsv
+
+/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.Dashboard/grafana/iotedge-graf
+
+```
+
+### Azure Log Analytics
+
+Finally, we will create the Log Analytics
+
+```bash
+# Create a Log Analytics workspace for Container Insights.
+# Note: Save the Log Analytics workspace ID from the output of this command.
+az monitor log-analytics workspace create --name iotedge-la --resource-group iot-ops --location NorthEurope --query id -o tsv
+
+/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.OperationalInsights/workspaces/iotedge-la
+```
+
+As we complete this process, we can see the new resources deployed to our azure environment
+
+![Image](img-1dfeb56e-image.png)
+
+### Deploy OpenTelemetry Collector
+
+Define and deploy an [OpenTelemetry (OTel) Collector](https://opentelemetry.io/docs/collector/) to your Arc-enabled Kubernetes cluster.
+
+1. Create a folder for the configuration, for example k3s-config and navigate to it as the active folder.
+1. Create a file called otel-collector-values.yaml and paste the following code into it to define an OpenTelemetry Collector:
+  ```yaml
+  mode: deployment
+  fullnameOverride: aio-otel-collector
+  image:
+    repository: otel/opentelemetry-collector
+    tag: 0.107.0
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: ":4317"
+          http:
+            endpoint: ":4318"
+      jaeger: null
+      prometheus: null
+      zipkin: null
+  
+    processors:
+      memory_limiter:
+        limit_percentage: 80
+        spike_limit_percentage: 10
+        check_interval: 60s
+  
+    exporters:
+      prometheus:
+        endpoint: ":8889"
+        resource_to_telemetry_conversion:
+          enabled: true
+        add_metric_suffixes: false
+  
+    extensions:
+      health_check: {}            # <-- add this
+      memory_ballast:
+        size_mib: 0
+  
+    service:
+      extensions: [health_check]  # you already had this
+      pipelines:
+        metrics:
+          receivers: [otlp]
+          exporters: [prometheus]
+        logs: null
+        traces: null
+      telemetry:
+        metrics:
+          address: "" # Disable legacy internal Prometheus endpoints
+  
+  
+  resources:
+    limits:
+      cpu: '100m'
+      memory: '512Mi'
+  ports:
+    metrics:
+      enabled: true
+      containerPort: 8888
+      servicePort: 8888
+      protocol: 'TCP'
+    jaeger-compact:
+      enabled: false
+    jaeger-grpc:
+      enabled: false
+    jaeger-thrift:
+      enabled: false
+    zipkin:
+      enabled: false
+  ```
+  
+  1. In the otel-collector-values.yaml file, make a note of the following values that you use in the az iot ops create command when you deploy Azure IoT Operations on the cluster:
+  * fullnameOverride (e.g. → aio-otel-collector)
+  * grpc.endpoint (e.g. → :4317)
+  * check_interval (e.g. → 60s)
+  1. Deploy the collector by running the following commands:
+  ```shell
+  $ kubectl get namespace azure-iot-operations || kubectl create namespace azure-iot-operations
+  $ helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+  "open-telemetry" has been added to your repositories
+  
+  $ helm repo update
+  Hang tight while we grab the latest from your chart repositories...
+  ...Successfully got an update from the "open-telemetry" chart repository
+  Update Complete. ⎈Happy Helming!⎈
+  
+  $ helm upgrade --install aio-observability open-telemetry/opentelemetry-collector -f otel-collector-values.yaml --namespace azure-iot-operations
+  Release "aio-observability" does not exist. Installing it now.
+  NAME: aio-observability
+  LAST DEPLOYED: Fri Sep 12 11:47:54 2025
+  NAMESPACE: azure-iot-operations
+  STATUS: deployed
+  REVISION: 1
+  TEST SUITE: None
+  NOTES:
+  ```
+  
+  1. Verify the collectors are working
+  ```shell
+  $ kubectl -n azure-iot-operations get pods
+  
+  $ kubectl -n azure-iot-operations logs deploy/aio-otel-collector
+  
+  Optional we can Expose the ports to scrape
+  kubectl -n azure-iot-operations port-forward svc/aio-otel-collector 8888:8888 8889:8889
+  curl localhost:8888/metrics (collector self-metrics)
+  curl localhost:8889/metrics (your Prometheus exporter)
+  ```
+  
+  ### Enable metrics collection for the cluster
 
 Update the Azure Arc cluster to collect metrics and send them to the previously created Azure Monitor workspace. You also link this workspace with the Grafana instance.
 
 This Azure CLI command creates the namespace you defined with the `–name` parameter but it is empty at first glance. It creates an *Azure Monitor Agent Deployment* and *ReplicaSet* in the `kube-system` namespace though. The newly created namespace contains a *config map* and some *secrets* to ensure a safe communication with Azure
 
 ```bash
-damian@BYO-MBP-LY62L726TL ~ % az k8s-extension create --name azuremonitor-metrics --cluster-name otedge001 --resource-group iot-edge01 --cluster-type connectedClusters --extension-type Microsoft.AzureMonitor.Containers.Metrics --configuration-settings azure-monitor-workspace-resource-id=/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourcegroups/iot-edge01/providers/microsoft.monitor/accounts/otedge001-ws grafana-resource-id=/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.Dashboard/grafana/otedge001-graf
+az config set extension.dynamic_install_allow_preview=true
+Command group 'config' is experimental and under development. Reference and support levels: https://aka.ms/CLI_refstatus
 
-Preview version of extension is disabled by default for extension installation, enabled for modules without stable versions. 
-Please run 'az config set extension.dynamic_install_allow_preview=true or false' to config it specifically. 
-The command requires the extension k8s-extension. Do you want to install it now? The command will continue to run after the extension is installed. (Y/n): y
-Run 'az config set extension.use_dynamic_install=yes_without_prompt' to allow installing extensions without prompt.
-Using Azure Monitor Workspace (stores prometheus metrics) : /subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourcegroups/iot-edge01/providers/microsoft.monitor/accounts/otedge001-ws
+az k8s-extension create --name azuremonitor-metrics --cluster-name iotedge --resource-group iot-ops --cluster-type connectedClusters --extension-type Microsoft.AzureMonitor.Containers.Metrics --configuration-settings azure-monitor-workspace-resource-id=/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourcegroups/iot-ops/providers/microsoft.monitor/accounts/iotedge-ws grafana-resource-id=/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.Dashboard/grafana/iotedge-graf
 
+Using Azure Monitor Workspace (stores prometheus metrics) : /subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourcegroups/iot-ops/providers/microsoft.monitor/accounts/iotedge-ws
 {
   "aksAssignedIdentity": null,
   "autoUpgradeMinorVersion": true,
   "configurationProtectedSettings": {},
   "configurationSettings": {
-    "azure-monitor-workspace-resource-id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourcegroups/iot-edge01/providers/microsoft.monitor/accounts/otedge001-ws",
-    "grafana-resource-id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.Dashboard/grafana/otedge001-graf"
+    "azure-monitor-workspace-resource-id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourcegroups/iot-ops/providers/microsoft.monitor/accounts/iotedge-ws",
+    "grafana-resource-id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.Dashboard/grafana/iotedge-graf"
   },
   "currentVersion": "6.14.0-main-01-16-2025-8d52acfe",
   "customLocationSettings": null,
   "errorInfo": null,
   "extensionType": "microsoft.azuremonitor.containers.metrics",
-  "id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.Kubernetes/connectedClusters/otedge001/providers/Microsoft.KubernetesConfiguration/extensions/azuremonitor-metrics",
+  "id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.Kubernetes/connectedClusters/iotedge/providers/Microsoft.KubernetesConfiguration/extensions/azuremonitor-metrics",
   "identity": {
-    "principalId": "4bb5dfc8-114d-41dc-b082-89932db188ec",
+    "principalId": "03a716fc-4c95-4feb-8363-b09f0cc3773d",
     "tenantId": null,
     "type": "SystemAssigned"
   },
@@ -545,7 +732,7 @@ Using Azure Monitor Workspace (stores prometheus metrics) : /subscriptions/df56d
   "plan": null,
   "provisioningState": "Succeeded",
   "releaseTrain": "stable",
-  "resourceGroup": "iot-edge01",
+  "resourceGroup": "iot-ops",
   "scope": {
     "cluster": {
       "releaseNamespace": "kube-system"
@@ -554,10 +741,10 @@ Using Azure Monitor Workspace (stores prometheus metrics) : /subscriptions/df56d
   },
   "statuses": [],
   "systemData": {
-    "createdAt": "2025-04-25T21:36:49.667510+00:00",
+    "createdAt": "2025-10-21T12:54:40.882724+00:00",
     "createdBy": null,
     "createdByType": null,
-    "lastModifiedAt": "2025-04-25T21:36:49.667510+00:00",
+    "lastModifiedAt": "2025-10-21T12:54:40.882724+00:00",
     "lastModifiedBy": null,
     "lastModifiedByType": null
   },
@@ -569,30 +756,32 @@ Using Azure Monitor Workspace (stores prometheus metrics) : /subscriptions/df56d
 We should be able to see the new pods which were deployed with the following command
 
 ```bash
-sysadmin@otedge001:~$ kubectl get pods -n kube-system --sort-by=.metadata.creationTimestamp | tail -n +2 | tac
+# THIS COMMAND IS EXECUTED ON THE EDGE SYSTEM To see its pods
+kubectl get pods -n kube-system --sort-by=.metadata.creationTimestamp | tail -n +2 | tac
 
-ama-metrics-855cdd5bdd-c44wx                          2/2     Running     1 (12m ago)   16m
-azuremonitor-metrics-prometheus-node-exporter-c8xck   1/1     Running     0             16m
-ama-metrics-operator-targets-665546b7bf-xjs6n         2/2     Running     1 (15m ago)   16m
-ama-metrics-node-b2l9z                                2/2     Running     1 (12m ago)   16m
-ama-metrics-ksm-7fd5f48667-z8t5h                      1/1     Running     0             16m
-ama-metrics-855cdd5bdd-f6jz4                          2/2     Running     1 (12m ago)   16m
-traefik-67bfb46dcb-zwpnf                              1/1     Running     0             33h
-svclb-traefik-3c89490b-l7wvr                          2/2     Running     0             33h
-metrics-server-6f4c6675d5-7rv4s                       1/1     Running     0             33h
-helm-install-traefik-fns8n                            0/1     Completed   1             33h
-helm-install-traefik-crd-fqnkw                        0/1     Completed   0             33h
-coredns-ff8999cc5-hlscp                               1/1     Running     0             33h
-local-path-provisioner-774c6665dc-mslh9               1/1     Running     0             33h
-
+ama-logs-rs-5b798c4d59-8tdtd                          2/2     Running     12 (5m18s ago)       35m
+ama-logs-4cbsr                                        3/3     Running     14 (<invalid> ago)   35m
+ama-metrics-74dd8ffcd-c9vqr                           2/2     Running     23 (119s ago)        57m
+ama-metrics-ksm-7fd5f48667-sq7vm                      1/1     Running     10 (8m6s ago)        57m
+ama-metrics-node-p94c8                                2/2     Running     23 (99s ago)         57m
+ama-metrics-operator-targets-598f99ddf9-g7xtw         2/2     Running     12 (<invalid> ago)   57m
+azuremonitor-metrics-prometheus-node-exporter-2xqsf   1/1     Running     1 (<invalid> ago)    57m
+ama-metrics-74dd8ffcd-jjgc8                           2/2     Running     24 (2m ago)          57m
+svclb-traefik-162535f3-kgqv7                          2/2     Running     2 (<invalid> ago)    6h55m
+traefik-c98fdf6fb-nkhtf                               1/1     Running     1 (<invalid> ago)    6h55m
+helm-install-traefik-crd-vffhf                        0/1     Completed   0                    6h55m
+helm-install-traefik-jf49c                            0/1     Completed   1                    6h55m
+local-path-provisioner-774c6665dc-9qlnn               1/1     Running     10 (7m56s ago)       6h55m
+metrics-server-7bfffcd44-lp5sv                        1/1     Running     10 (8m23s ago)       6h55m
+coredns-64fd4b4794-c679f                              1/1     Running     1 (<invalid> ago)    6h55m
 ```
 
 ### Enable Container Insights logs for logs collection.
 
-The Azure CLI command automatically connets the  Log Analytics Workspace for the metrics and logs of the extensions.
+The Azure CLI command automatically connets the  Log Analytics Workspace for the metrics and logs of the extensions. *(This is a slow process, the command can take many minutes to complete)*
 
 ```bash
-damian@BYO-MBP-LY62L726TL ~ % az k8s-extension create --name azuremonitor-containers --cluster-name otedge001 --resource-group iot-edge01 --cluster-type connectedClusters --extension-type Microsoft.AzureMonitor.Containers --configuration-settings logAnalyticsWorkspaceResourceID=/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.OperationalInsights/workspaces/otedge001-la
+damian@BYO-MBP-LY62L726TL ~ % az k8s-extension create --name azuremonitor-containers --cluster-name iotedge --resource-group iot-ops --cluster-type connectedClusters --extension-type Microsoft.AzureMonitor.Containers --configuration-settings logAnalyticsWorkspaceResourceID=/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.OperationalInsights/workspaces/iotedge-la
 
 Ignoring name, release-namespace and scope parameters since microsoft.azuremonitor.containers only supports cluster scope and single instance of this extension.
 Defaulting to extension name 'azuremonitor-containers' and release-namespace 'azuremonitor-containers'
@@ -608,13 +797,13 @@ Defaulting to extension name 'azuremonitor-containers' and release-namespace 'az
   },
   "configurationSettings": {
     "amalogs.useAADAuth": "true",
-    "logAnalyticsWorkspaceResourceID": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.OperationalInsights/workspaces/otedge001-la"
+    "logAnalyticsWorkspaceResourceID": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.OperationalInsights/workspaces/iotedge-la"
   },
   "currentVersion": "3.1.26",
   "customLocationSettings": null,
   "errorInfo": null,
   "extensionType": "microsoft.azuremonitor.containers",
-  "id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.Kubernetes/connectedClusters/otedge001/providers/Microsoft.KubernetesConfiguration/extensions/azuremonitor-containers",
+  "id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.Kubernetes/connectedClusters/iotedge/providers/Microsoft.KubernetesConfiguration/extensions/azuremonitor-containers",
   "identity": {
     "principalId": "7e574455-82a5-476d-99de-21fb32c73701",
     "tenantId": null,
@@ -626,7 +815,7 @@ Defaulting to extension name 'azuremonitor-containers' and release-namespace 'az
   "plan": null,
   "provisioningState": "Succeeded",
   "releaseTrain": "Stable",
-  "resourceGroup": "iot-edge01",
+  "resourceGroup": "iot-ops",
   "scope": {
     "cluster": {
       "releaseNamespace": "azuremonitor-containers"
@@ -651,7 +840,7 @@ Once these steps are completed, you have both Azure Monitor and Grafana set up a
 
 More importantly, after you have installed the extension, it collects metric information and sends them to Azure.
 
-We can see these new extensions in the portal by navigating **Settings**, and then **Extensions **
+We can see these new extensions in the AKS environment portal by navigating **Settings**, and then **Extensions **
 
 ![Image](img-1dfeb56e-image.png)
 
@@ -659,7 +848,7 @@ Or, we can use the AZ Cli to see these extensions.
 
 ```bash
 # Get a list of extensions that have been installed
-damian@BYO-MBP-LY62L726TL ~ % az k8s-extension show --name azuremonitor-containers --cluster-name otedge001 --resource-group iot-edge01 --cluster-type connectedClusters
+damian@BYO-MBP-LY62L726TL ~ % az k8s-extension show --name azuremonitor-containers --cluster-name iotedge --resource-group iot-ops --cluster-type connectedClusters
 
 {
   "aksAssignedIdentity": null,
@@ -672,15 +861,15 @@ damian@BYO-MBP-LY62L726TL ~ % az k8s-extension show --name azuremonitor-containe
   },
   "configurationSettings": {
     "amalogs.useAADAuth": "true",
-    "logAnalyticsWorkspaceResourceID": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.OperationalInsights/workspaces/otedge001-la"
+    "logAnalyticsWorkspaceResourceID": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.OperationalInsights/workspaces/iotedge-la"
   },
-  "currentVersion": "3.1.26",
+  "currentVersion": "3.1.28",
   "customLocationSettings": null,
   "errorInfo": null,
   "extensionType": "microsoft.azuremonitor.containers",
-  "id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-edge01/providers/Microsoft.Kubernetes/connectedClusters/otedge001/providers/Microsoft.KubernetesConfiguration/extensions/azuremonitor-containers",
+  "id": "/subscriptions/df56d048-2e20-4ab6-82b7-11643163aa53/resourceGroups/iot-ops/providers/Microsoft.Kubernetes/connectedClusters/iotedge/providers/Microsoft.KubernetesConfiguration/extensions/azuremonitor-containers",
   "identity": {
-    "principalId": "7e574455-82a5-476d-99de-21fb32c73701",
+    "principalId": "2b07fbbd-fac4-42c7-ba57-139667947935",
     "tenantId": null,
     "type": "SystemAssigned"
   },
@@ -690,7 +879,7 @@ damian@BYO-MBP-LY62L726TL ~ % az k8s-extension show --name azuremonitor-containe
   "plan": null,
   "provisioningState": "Succeeded",
   "releaseTrain": "Stable",
-  "resourceGroup": "iot-edge01",
+  "resourceGroup": "iot-ops",
   "scope": {
     "cluster": {
       "releaseNamespace": "azuremonitor-containers"
@@ -699,10 +888,10 @@ damian@BYO-MBP-LY62L726TL ~ % az k8s-extension show --name azuremonitor-containe
   },
   "statuses": [],
   "systemData": {
-    "createdAt": "2025-04-25T21:57:19.178480+00:00",
+    "createdAt": "2025-10-21T13:00:51.877462+00:00",
     "createdBy": null,
     "createdByType": null,
-    "lastModifiedAt": "2025-04-25T21:57:19.178480+00:00",
+    "lastModifiedAt": "2025-10-21T13:26:41.188194+00:00",
     "lastModifiedBy": null,
     "lastModifiedByType": null
   },
@@ -711,6 +900,7 @@ damian@BYO-MBP-LY62L726TL ~ % az k8s-extension show --name azuremonitor-containe
 }
 
 ```
+
 
 ### Create Dashboards in the Azure Portal
 
@@ -729,8 +919,8 @@ Another neat feature of Azure Monitor is Alerting. Go to the Alerting pane and t
 
 After enabling Azure Monitor metrics and logs collection, the next step is to view your Kubernetes monitoring dashboards through **Azure Managed Grafana**.
 
-1. In the Azure Portal, navigate to Resource Groups and open your resource group (e.g., iot-edge01).
-1. Find and select your Grafana instance (e.g., otedge001-graf).
+1. In the Azure Portal, navigate to Resource Groups and open your resource group (e.g., iot-ops).
+1. Find and select your Grafana instance (e.g., iotedge-graf).
 1. On the Grafana resource page, under the Overview section, look for the Public Endpoint URL.
 1. Click on the link to open your Azure Managed Grafana dashboard in a new browser tab.
 ### Browse Available Dashboards
@@ -776,9 +966,6 @@ If pods are crashing (`CrashLoopBackOff`), check their logs
 ```bash
 kubectl logs <pod-name> -n kube-system
 ```
-
-
-# 
 
 
 

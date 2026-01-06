@@ -1,0 +1,42 @@
+{
+  "1f4eb56e-a1c3-8015-9912-e035021b4877": {
+    "localPath": "content/posts/azure-iot/img-1f4eb56e-image.png",
+    "lastFetched": "2026-01-06T12:46:20.179Z",
+    "contentHash": "f5f700fe6c835c3291748851d1564a54"
+  },
+  "1dfeb56e-a1c3-8089-a3d2-d965ea21f3fb": {
+    "localPath": "content/posts/iot-azure-arc-connected-k3s/img-1dfeb56e-image.png",
+    "lastFetched": "2026-01-06T12:46:30.756Z",
+    "contentHash": "f39e0e5fc283258863ff7ec79d201cb2"
+  },
+  "1e0eb56e-a1c3-8046-af39-e4c5ca860492": {
+    "localPath": "content/posts/iot-azure-iot-operations/img-1e0eb56e-image.png",
+    "lastFetched": "2026-01-06T12:46:44.038Z",
+    "contentHash": "e71898a74de9bf96c45974fe533f10d0"
+  },
+  "1e3eb56e-a1c3-80f6-a9ee-e3c2047c4c27": {
+    "localPath": "content/posts/iot-nodered-on-arc-enabled-edge/img-1e3eb56e-image.png",
+    "lastFetched": "2026-01-06T12:46:59.819Z",
+    "contentHash": "1562f913054de9deef663657630cb746"
+  },
+  "1f2eb56e-a1c3-80fb-96ba-d517b032a2b0": {
+    "localPath": "content/posts/iot-azure-iot-mqtt-broker/img-1f2eb56e-image-72.png",
+    "lastFetched": "2026-01-06T13:37:58.205Z",
+    "contentHash": "54352db508058b6a4a28815f4fb6165e"
+  },
+  "855ad084-4397-44fd-8fb4-334f36a9b421": {
+    "localPath": "content/posts/azure-iac-tags-as-parameters/img-855ad084-20210117-arm-param-01.png",
+    "lastFetched": "2026-01-06T12:47:14.449Z",
+    "contentHash": "20957b9be097af6df30831c2af7d9fda"
+  },
+  "9fdafc82-e3e6-4892-8dd7-852b07fda49c": {
+    "localPath": "content/posts/change-detection-using-oxidized/img-9fdafc82-2020-06-30-oxid-01.png",
+    "lastFetched": "2026-01-06T12:47:15.318Z",
+    "contentHash": "dcf3574880c9e92a4e36ea1e5e5a721b"
+  },
+  "e34de797-2615-49ac-9663-72ed0667db95": {
+    "localPath": "content/posts/streaming-vinyl-on-sonos/cover-e34de797.jpg",
+    "lastFetched": "2026-01-06T12:47:15.599Z",
+    "contentHash": "aee7ac5be286e8a971af066ac353a575"
+  }
+}
