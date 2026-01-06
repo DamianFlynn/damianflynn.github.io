@@ -53,6 +53,12 @@ jobs:
 
       - name: Install Hugo Modules
         run: |
+          echo "📦 Downloading Go modules to populate cache..."
+          go mod download
+          echo ""
+          echo "🔍 Checking Go module cache:"
+          ls -la ~/go/pkg/mod/github.com/\!damian\!flynn/ 2>/dev/null || echo "No modules in Go cache yet"
+          echo ""
           echo "📦 Installing Hugo modules..."
           hugo mod tidy
           hugo mod get -u
@@ -60,19 +66,21 @@ jobs:
           echo "📊 Module Graph:"
           hugo mod graph
           echo ""
-          echo "🔍 Finding Hugo cache directory:"
-          HUGO_CACHE=$(find ~/.cache -type d -name "hugo_cache" 2>/dev/null | head -1)
-          echo "Hugo cache: $HUGO_CACHE"
-          echo ""
-          echo "🔍 Checking Hugo module cache:"
-          find "$HUGO_CACHE/modules" -type d -name "*hugo-haptic-theme*" 2>/dev/null | head -5 || echo "Theme not found in Hugo cache"
-          echo ""
-          echo "🔍 Checking for layouts:"
-          THEME_CACHE=$(find "$HUGO_CACHE/modules" -type d -name "*hugo-haptic-theme*" 2>/dev/null | head -1)
-          if [ -n "$THEME_CACHE" ]; then
-            ls -la "$THEME_CACHE/" | head -20
+          echo "🔍 Verifying theme in Go module cache:"
+          THEME_DIR=$(find ~/go/pkg/mod/github.com/\!damian\!flynn/ -type d -name "hugo-haptic-theme*" 2>/dev/null | head -1)
+          if [ -n "$THEME_DIR" ]; then
+            echo "✅ Found theme at: $THEME_DIR"
+            ls -la "$THEME_DIR/" | head -20
             echo ""
-            ls -la "$THEME_CACHE/layouts/" 2>/dev/null | head -10 || echo "❌ No layouts directory in cached module"
+            echo "🔍 Checking for layouts directory:"
+            if [ -d "$THEME_DIR/layouts" ]; then
+              echo "✅ Layouts directory exists!"
+              ls -la "$THEME_DIR/layouts/" | head -10
+            else
+              echo "❌ No layouts directory in Go module cache"
+            fi
+          else
+            echo "❌ Theme not found in Go module cache"
           fi
       
       - name: Validate Content
