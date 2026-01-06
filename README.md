@@ -1,5 +1,8 @@
 # damianflynn.com
 
+[![Deploy Production](https://github.com/DamianFlynn/damianflynn.github.io/actions/workflows/deploy-production.yaml/badge.svg)](https://github.com/DamianFlynn/damianflynn.github.io/actions/workflows/deploy-production.yaml)
+[![Deploy Preview](https://github.com/DamianFlynn/damianflynn.github.io/actions/workflows/deploy-preview.yaml/badge.svg)](https://github.com/DamianFlynn/damianflynn.github.io/actions/workflows/deploy-preview.yaml)
+
 My personal blog powered by Hugo, featuring a modular architecture with separate repositories for theme, content, and configuration.
 
 🌐 **Live Site**: https://damianflynn.github.io  
@@ -47,13 +50,34 @@ graph TB
 
 ## Repository Structure
 
-This blog is built from three separate repositories:
+This blog is built from four separate repositories that work together:
 
-| Repository | Purpose | Technology |
-|-----------|---------|------------|
-| **[damianflynn.github.io](https://github.com/DamianFlynn/damianflynn.github.io)** | Main site configuration | Hugo config, workflows |
-| **[hugo-haptic-theme](https://github.com/DamianFlynn/hugo-haptic-theme)** | Custom theme | Hugo layouts, CSS, JS |
-| **[garden](https://github.com/DamianFlynn/garden)** | Content from Notion | Markdown posts, images |
+| Repository | Purpose | Status | Links |
+|-----------|---------|--------|-------|
+| **[damianflynn.github.io](https://github.com/DamianFlynn/damianflynn.github.io)** | Main site configuration, Hugo modules, deployment workflows | [![Deploy Production](https://github.com/DamianFlynn/damianflynn.github.io/actions/workflows/deploy-production.yaml/badge.svg)](https://github.com/DamianFlynn/damianflynn.github.io/actions/workflows/deploy-production.yaml) | [Production](https://damianflynn.github.io) \| [Preview](https://preview.damianflynn-preview.pages.dev) |
+| **[hugo-haptic-theme](https://github.com/DamianFlynn/hugo-haptic-theme)** | Custom Hugo theme with layouts, CSS, JS | Theme | [Docs](https://github.com/DamianFlynn/hugo-haptic-theme#readme) |
+| **[garden](https://github.com/DamianFlynn/garden)** | Content repository synced from Notion | [![Sync Notion Content](https://github.com/DamianFlynn/garden/actions/workflows/sync-notion-content.yaml/badge.svg)](https://github.com/DamianFlynn/garden/actions/workflows/sync-notion-content.yaml) | [Content](https://github.com/DamianFlynn/garden/tree/main/content) |
+| **[notion-to-markdown](https://github.com/DamianFlynn/notion-to-markdown)** | Notion API v5 export tool (Docker) | [![Docker Build](https://github.com/DamianFlynn/notion-to-markdown/actions/workflows/docker-image.yml/badge.svg)](https://github.com/DamianFlynn/notion-to-markdown/actions/workflows/docker-image.yml) | [Container](https://ghcr.io/damianflynn/notion-to-markdown) |
+
+### Content Flow
+
+```mermaid
+graph LR
+    A[Notion] -->|Every 6h| B[notion-to-markdown]
+    B -->|Export| C[garden repo]
+    C -->|Trigger| D[damianflynn.github.io]
+    D -->|Deploy| E[Preview Site]
+    D -->|Deploy| F[Production Site]
+    G[hugo-haptic-theme] -.->|Hugo Module| D
+    
+    style A fill:#fff,stroke:#333
+    style B fill:#0db7ed,stroke:#333
+    style C fill:#90EE90,stroke:#333
+    style D fill:#FFD700,stroke:#333
+    style E fill:#FFA500,stroke:#333
+    style F fill:#87CEEB,stroke:#333
+    style G fill:#FF69B4,stroke:#333
+```
 
 ## Quick Start
 
