@@ -56,16 +56,15 @@ jobs:
           echo "📦 Installing Hugo modules..."
           hugo mod tidy
           hugo mod get -u
-          hugo mod vendor
           echo ""
           echo "📊 Module Graph:"
           hugo mod graph
           echo ""
-          echo "🔍 Checking vendored theme module:"
-          ls -la _vendor/github.com/DamianFlynn/hugo-haptic-theme/ || echo "Theme not in _vendor"
+          echo "🔍 Checking Go module cache:"
+          find ~/go/pkg/mod/github.com/!(*damian!(*flynn -type d -name layouts 2>/dev/null || echo "No layouts found in module cache"
           echo ""
-          echo "🔍 Checking for layouts in vendored theme:"
-          find _vendor/github.com/DamianFlynn/hugo-haptic-theme -name "*.html" 2>/dev/null | head -5 || echo "No HTML files found"
+          echo "🔍 Listing files in cached theme module:"
+          ls -la ~/go/pkg/mod/github.com/\!damian\!flynn/hugo-haptic-theme@*/layouts/ 2>/dev/null | head -20 || echo "No layouts in cached module"
       
       - name: Validate Content
         run: |
