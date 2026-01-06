@@ -20,9 +20,9 @@
     "contentHash": "1562f913054de9deef663657630cb746"
   },
   "1f2eb56e-a1c3-80fb-96ba-d517b032a2b0": {
-    "localPath": "content/posts/iot-azure-iot-mqtt-broker/img-1f2eb56e-image-72.png",
-    "lastFetched": "2026-01-06T13:37:58.205Z",
-    "contentHash": "54352db508058b6a4a28815f4fb6165e"
+    "localPath": "content/posts/iot-azure-iot-mqtt-broker/img-1f2eb56e-image.png",
+    "lastFetched": "2026-01-06T22:49:02.915Z",
+    "contentHash": "dfa63aa755dbaf5f3d8e5731a150ed8f"
   },
   "855ad084-4397-44fd-8fb4-334f36a9b421": {
     "localPath": "content/posts/azure-iac-tags-as-parameters/img-855ad084-20210117-arm-param-01.png",
@@ -38,5 +38,20 @@
     "localPath": "content/posts/streaming-vinyl-on-sonos/cover-e34de797.jpg",
     "lastFetched": "2026-01-06T12:47:15.599Z",
     "contentHash": "aee7ac5be286e8a971af066ac353a575"
+  },
+  "2e0eb56e-a1c3-800b-8025-e2b170055919": {
+    "localPath": "content/posts/cbus-mqtt-bridge-on-raspberry-pi/cover-2e0eb56e.jpg",
+    "lastFetched": "2026-01-06T22:45:12.790Z",
+    "contentHash": "69df892fdb65df4b1a60359069a7c710"
+  },
+  "728ba96c-7e67-44e1-9c52-94e44fe3ae81": {
+    "localPath": "content/posts/2-arc-enabled-kubernetes-at-the-edge-deploying-k3s-for-azure-iot-operations/img-728ba96c-image.png",
+    "lastFetched": "2026-01-06T22:45:33.567Z",
+    "contentHash": "a24a8d17e8d49dd1ab3b37f44864a0be"
+  },
+  "c01db88e-656a-4b88-aef6-720c9a0038f9": {
+    "localPath": "content/posts/3-deploying-azure-iot-operations-on-arc-enabled-k3s-production-mqtt-broker-and-edge-data-platform/img-c01db88e-image.png",
+    "lastFetched": "2026-01-06T22:37:51.161Z",
+    "contentHash": "3f286ce8f22f5be9cc3176d8f5fe90b7"
   }
 }
