@@ -196,8 +196,77 @@ git push origin main
 
 ```bash
 # Tag a release
-git tag v0.2.0
+git tag -a v0.2.0 -m "Release v0.2.0: description of changes"
 git push origin v0.2.0
+
+# Update main site to use the tagged version
+cd ../damianflynn.github.io
+HUGO_MODULE_WORKSPACE=go.work hugo mod get github.com/DamianFlynn/hugo-haptic-theme@v0.2.0
+hugo mod tidy
+git add go.mod go.sum
+git commit -m "Update theme to v0.2.0"
+git push origin main  # Triggers production deployment with v0.2.0
+```
+
+**Important Notes:**
+- Preview automatically uses latest `main` branch - no action needed
+- Production only updates when you explicitly update `go.mod` with a tag
+- Always test in preview before tagging and releasing to production
+
+### Workflow Summary by Environment
+
+#### Local Development
+```bash
+# Start server (from damianflynn.github.io/)
+./dev-server.sh  # or: HUGO_MODULE_WORKSPACE=go.work hugo server -D
+
+# Edit any file in:
+# - ../hugo-haptic-theme/    → Theme changes
+# - ../garden/               → Content changes  
+# - config/_default/         → Site config changes
+
+# Changes appear instantly in browser
+# No commits needed to test
+```
+
+#### Preview Deployment (Cloudflare Pages)
+- **Theme**: Uses latest `main` branch commit
+- **Garden**: Uses latest `main` branch commit
+- **Triggers**: 
+  - Manual: `workflow_dispatch` in GitHub Actions
+  - Automatic: Garden content updates trigger preview build
+- **URL**: https://preview.damianflynn-preview.pages.dev
+
+```bash
+# To test latest theme changes in preview:
+cd ~/Development/damianflynn/hugo-haptic-theme
+git push origin main  # Push theme changes
+
+# Wait ~2 minutes, or trigger manually:
+cd ~/Development/damianflynn/damianflynn.github.io
+# Go to GitHub Actions → Deploy Preview → Run workflow
+```
+
+#### Production Deployment (GitHub Pages)
+- **Theme**: Uses tagged release (e.g., `v0.1.1`)
+- **Garden**: Uses latest `main` branch commit
+- **Triggers**:
+  - Automatic: Pushes to main site's `main` branch
+  - Automatic: Garden content updates trigger production build
+- **URL**: https://damianflynn.github.io
+
+```bash
+# To deploy new theme version to production:
+cd ~/Development/damianflynn/hugo-haptic-theme
+git tag -a v0.2.1 -m "Release v0.2.1"
+git push origin v0.2.1
+
+cd ~/Development/damianflynn/damianflynn.github.io
+HUGO_MODULE_WORKSPACE=go.work hugo mod get github.com/DamianFlynn/hugo-haptic-theme@v0.2.1
+git add go.mod go.sum
+git commit -m "Update theme to v0.2.1"
+git push origin main
+```
 
 # Update main site to use the tag
 cd ../damianflynn.github.io
@@ -222,36 +291,51 @@ git push origin main  # Triggers production build
 
 ## Module Version Strategy
 
+The site uses **different theme versions** for different environments:
+
 ```mermaid
-graph LR
-    A[Local Development] -->|go.work| B[Use Local Files]
-    C[Preview Builds] -->|go.mod| D[Latest Commits]
-    E[Production Builds] -->|go.mod| F[Tagged Releases]
+graph TB
+    A[Local Development] -->|go.work| B[Uses ../hugo-haptic-theme/]
+    C[Preview Environment] -->|go.mod| D[Latest main branch]
+    E[Production Environment] -->|go.mod| F[Tagged Release v0.x.x]
     
-    B --> G[Instant Changes]
-    D --> H[Test Features]
-    F --> I[Stable & Tested]
+    B --> G[Instant Changes<br/>No commits needed]
+    D --> H[Test Latest Features<br/>Auto-updates with garden]
+    F --> I[Stable & Tested<br/>Manual version bump]
+    
+    J[Garden Content] -->|Always| K[Latest main branch<br/>for both environments]
     
     style B fill:#90EE90
     style D fill:#FFD700
     style F fill:#87CEEB
+    style K fill:#FFA500
 ```
 
-### Local (Best Experience)
-- Uses `go.work` to reference local directories
-- Changes appear **instantly** in browser
-- No commits needed to test
-- Never touches `go.mod`
+### Environment Breakdown
 
-### Preview (Testing)
-- Uses latest commits from `main` branch
-- Good for testing unreleased features
-- Update with: `hugo mod get -u @main`
+| Environment | Theme Version | Garden Version | Purpose |
+|------------|--------------|----------------|---------|
+| **Local** | Local files via `go.work` | Local files via `go.work` | Development & testing |
+| **Preview** | Latest `main` commit | Latest `main` commit | Test unreleased features |
+| **Production** | Tagged release (e.g., `v0.1.1`) | Latest `main` commit | Stable public site |
 
-### Production (Stable)
-- Uses **tagged releases** (v0.1.0, v0.1.1, etc.)
-- Only updates with explicit version bump
-- Update with: `hugo mod get -u @v0.2.0`
+### Why This Strategy?
+
+1. **Local Development**: Instant feedback - save a file, see changes immediately
+2. **Preview**: Test new theme features with real content before releasing
+3. **Production**: Only deploy tested, tagged theme versions for stability
+
+### Garden Content Updates
+
+The `garden` repository (content from Notion) **always uses the latest `main` branch** in both preview and production. When you push to the garden repo, it triggers both deployments:
+
+```bash
+# Workflow in garden/.github/workflows/trigger-deployments.yaml
+garden push → triggers damianflynn.github.io preview build
+           → triggers damianflynn.github.io production build
+```
+
+This ensures content updates are immediately visible on both sites.
 
 ## Common Tasks
 
@@ -272,6 +356,45 @@ graph LR
 1. With Hugo server running
 2. Edit `../hugo-haptic-theme/assets/css/main.css`
 3. **Save** → Browser hot-reloads CSS (no page refresh!)
+
+## Troubleshooting
+
+### Clear Hugo Caches
+
+If you encounter persistent build errors, outdated module versions, or deprecated warnings:
+
+```bash
+# Clean all caches and generated files
+./dev-server.sh clean
+```
+
+This will:
+- Clear Hugo's module cache
+- Remove Hugo's system cache directory (`~/Library/Caches/hugo_cache/`)
+- Delete generated `resources/`, `public/`, and `_vendor/` directories
+
+### Module Version Issues
+
+If Hugo is using an old version of a module despite updates:
+
+```bash
+# Update to a specific commit
+HUGO_MODULE_WORKSPACE=go.work hugo mod get github.com/DamianFlynn/hugo-haptic-theme@COMMIT_HASH
+
+# Or update to latest tagged version
+HUGO_MODULE_WORKSPACE=go.work hugo mod get -u github.com/DamianFlynn/hugo-haptic-theme
+
+# Then clean and restart
+./dev-server.sh clean
+./dev-server.sh
+```
+
+### Common Issues
+
+- **"deprecated" errors**: Check for `.old` backup files in theme layouts - Hugo processes all `.html` files
+- **Module not found**: Ensure `go.work` exists and `HUGO_MODULE_WORKSPACE` is set
+- **Changes not reflecting**: Clear caches with `./dev-server.sh clean`
+- **Build hangs or errors**: Remove `_vendor/` directory - it overrides `go.mod`
 
 ### VS Code Live Preview
 

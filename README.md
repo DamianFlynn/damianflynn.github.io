@@ -32,19 +32,26 @@ hugo server -D
 
 ## Deployment
 
-This site uses automated deployments:
+This site uses automated deployments with **environment-specific versioning**:
 
-### Production
+### Production (Stable)
 - **Platform**: GitHub Pages
 - **URL**: https://damianflynn.github.io
-- **Trigger**: Push to `main` branch or scheduled daily builds
+- **Theme**: Tagged releases (e.g., `v0.1.1`) - manually updated
+- **Content**: Latest `main` branch - auto-updates
+- **Trigger**: Push to `main` branch or content updates from garden
 - **Workflow**: [.github/workflows/deploy-production.yaml](.github/workflows/deploy-production.yaml)
 
-### Preview
-- **Platform**: Cloudflare Pages (or Azure Static Web Apps)
-- **Trigger**: Pull requests or manual workflow dispatch
-- **Workflow**: [.github/workflows/deploy-preview.yaml](.github/workflows/deploy-preview.yaml)
+### Preview (Testing)
+- **Platform**: Cloudflare Pages
+- **URL**: https://preview.damianflynn-preview.pages.dev
+- **Theme**: Latest `main` branch - auto-updates
+- **Content**: Latest `main` branch - auto-updates
 - **Features**: Includes drafts, future, and expired content
+- **Trigger**: Manual dispatch or content updates from garden
+- **Workflow**: [.github/workflows/deploy-preview.yaml](.github/workflows/deploy-preview.yaml)
+
+**See [docs/WORKFLOW.md](docs/WORKFLOW.md) for complete versioning strategy and deployment workflows.**
 
 ## Updating Modules
 
