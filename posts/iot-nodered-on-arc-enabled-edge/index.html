@@ -1,0 +1,978 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,height=device-height,initial-scale=1,minimum-scale=1"><meta name=robots content="noodp"><title>IoT - NodeRED on Arc-Enabled Edge - Incredible Technology, Incredibly Simple</title><meta name=Description content><meta property="og:url" content="https://damianflynn.github.io/posts/iot-nodered-on-arc-enabled-edge/"><meta property="og:site_name" content="Incredible Technology, Incredibly Simple"><meta property="og:title" content="IoT - NodeRED on Arc-Enabled Edge"><meta property="og:description" content="Learn how to deploy a fully integrated Node-RED environment inside a K3s Kubernetes cluster on an Azure Arc-connected edge device. This guide walks you through namespace setup, persistent storage, service exposure, and secure access over SSH tunnels. Simulate MQTT and Modbus devices, visualize flows, and forward real-time telemetry to Azure MQ and OPC UA—all without opening firewall ports. Ideal for industrial IoT scenarios needing secure hybrid connectivity and local processing."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-04-28T13:16:00+00:00"><meta property="article:modified_time" content="2025-05-13T22:45:00+00:00"><meta property="article:tag" content="Linux"><meta property="article:tag" content="IoT"><meta property="article:tag" content="Docker"><meta property="og:image" content="https://damianflynn.github.io/images/avatar.webp"><meta property="og:see_also" content="https://damianflynn.github.io/posts/iot-azure-arc-connected-k3s/"><meta property="og:see_also" content="https://damianflynn.github.io/posts/azure-arc-enabling-an-ubuntu-server/"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://damianflynn.github.io/images/avatar.webp"><meta name=twitter:title content="IoT - NodeRED on Arc-Enabled Edge"><meta name=twitter:description content="Learn how to deploy a fully integrated Node-RED environment inside a K3s Kubernetes cluster on an Azure Arc-connected edge device. This guide walks you through namespace setup, persistent storage, service exposure, and secure access over SSH tunnels. Simulate MQTT and Modbus devices, visualize flows, and forward real-time telemetry to Azure MQ and OPC UA—all without opening firewall ports. Ideal for industrial IoT scenarios needing secure hybrid connectivity and local processing."><meta name=twitter:site content="@damian_flynn"><meta name=application-name content="TechSimplified"><meta name=apple-mobile-web-app-title content="TechSimplified"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><meta name=twitter:creator content="@damian_flynn"><link rel="shortcut icon" type=image/x-icon href=/favicons/img-favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicons/img-favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicons/img-favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/favicons/img-android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/favicons/img-android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/favicons/img-apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=canonical href=https://damianflynn.github.io/posts/iot-nodered-on-arc-enabled-edge/><link rel=prev href=https://damianflynn.github.io/posts/iot-azure-arc-connected-k3s/><link rel=stylesheet href=/css/css-styles.min.css><link rel=stylesheet href=/css/n8n-chat.min.css><script type=module>
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	createChat({
+		webhookUrl: 'https://n8n.deercrest.info/webhook/b76d02c0-b406-4d21-b6bf-8ad2c623def3/chat',
+    initialMessages: [
+      'Hi there! 👋',
+      'My name is Nathan. How can I assist you today?'
+    ],
+    i18n: {
+      en: {
+        title: 'Search 🔎 & Chat! 👋',
+        subtitle: "Start a chat. We're here to help you 24/7.",
+        footer: '',
+        getStarted: 'New Conversation',
+        inputPlaceholder: 'Type your question..',
+      },
+    },
+    showWelcomeScreen: false,
+	  defaultLanguage: 'en'
+	});
+</script><script src=/js/alpinejs.js defer></script><style>[x-cloak]{display:none!important}</style><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"IoT - NodeRED on Arc-Enabled Edge","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https://damianflynn.github.io/posts/iot-nodered-on-arc-enabled-edge/"},"image":["https://damianflynn.github.io/images/series/azure-iot-featured.png"],"genre":"posts","keywords":["Linux","IoT","Docker"],"wordcount":3150,"url":"https://damianflynn.github.io/posts/iot-nodered-on-arc-enabled-edge/","datePublished":"2025-04-28T13:16:00+00:00","dateModified":"2025-05-13T22:45:00+00:00","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://damianflynn.github.io/images/avatar.webp","width":400,"height":400}},"author":{"@type":"Person","name":"Author","url":"/"},"description":""}</script></head><body data-instant-intensity=viewport class="bg-white font-sans tracking-wide text-base text-gray-700 print:text-black font-medium break-words hyphens antialiased flex flex-col min-h-screen ta-page-scrolling"><div role=navigation class="absolute inset-x-0 top-0 z-10 w-full text-center h-16 sm:h-20 lg:h-24 xl:h-28" x-data=taNavigation><a href=/ class="absolute left-0 top-0 h-full flex-center w-16 sm:w-20 lg:w-24 xl:w-28 p-3 sm:p-4 lg:p-5 xl:p-6 bg-secondary-500"><span class=sr-only>To the home page</span>
+<img src=/images/img-logo-damian-flynn-white.svg alt="Logo Damian Flynn" class=w-full></a><div class="absolute lg:hidden right-0 top-0 text-white w-16 h-16 sm:w-20 sm:h-20 p-3 sm:p-4"><svg class="w-full h-full" viewbox="0 0 20 20" fill="currentcolor"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4A1 1 0 013 5zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg></div><div class="hidden lg:flex items-center justify-between w-full h-full max-w-screen-2xl mx-auto px-40"><div class="flex h-full text-base font-semibold uppercase"><div class="relative flex-center text-primary-500 px-4"><a class=menu-item href=/>Home</a></div><div class="relative flex-center text-primary-500 px-4"><a class=menu-item href=/posts/>Articles</a></div><div class="relative flex-center text-primary-500 px-4"><a class=menu-item href=/series/>Topics</a></div><div class="relative flex-center text-primary-500 px-4"><a class=menu-item href=/about/>About</a></div></div><div class="flex items-center -mr-2 xl:-mr-4"><a href=https://www.youtube.com/channel/UCC-9OqE4nfLxDf-TonKqIRw/ class="block text-primary-500 h-6 w-6 mx-2 xl:mx-4 drop-shadow-sharp" target=_blank title="Opens in new Window"><span class=sr-only>Youtube </span><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 576 512"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78.0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+</a><a href=https://github.com/damianflynn class="block text-primary-500 h-6 w-6 mx-2 xl:mx-4 drop-shadow-sharp" target=_blank title="Opens in new Window"><span class=sr-only>GitHub </span><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8.0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8.0-21.5 4.9-32.3 14.6-51.8 45.3.0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8.0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9.0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2.0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8.0-73.5 38.7-73.5 82.6.0 87.8 80.4 101.3 150.4 101.3h48.2c70.3.0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8.0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+</a><a href=https://www.x.com/damian_flynn class="block text-primary-500 h-6 w-6 mx-2 xl:mx-4 drop-shadow-sharp" target=_blank title="Opens in new Window"><span class=sr-only>X </span><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645.0 138.72-105.583 298.558-298.558 298.558-59.452.0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055.0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421.0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391.0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04.0-57.828 46.782-104.934 104.934-104.934 30.213.0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+</a><a href=https://www.linkedin.com/in/damianflynn class="block text-primary-500 h-6 w-6 mx-2 xl:mx-4 drop-shadow-sharp" target=_blank title="Opens in new Window"><span class=sr-only>Linkedin</span>
+<svg class="w-full h-full" fill="currentcolor" viewbox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5.0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6.0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3.0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2.0 38.5 17.3 38.5 38.5.0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6.0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2.0 79.7 44.3 79.7 101.9V416z"/></svg></a></div></div><div class="fixed lg:hidden inset-0 backdrop-filter backdrop-blur-sm bg-gray-900 bg-opacity-75 z-50" x-show=modal x-transition.opacity.duration.500ms></div><div class="ta-navigation-modal fixed lg:hidden inset-y-0 right-0 w-10/12 sm:w-2/3 bg-white pt-32 z-50" x-ref=modal><div class="absolute top-0 right-0 text-primary-500 w-16 h-16 p-2"><svg class="w-full h-full" viewbox="0 0 20 20" fill="currentcolor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414.0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="flex flex-col justify-between text-left text-3xl h-full ml-12"><div class="flex flex-col"><div class="font-semibold text-primary-500 p-2 sm:my-2"><a href=/>Home</a></div><div class="font-semibold text-primary-500 p-2 sm:my-2"><a href=/posts/>Articles</a></div><div class="font-semibold text-primary-500 p-2 sm:my-2"><a href=/series/>Topics</a></div><div class="font-semibold text-primary-500 p-2 sm:my-2"><a href=/about/>About</a></div></div><div class="flex flex-wrap mb-12"><a href=https://www.youtube.com/channel/UCC-9OqE4nfLxDf-TonKqIRw/ class="block text-primary-500 h-8 w-8 mx-4 sm:mx-6" target=_blank title="Opens in new Window"><span class=sr-only>Youtube </span><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 576 512"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78.0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+</a><a href=https://github.com/damianflynn class="block text-primary-500 h-8 w-8 mx-4 sm:mx-6" target=_blank title="Opens in new Window"><span class=sr-only>GitHub </span><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8.0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8.0-21.5 4.9-32.3 14.6-51.8 45.3.0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8.0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9.0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2.0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8.0-73.5 38.7-73.5 82.6.0 87.8 80.4 101.3 150.4 101.3h48.2c70.3.0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8.0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+</a><a href=https://www.x.com/damian_flynn class="block text-primary-500 h-8 w-8 mx-4 sm:mx-6" target=_blank title="Opens in new Window"><span class=sr-only>X </span><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645.0 138.72-105.583 298.558-298.558 298.558-59.452.0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055.0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421.0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391.0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04.0-57.828 46.782-104.934 104.934-104.934 30.213.0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+</a><a href=https://www.linkedin.com/in/damianflynn class="block text-primary-500 h-8 w-8 mx-4 sm:mx-6" target=_blank title="Opens in new Window"><span class=sr-only>Linkedin</span>
+<svg class="w-full h-full" fill="currentcolor" viewbox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5.0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6.0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3.0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2.0 38.5 17.3 38.5 38.5.0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6.0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2.0 79.7 44.3 79.7 101.9V416z"/></svg></a></div></div></div><div class="ta-navigation-scroll top-0 inset-x-0 z-40" x-ref=scroll><div class="flex justify-between items-center lg:hidden"><a href=/index.html class="flex-center w-16 sm:w-20 p-3 sm:p-4 h-16 sm:h-20 bg-secondary-500"><span class=sr-only>To the home page</span>
+<img src=/images/img-logo-damian-flynn-white.svg alt="Logo Damian Flynn" class=w-full></a><div class="flex-shrink-0 text-primary-500 w-16 h-16 p-3"><svg class="w-full h-full" viewbox="0 0 20 20" fill="currentcolor"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4A1 1 0 013 5zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg></div></div><div class="relative hidden lg:flex justify-between items-center h-20"><a href=/index.html class="absolute top-0 left-0 flex-center w-20 h-20 p-4 bg-secondary-500"><span class=sr-only>To the home page</span>
+<img src=/images/img-logo-damian-flynn-white.svg alt="Logo Damian Flynn" class=w-full></a><div class="flex items-center justify-between max-w-screen-2xl w-full h-full mx-auto px-40"><div class="flex h-full text-base font-semibold uppercase -ml-4"><div class="relative flex-center font-semibold text-primary-500 p-2 sm:my-2"><a class=menu-item href=/>Home</a></div><div class="relative flex-center font-semibold text-primary-500 p-2 sm:my-2"><a class=menu-item href=/posts/>Articles</a></div><div class="relative flex-center font-semibold text-primary-500 p-2 sm:my-2"><a class=menu-item href=/series/>Topics</a></div><div class="relative flex-center font-semibold text-primary-500 p-2 sm:my-2"><a class=menu-item href=/about/>About</a></div></div><div class="flex items-center -mr-2 xl:-mr-4"><a href=https://www.youtube.com/channel/UCC-9OqE4nfLxDf-TonKqIRw/ class="block text-primary-500 h-6 w-6 mx-2 xl:mx-4" target=_blank title="Opens in new Window"><span class=sr-only>Youtube </span><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 576 512"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78.0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+</a><a href=https://github.com/damianflynn class="block text-primary-500 h-6 w-6 mx-2 xl:mx-4" target=_blank title="Opens in new Window"><span class=sr-only>GitHub </span><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8.0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8.0-21.5 4.9-32.3 14.6-51.8 45.3.0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8.0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9.0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2.0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8.0-73.5 38.7-73.5 82.6.0 87.8 80.4 101.3 150.4 101.3h48.2c70.3.0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8.0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+</a><a href=https://www.x.com/damian_flynn class="block text-primary-500 h-6 w-6 mx-2 xl:mx-4" target=_blank title="Opens in new Window"><span class=sr-only>X </span><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645.0 138.72-105.583 298.558-298.558 298.558-59.452.0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055.0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421.0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391.0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04.0-57.828 46.782-104.934 104.934-104.934 30.213.0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+</a><a href=https://www.linkedin.com/in/damianflynn class="block text-primary-500 h-6 w-6 mx-2 xl:mx-4" target=_blank title="Opens in new Window"><span class=sr-only>Linkedin</span>
+<svg class="w-full h-full" fill="currentcolor" viewbox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5.0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6.0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3.0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2.0 38.5 17.3 38.5 38.5.0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6.0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2.0 79.7 44.3 79.7 101.9V416z"/></svg></a></div></div></div><div class="absolute inset-0 bg-white bg-opacity-90 shadow-lg backdrop-filter backdrop-blur-xs -z-1"></div></div></div><main role=main class="flex-grow-1 full"><div class="relative bg-gradient-article pt-16 sm:pt-20 lg:pt-24 xl:pt-28 isolate"><div class="absolute inset-x-0 -bottom-72 h-96"><div class="w-full h-full flex-center overflow-hidden"><img src=/images/img-exclude-white.svg alt class="w-full h-full min-w-[768px]"></div></div><div class="flex flex-col-reverse lg:flex-row justify-between w-full max-w-screen-2xl mx-auto text-secondary-500 px-12 lg:pl-40 xl:pr-0 pt-12 xl:pt-16 pb-16 isolate"><div class="max-w-2xl lg:mr-12 break-hyphen"><nav aria-label=breadcrumb><ol class="flex flex-wrap items-center text-sm leading-none font-bold mb-4 sm:mb-2"><li class=pr-1><a href=/index.html class="flex items-center text-primary-500 py-1"><div class="h-5 w-5"><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 576 512"><path d="M280.37 148.26 96 300.11V464a16 16 0 0016 16l112.06-.29a16 16 0 0015.92-16V368a16 16 0 0116-16h64a16 16 0 0116 16v95.64a16 16 0 0016 16.05L464 480a16 16 0 0016-16V3e2L295.67 148.26a12.19 12.19.0 00-15.3.0zM571.6 251.47 488 182.56V44.05a12 12 0 00-12-12h-56a12 12 0 00-12 12v72.61L318.47 43a48 48 0 00-61 0L4.34 251.47a12 12 0 00-1.6 16.9l25.5 31A12 12 0 0045.15 301l235.22-193.74a12.19 12.19.0 0115.3.0L530.9 301a12 12 0 0016.9-1.6l25.5-31a12 12 0 00-1.7-16.93z"/></svg></div><span class=ml-2>Home</span></a></li><li class="flex items-center"><div class="h-4 w-4"><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="m15 0h525.355a15 15 0 0115 15v38.555a15 15 0 01-15 15H15a15 15 0 01-15-15V15A15 15 0 0115 0z" transform="matrix(-.5 .8660254 -.8660254 -.5 424.048 32.277)"/></svg></div><a href=/posts class="flex items-center text-primary-500 px-1 py-1">Articles</a></li><li class="flex items-center text-secondary-500"><div class="h-4 w-4"><svg class="w-full h-full" fill="currentcolor" viewbox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="m15 0h525.355a15 15 0 0115 15v38.555a15 15 0 01-15 15H15a15 15 0 01-15-15V15A15 15 0 0115 0z" transform="matrix(-.5 .8660254 -.8660254 -.5 424.048 32.277)"/></svg></div><span class="px-1 py-1">IoT - NodeRED on Arc-Enabled Edge</span></li></ol></nav><div class="text-6xl leading-none font-bold mb-2">IoT - NodeRED on Arc-Enabled Edge</div><div class="text-2xl leading-snug mb-4">Learn how to deploy a fully integrated Node-RED environment inside a K3s Kubernetes cluster on an Azure Arc-connected edge device. This guide walks you through namespace setup, persistent storage, service exposure, and secure access over SSH tunnels. Simulate MQTT and Modbus devices, visualize flows, and forward real-time telemetry to Azure MQ and OPC UA—all without opening firewall ports. Ideal for industrial IoT scenarios needing secure hybrid connectivity and local processing.</div><div class="flex flex-wrap items-center -ml-2 mb-8"><a href=/tags/linux/ class="flex items-center text-xs uppercase text-primary-500 font-bold m-2"><span class="h-5 w-5 mr-1"><svg class="w-full h-full" fill="none" viewbox="0 0 24 24" stroke="currentcolor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512.0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828.0l-7-7A1.994 1.994.0 013 12V7a4 4 0 014-4z"/></svg> </span>Linux</a>,&nbsp;<a href=/tags/iot/ class="flex items-center text-xs uppercase text-primary-500 font-bold m-2">
+<span class="h-5 w-5 mr-1"><svg class="w-full h-full" fill="none" viewbox="0 0 24 24" stroke="currentcolor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512.0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828.0l-7-7A1.994 1.994.0 013 12V7a4 4 0 014-4z"/></svg> </span>IoT</a>,&nbsp;<a href=/tags/docker/ class="flex items-center text-xs uppercase text-primary-500 font-bold m-2">
+<span class="h-5 w-5 mr-1"><svg class="w-full h-full" fill="none" viewbox="0 0 24 24" stroke="currentcolor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512.0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828.0l-7-7A1.994 1.994.0 013 12V7a4 4 0 014-4z"/></svg> </span>Docker</a></div><div class="flex items-center"><div class="w-16 h-16 overflow-hidden rounded-full shadow-lg"><svg class="icon" viewBox="0 0 496 512"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6.0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7.0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4.0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9s28-2.7 40.9-6.9c2.3-.7 4.7-1.1 7.1-1.1 42.9.0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg>Author</div><div class=ml-4><div class="text-secondary-500 text-lg font-bold">Author: <a href=/ title=Author rel=author class=author>Author</a></div><div class="text-gray-500 text-md font-semibold">Published: <time datetime="28 Apr, 2025">28 Apr, 2025</time></div><div class="text-gray-500 text-md font-semibold">Updated: <time datetime="13 May, 2025">13 May, 2025</time></div></div></div></div><div class="relative flex-shrink-0 flex-grow max-w-lg min-w-80 pb-8 lg:pb-0 -mt-12 lg:mt-0 transform md:transform-none scale-110 -z-1"><img class="w-full lg:absolute-center drop-shadow-glow" src=/images/series/azure-iot-featured.png></div></div></div><div id=main class="w-full max-w-screen-2xl mx-auto px-8 lg:px-40 my-24 isolate"><main><div class="grid grid-cols-1 lg:grid-cols-3 gap-x-12 xl:gap-x-24"><div class="lg:col-span-2 copy text-base leading-loose"><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>bash</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-1 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=nb>export</span> <span class=nv>KUBECONFIG</span><span class=o>=</span>~/.kube/config
+</span></span><span class=line><span class=cl>sysadmin@otedge001:~$ kubectl get namespace
+</span></span><span class=line><span class=cl>NAME                      STATUS   AGE
+</span></span><span class=line><span class=cl>arc-workload-identity     Active   3d23h
+</span></span><span class=line><span class=cl>azure-arc                 Active   3d23h
+</span></span><span class=line><span class=cl>azure-arc-release         Active   3d23h
+</span></span><span class=line><span class=cl>azuremonitor-containers   Active   2d15h
+</span></span><span class=line><span class=cl>default                   Active   4d
+</span></span><span class=line><span class=cl>kube-node-lease           Active   4d
+</span></span><span class=line><span class=cl>kube-public               Active   4d
+</span></span><span class=line><span class=cl>kube-system               Active   4d</span></span></code></pre></div><h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id=node-red><a href=#node-red class=header-mark aria-label="Header mark for 'Node Red'"></a><div id=node-red class="absolute -top-28"></div>Node Red</h1><p>An overview of the objectives here</p><ul><li><p>Local network devices (outside Kubernetes) are sending:</p><ul><li>MQTT messages</li><li>Modbus TCP traffic</li><li>Your Node-RED, running inside K3s, must receive:</li><li>NodeRED Web Interfaces</li><li>MQTT subscriptions from devices</li><li>Modbus polling/requests from devices</li><li>Then Node-RED forwards processed data to:</li><li>Azure MQ Service inside the same K3s cluster
+Expose Node-RED to your local network by:</li></ul></li><li><p>NodePort service to open specific ports from the edge node (otedge001) to the outside world</p></li></ul><h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"><div id=name-space class="absolute -top-28"></div>Name Space</h2><p>Create the Name Space</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>bash</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-2 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>sysadmin@otedge001:~$ kubectl create namespace nodered
+</span></span><span class=line><span class=cl>namespace/nodered created</span></span></code></pre></div><h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"><div id=presistant-storage class="absolute -top-28"></div>Presistant Storage</h2><p>Add a PVC (assumes you have default storage class like <code>local-path</code> from K3s):</p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>yaml</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-3 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=l>yaml</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=l>CopyEdit</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>PersistentVolumeClaim</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nodered-pvc</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>nodered</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>accessModes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>ReadWriteOnce</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>requests</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>storage</span><span class=p>:</span><span class=w> </span><span class=l>1Gi</span></span></span></code></pre></div><p>Apply this storage</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>bash</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-4 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>kubectl apply -f nodered-pvc.yaml</span></span></code></pre></div><p>Since you’re running <strong>K3s</strong> (and unless you changed nything manually), by default K3s installs the <code>**local-path-provisioner**</code> as the storage backend for dynamic PVCs. That means:</p><ul><li>Your PVC storage will physically be on the node’s local filesystem</li><li>Specifically under a folder like: /var/lib/rancher/k3s/storage/</li><li>The sub-folder names include:<ul><li>The PVC ID (pvc-2c5110d0-82c0-42fa-99e2-fdf653bdb42c)</li><li>The namespace (nodered)</li><li>The pvc name (nodered-pvc)</li><li>example /var/lib/rancher/k3s/storage/pvc-<uid><namespace><pvc-name>/</li><li>Each PersistentVolume (PV) will have its own subdirectory inside there.</li></ul></li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>bash</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-5 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>sysadmin@otedge001:~/nodered$ kubectl get pvc -n nodered
+</span></span><span class=line><span class=cl>NAME          STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+</span></span><span class=line><span class=cl>nodered-pvc   Bound    pvc-2c5110d0-82c0-42fa-99e2-fdf653bdb42c   1Gi        RWO            local-path     &lt;unset&gt;                 5m15s</span></span></code></pre></div><h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"><div id=deployment class="absolute -top-28"></div>Deployment</h2><p>Create the manifest for the deployment <code>nodered-deployment.yaml</code></p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>yaml</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-6 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>apps/v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Deployment</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nodered</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>nodered</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>nodered</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>replicas</span><span class=p>:</span><span class=w> </span><span class=m>1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>selector</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>matchLabels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>nodered</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>template</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>nodered</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>containers</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nodered</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>nodered/node-red:latest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>containerPort</span><span class=p>:</span><span class=w> </span><span class=m>1880</span><span class=w> </span><span class=c># Node-RED editor UI</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>containerPort</span><span class=p>:</span><span class=w> </span><span class=m>1883</span><span class=w> </span><span class=c># MQTT listener (Node-RED MQTT broker node)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>containerPort</span><span class=p>:</span><span class=w> </span><span class=m>502</span><span class=w>  </span><span class=c># Modbus TCP port (Modbus nodes listen on 502)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>volumeMounts</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nodered-data</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>mountPath</span><span class=p>:</span><span class=w> </span><span class=l>/data</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>requests</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>memory</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;128Mi&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>cpu</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;250m&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>limits</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>memory</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;512Mi&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>cpu</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;500m&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nodered-data</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>persistentVolumeClaim</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>claimName</span><span class=p>:</span><span class=w> </span><span class=l>nodered-pvc</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>initContainers</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>install-azure-nodes</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>node:18</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>command</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=p>[</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=s2>&#34;sh&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;-c&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=s2>&#34;npm install --prefix /data node-red-contrib-azure-iot-hub node-red-contrib-azure-blob-storage&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>volumeMounts</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nodered-data</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>mountPath</span><span class=p>:</span><span class=w> </span><span class=l>/data</span></span></span></code></pre></div><p>And deploy it</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>yaml</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-7 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=l>kubectl apply -f nodered-deployment.yaml</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=c># Check the Deployment is grabbing a container</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=l>sysadmin@otedge001:~/nodered$ kubectl get pods -n nodered</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=l>NAME                      READY   STATUS    RESTARTS   AGE</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=l>nodered-7dc66dcdb7-hh2sg   1/1     Running   0          91s</span></span></span></code></pre></div><p>Inspect the Container to see if it is starting.</p><p>In our manifest, we added an <code>**initContainer**</code> (<code>install-azure-nodes</code>). <strong>InitContainers run first</strong>, <em>before</em> the main container (<code>nodered</code>) starts. Until all <strong>InitContainers</strong> finish successfully, Kubernetes holds the Pod in <code>PodInitializing</code> state. W**hen you run **<code>**kubectl logs &lt;pod>**</code>, it by default tries to show <strong>the main container logs</strong> — <strong>but your main container hasn&rsquo;t even started yet</strong>, so you get:</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>bash</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-8 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># Check the container is starting</span>
+</span></span><span class=line><span class=cl>sysadmin@otedge001:~/nodered$ kubectl logs nodered-7dc66dcdb7-hh2sg -n nodered -f
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 13:29:41 - <span class=o>[</span>info<span class=o>]</span> 
+</span></span><span class=line><span class=cl>Error from server <span class=o>(</span>BadRequest<span class=o>)</span>: container <span class=s2>&#34;nodered&#34;</span> in pod <span class=s2>&#34;nodered-78948ddfb4-8q4jj&#34;</span> is waiting to start: PodInitializing</span></span></code></pre></div><p>If we use <code>--container</code> flag to tell <code>kubectl</code> you want logs from the** init container** instead of the main container</p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>bash</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-9 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># Check the container is starting looking at the initContainer</span>
+</span></span><span class=line><span class=cl>sysadmin@otedge001:~/nodered$ kubectl logs nodered-6f867d544c-9vgkg -n nodered -c install-azure-nodes -f
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>npm warn deprecated cryptiles@2.0.5: This version has been deprecated in accordance with the hapi support policy <span class=o>(</span>hapi.im/support<span class=o>)</span>. Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available <span class=k>for</span> older versions <span class=o>(</span>hapi.im/commercial<span class=o>)</span>.
+</span></span><span class=line><span class=cl>npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+</span></span><span class=line><span class=cl>npm warn deprecated sntp@1.0.9: This module moved to @hapi/sntp. Please make sure to switch over as this distribution is no longer supported and may contain bugs and critical security issues.
+</span></span><span class=line><span class=cl>npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache <span class=k>if</span> you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+</span></span><span class=line><span class=cl>npm warn deprecated crypto@0.0.3: This package is no longer supported. It<span class=s1>&#39;s now a built-in Node module. If you&#39;</span>ve depended on crypto, you should switch to the one that<span class=err>&#39;</span>s built-in.
+</span></span><span class=line><span class=cl>npm warn deprecated azure-iot-device-amqp-ws@1.0.14: The Amqp over Websockets feature is now provided by azure-iot-device-amqp.AmqpWs
+</span></span><span class=line><span class=cl>npm warn deprecated har-validator@2.0.6: this library is no longer supported
+</span></span><span class=line><span class=cl>npm warn deprecated uuid@3.4.0: Please upgrade  to version <span class=m>7</span> or higher.  Older versions may use Math.random<span class=o>()</span> in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random <span class=k>for</span> details.
+</span></span><span class=line><span class=cl>npm warn deprecated node-uuid@1.4.8: Use uuid module instead
+</span></span><span class=line><span class=cl>npm warn deprecated boom@2.10.1: This version has been deprecated in accordance with the hapi support policy <span class=o>(</span>hapi.im/support<span class=o>)</span>. Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available <span class=k>for</span> older versions <span class=o>(</span>hapi.im/commercial<span class=o>)</span>.
+</span></span><span class=line><span class=cl>npm warn deprecated azure-event-hubs@0.0.8: This package has been deprecated. Please use @azure/event-hubs instead
+</span></span><span class=line><span class=cl>npm warn deprecated request@2.74.0: request has been deprecated, see https://github.com/request/request/issues/3142
+</span></span><span class=line><span class=cl>npm warn deprecated hoek@2.16.3: This version has been deprecated in accordance with the hapi support policy <span class=o>(</span>hapi.im/support<span class=o>)</span>. Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available <span class=k>for</span> older versions <span class=o>(</span>hapi.im/commercial<span class=o>)</span>.
+</span></span><span class=line><span class=cl>npm warn deprecated hawk@3.1.3: This module moved to @hapi/hawk. Please make sure to switch over as this distribution is no longer supported and may contain bugs and critical security issues.
+</span></span><span class=line><span class=cl>npm warn deprecated azure-storage@1.4.0: Please note: newer packages @azure/storage-blob, @azure/storage-queue and @azure/storage-file are available as of November <span class=m>2019</span> and @azure/data-tables is available as of June 2021. While the legacy azure-storage package will <span class=k>continue</span> to receive critical bug fixes, we strongly encourage you to upgrade. Migration guide can be found: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/MigrationGuide.md
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>added <span class=m>282</span> packages, and audited <span class=m>283</span> packages in 27s
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=m>17</span> packages are looking <span class=k>for</span> funding
+</span></span><span class=line><span class=cl>  run <span class=sb>`</span>npm fund<span class=sb>`</span> <span class=k>for</span> details
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=m>20</span> vulnerabilities <span class=o>(</span><span class=m>12</span> moderate, <span class=m>6</span> high, <span class=m>2</span> critical<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>To address issues that <span class=k>do</span> not require attention, run:
+</span></span><span class=line><span class=cl>  npm audit fix
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Some issues need review, and may require choosing
+</span></span><span class=line><span class=cl>a different dependency.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Run <span class=sb>`</span>npm audit<span class=sb>`</span> <span class=k>for</span> details.
+</span></span><span class=line><span class=cl>npm notice
+</span></span><span class=line><span class=cl>npm notice New major version of npm available! 10.8.2 -&gt; 11.3.0
+</span></span><span class=line><span class=cl>npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.3.0
+</span></span><span class=line><span class=cl>npm notice To update run: npm install -g npm@11.3.0
+</span></span><span class=line><span class=cl>npm notice</span></span></code></pre></div><blockquote class=blockquote style=text-align:right></blockquote><h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id=checking-containers-logs><a href=#checking-containers-logs class=header-mark aria-label="Header mark for 'Checking Containers Logs'"></a><div id=checking-containers-logs class="absolute -top-28"></div>Checking Containers Logs</h1><pre><code>If your `install-azure-nodes` init container **fails**, the whole Pod will stay in `Init:Error` or `CrashLoopBackoff`, and you can troubleshoot from the init logsHere's what's happening:
+</code></pre><p>Once, it has started without issues, we can then inspect the main containers logs</p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>bash</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-10 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>sysadmin@otedge001:~/nodered$ kubectl logs nodered-6f867d544c-9vgkg -n nodered 
+</span></span><span class=line><span class=cl>Defaulted container <span class=s2>&#34;nodered&#34;</span> out of: nodered, install-azure-nodes <span class=o>(</span>init<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:42 - <span class=o>[</span>info<span class=o>]</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Welcome to Node-RED
+</span></span><span class=line><span class=cl><span class=o>===================</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:42 - <span class=o>[</span>info<span class=o>]</span> Node-RED version: v4.0.9
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:42 - <span class=o>[</span>info<span class=o>]</span> Node.js  version: v20.19.0
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:42 - <span class=o>[</span>info<span class=o>]</span> Linux 6.8.0-58-generic x64 LE
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:43 - <span class=o>[</span>info<span class=o>]</span> Loading palette nodes
+</span></span><span class=line><span class=cl><span class=o>(</span>node:7<span class=o>)</span> <span class=o>[</span>DEP0128<span class=o>]</span> DeprecationWarning: Invalid <span class=s1>&#39;main&#39;</span> field in <span class=s1>&#39;/data/node_modules/azure-iot-amqp-base/package.json&#39;</span> of <span class=s1>&#39;main.js&#39;</span>. Please either fix that or report it to the module author
+</span></span><span class=line><span class=cl><span class=o>(</span>Use <span class=sb>`</span>node --trace-deprecation ...<span class=sb>`</span> to show where the warning was created<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>(</span>node:7<span class=o>)</span> <span class=o>[</span>DEP0128<span class=o>]</span> DeprecationWarning: Invalid <span class=s1>&#39;main&#39;</span> field in <span class=s1>&#39;/data/node_modules/azure-iot-device-amqp-ws/node_modules/azure-iot-amqp-base/package.json&#39;</span> of <span class=s1>&#39;main.js&#39;</span>. Please either fix that or report it to the module author
+</span></span><span class=line><span class=cl><span class=o>(</span>node:7<span class=o>)</span> <span class=o>[</span>DEP0128<span class=o>]</span> DeprecationWarning: Invalid <span class=s1>&#39;main&#39;</span> field in <span class=s1>&#39;/data/node_modules/azure-iot-device-amqp-ws/node_modules/azure-iot-amqp-base/package.json&#39;</span> of <span class=s1>&#39;main.js&#39;</span>. Please either fix that or report it to the module author
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>info<span class=o>]</span> Settings file  : /data/settings.js
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>info<span class=o>]</span> Context store  : <span class=s1>&#39;default&#39;</span> <span class=o>[</span><span class=nv>module</span><span class=o>=</span>memory<span class=o>]</span>
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>info<span class=o>]</span> User directory : /data
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>warn<span class=o>]</span> Projects disabled : editorTheme.projects.enabled<span class=o>=</span><span class=nb>false</span>
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>info<span class=o>]</span> Flows file     : /data/flows.json
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>info<span class=o>]</span> Creating new flow file
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>warn<span class=o>]</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>---------------------------------------------------------------------
+</span></span><span class=line><span class=cl>Your flow credentials file is encrypted using a system-generated key.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>If the system-generated key is lost <span class=k>for</span> any reason, your credentials
+</span></span><span class=line><span class=cl>file will not be recoverable, you will have to delete it and re-enter
+</span></span><span class=line><span class=cl>your credentials.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You should <span class=nb>set</span> your own key using the <span class=s1>&#39;credentialSecret&#39;</span> option in
+</span></span><span class=line><span class=cl>your settings file. Node-RED will <span class=k>then</span> re-encrypt your credentials
+</span></span><span class=line><span class=cl>file using your chosen key the next <span class=nb>time</span> you deploy a change.
+</span></span><span class=line><span class=cl>---------------------------------------------------------------------
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>warn<span class=o>]</span> Encrypted credentials not found
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>info<span class=o>]</span> Starting flows
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>info<span class=o>]</span> Started flows
+</span></span><span class=line><span class=cl><span class=m>28</span> Apr 15:09:52 - <span class=o>[</span>info<span class=o>]</span> Server now running at http://127.0.0.1:1880/</span></span></code></pre></div><p>We can also inspect the PVC, to see that NodeRed has its data files created</p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>bash</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-11 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># Check the PVC, use the path as described in the PVC Creation</span>
+</span></span><span class=line><span class=cl>sysadmin@otedge001:~/nodered$ sudo ls -al /var/lib/rancher/k3s/storage/pvc-2c5110d0-82c0-42fa-99e2-fdf653bdb42c_nodered_nodered-pvc
+</span></span><span class=line><span class=cl>total <span class=m>72</span>
+</span></span><span class=line><span class=cl>drwxrwxrwx <span class=m>4</span> root     root      <span class=m>4096</span> Apr <span class=m>28</span> 13:29 .
+</span></span><span class=line><span class=cl>drwx------ <span class=m>3</span> root     root      <span class=m>4096</span> Apr <span class=m>28</span> 13:29 ..
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> sysadmin sysadmin <span class=m>14681</span> Apr <span class=m>28</span> 13:29 .config.nodes.json
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> sysadmin sysadmin   <span class=m>133</span> Apr <span class=m>28</span> 13:29 .config.runtime.json
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> sysadmin sysadmin    <span class=m>40</span> Apr <span class=m>28</span> 13:29 .config.runtime.json.backup
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>3</span> sysadmin sysadmin  <span class=m>4096</span> Apr <span class=m>28</span> 13:29 lib
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>2</span> sysadmin sysadmin  <span class=m>4096</span> Apr <span class=m>28</span> 13:29 node_modules
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> sysadmin sysadmin   <span class=m>120</span> Apr <span class=m>28</span> 13:29 package.json
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> sysadmin sysadmin <span class=m>24649</span> Apr <span class=m>28</span> 13:29 settings.js</span></span></code></pre></div><h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"><div id=create-the-service class="absolute -top-28"></div>Create the Service</h2><p>Create a file called <code>nodered-service.yaml</code>:</p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>yaml</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-12 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Service</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nodered-service</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>nodered</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>selector</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>nodered</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>NodePort</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>http-ui</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class=m>1880</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>targetPort</span><span class=p>:</span><span class=w> </span><span class=m>1880</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>nodePort</span><span class=p>:</span><span class=w> </span><span class=m>31880</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>mqtt</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class=m>1883</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>targetPort</span><span class=p>:</span><span class=w> </span><span class=m>1883</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>nodePort</span><span class=p>:</span><span class=w> </span><span class=m>31883</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>modbus</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class=m>502</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>targetPort</span><span class=p>:</span><span class=w> </span><span class=m>502</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>nodePort</span><span class=p>:</span><span class=w> </span><span class=m>30502</span></span></span></code></pre></div><p>Apply it:</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>shell</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-13 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>kubectl apply -f nodered-service.yaml</span></span></code></pre></div><ul><li>Note: If you are on a bare-metal K3s and LoadBalancer isn’t available (no MetalLB), you can change type: LoadBalancer to type: NodePort.
+Check that an IP has been assigned</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>bash</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-14 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>sysadmin@otedge001:~/nodered$ kubectl get svc -n nodered
+</span></span><span class=line><span class=cl>NAME              TYPE       CLUSTER-IP     EXTERNAL-IP   PORT<span class=o>(</span>S<span class=o>)</span>                                       AGE
+</span></span><span class=line><span class=cl>nodered-service   NodePort   10.43.73.230   &lt;none&gt;        1880:31880/TCP,1883:31883/TCP,502:30502/TCP   29m</span></span></code></pre></div><p>Great, but we have a small problem, our edge machine (<code>otedge001</code>) is behind NAT or firewalled, and therefore you <strong>can&rsquo;t</strong> reach it directly.</p><h3 class="text-xl font-bold text-primary-500 leading-tight mb-2" id=port-redirection-over-the-ssh-tunnel><a href=#port-redirection-over-the-ssh-tunnel class=header-mark aria-label="Header mark for 'Port Redirection over the SSH Tunnel'"></a>Port Redirection over the SSH Tunnel</h3><p>Since you already SSH into <code>otedge001</code> using:</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>bash</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-15 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>az ssh arc --subscription <span class=s2>&#34;&lt;id&gt;&#34;</span> --resource-group <span class=s2>&#34;&lt;rg&gt;&#34;</span> --name <span class=s2>&#34;&lt;machine&gt;&#34;</span> --local-user <span class=s2>&#34;sysadmin&#34;</span></span></span></code></pre></div><p>You can add <strong>port forwarding</strong> to forward <code>localhost:1880</code> on your laptop → to the Node-RED service inside K3s.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>shell</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-16 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>az ssh arc --subscription <span class=s2>&#34;&lt;id&gt;&#34;</span> --resource-group <span class=s2>&#34;&lt;rg&gt;&#34;</span> --name <span class=s2>&#34;&lt;machine&gt;&#34;</span> --local-user <span class=s2>&#34;sysadmin&#34;</span> </span></span></code></pre></div><p>Explanation:</p><ul><li>L 1880:localhost:31880 means: &ldquo;forward my local port 1880 to remote localhost port 31880&rdquo;
+Then, <strong>from your laptop</strong>, open <code>http://localhost:1880</code> and you&rsquo;ll connect straight to Node-RED inside your K3s cluster through the Arc tunnel!</li></ul><pre class=mermaid>flowchart TD
+    A[Your Laptop] -- "Node Web 'localhost:1880'" --> B[SSH Tunnel]
+    B -- "Forwarded to 31880" --> C1[otedge001 Arc-connected Edge Machine]
+
+    
+    subgraph NodeRed Service Namespace
+      C1[otedge001 'NodePort Exposed Services']
+      C1 -- "NodePort 31880" --> D1[Node-RED UI 'Port 1880']
+      C1 -- "NodePort 31883" --> D2[Node-RED MQTT Input 'Port 1883']
+      C1 -- "NodePort 30502" --> D3[Node-RED Modbus Input 'Port 502']
+      D1 -- "Target: 1880" --> E[Node-RED Pod]
+      D2 -- "Target: 1883" --> E[Node-RED Pod]
+      D3 -- "Target: 502" --> E[Node-RED Pod]
+    end
+    
+    subgraph Azure Arc Secure Channel
+      A ---|Secure SSH Relay| C1
+    end
+</pre><p>✅ No firewall changes needed</p><p>✅ No public IPs needed</p><p><img src=/posts/iot-nodered-on-arc-enabled-edge/img-1e3eb56e-image.png alt=Image></p><h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id=nodered-flow><a href=#nodered-flow class=header-mark aria-label="Header mark for 'NodeRED Flow'"></a><div id=nodered-flow class="absolute -top-28"></div>NodeRED Flow</h1><pre class=mermaid>flowchart TD
+  SimulatorFlow[Simulator 'Inject fake MQTT and Modbus'] --> DeviceProcessor
+  RealDevices[Real MQTT/Modbus Devices] --> DeviceProcessor
+
+  DeviceProcessor --> DeviceRegistry[Device Registry 'flow memory']
+  DeviceRegistry --> OPCUAServer[(OPC UA Server)]
+  DeviceProcessor --> AzureMQ[Azure MQ Broker]
+</pre><h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"><div id=simulated-devices class="absolute -top-28"></div>Simulated Devices</h2><p>Each device will send simulated data every 5 seconds., On first message arrival for a device:</p><ul><li><p>Automatically create a new OPC UA Node</p></li><li><p>Forward data to Azure MQ Broker</p><h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"><div id=flows class="absolute -top-28"></div>Flows</h2></li></ul><p>As part of a framework, I will establish initially 3 flows</p><ol><li>The Main Flow</li><li>MQTT Simulator flow</li><li>Modbus Simulator flow</li></ol><pre class=mermaid>flowchart TB
+  MQTT_Simulator["MQTT Simulator Flow (Lightbulb + Socket)"]
+  Modbus_Simulator["Modbus Simulator Flow (Thermostat + Motor)"]
+  
+  MQTT_Simulator --> MQTTBroker
+  Modbus_Simulator --> ModbusTCPServer
+
+  RealMQTTDevices["Real MQTT Devices"] --> MQTTBroker
+  RealModbusDevices["Real Modbus Devices"] --> ModbusTCPServer
+
+  MQTTBroker --> MQTT_Receiver["Main Flow: MQTT Receiver"]
+  ModbusTCPServer --> Modbus_Receiver["Main Flow: Modbus Receiver"]
+
+  MQTT_Receiver --> DiscoveryManager["Device Discovery Manager"]
+  Modbus_Receiver --> DiscoveryManager
+
+  DiscoveryManager --> OPCUAServer["OPC UA Server (dynamic devices)"]
+  DiscoveryManager --> AzureMQService["Azure MQ Broker"]
+</pre><h3 class="text-xl font-bold text-primary-500 leading-tight mb-2" id=main-flow><a href=#main-flow class=header-mark aria-label="Header mark for 'Main Flow'"></a>Main Flow</h3><p>Features of this flow include</p><ul><li>MQTT/Modbus listeners</li><li>Device discovery (after 3 messages)<ul><li>Cache first 3 telemetry messages before accepting device as &ldquo;real&rdquo;</li><li>Only then dynamically add to OPC UA</li><li>OPC UA node creation</li></ul></li><li>Azure MQ forwarding</li><li>Full comments and clean structure</li></ul><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>yaml</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-17 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=l>// === Main Core Flow (Listener, Discovery, OPC UA, AzureMQ) ===</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=p>[</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;core-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;label&#34;: </span><span class=s2>&#34;Main Core Flow&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;disabled&#34;: </span><span class=kc>false</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;info&#34;: </span><span class=s2>&#34;Receives MQTT/Modbus messages, detects new devices after 3 messages, registers to OPC UA, forwards to Azure MQ&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;mqtt-in-core&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;mqtt in&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;core-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;MQTT Receiver&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;topic&#34;: </span><span class=s2>&#34;home/+/+&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;qos&#34;: </span><span class=s2>&#34;2&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;datatype&#34;: </span><span class=s2>&#34;auto&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;broker&#34;: </span><span class=s2>&#34;mqtt-broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;nl&#34;: </span><span class=kc>false</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;rap&#34;: </span><span class=kc>false</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;rh&#34;: </span><span class=m>0</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>140</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>100</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;device-handler&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;modbus-in-core&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;function&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;core-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Modbus Receiver&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;func&#34;: </span><span class=s2>&#34;// Simulated Modbus message arrives here from simulator
+</span></span></span><span class=line><span class=cl><span class=s2>msg.topic = \&#34;modbus/\&#34; + msg.payload.deviceId;
+</span></span></span><span class=line><span class=cl><span class=s2>return msg;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>140</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>160</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;device-handler&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;device-handler&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;function&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;core-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Device Handler + Discovery&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;func&#34;: </span><span class=s2>&#34;// Keep per-device message counters and OPC UA registration
+</span></span></span><span class=line><span class=cl><span class=s2>flow.set(&#39;deviceRegistry&#39;, flow.get(&#39;deviceRegistry&#39;) || {});
+</span></span></span><span class=line><span class=cl><span class=s2>let registry = flow.get(&#39;deviceRegistry&#39;);
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>let deviceKey = msg.topic.replace(/[^a-zA-Z0-9]/g, &#39;_&#39;);
+</span></span></span><span class=line><span class=cl><span class=s2>let device = registry[deviceKey] || { count: 0, registered: false };
+</span></span></span><span class=line><span class=cl><span class=s2>device.count += 1;
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>// Register to OPC UA after 3 messages
+</span></span></span><span class=line><span class=cl><span class=s2>if (!device.registered &amp;&amp; device.count &gt;= 3) {
+</span></span></span><span class=line><span class=cl><span class=s2>    device.registered = true;
+</span></span></span><span class=line><span class=cl><span class=s2>    node.send([null, {
+</span></span></span><span class=line><span class=cl><span class=s2>        opcuaCommand: \&#34;addVariable\&#34;,
+</span></span></span><span class=line><span class=cl><span class=s2>        nodeId: \&#34;ns=1;s=\&#34; + deviceKey,
+</span></span></span><span class=line><span class=cl><span class=s2>        datatype: \&#34;Double\&#34;,
+</span></span></span><span class=line><span class=cl><span class=s2>        value: 0
+</span></span></span><span class=line><span class=cl><span class=s2>    }]);
+</span></span></span><span class=line><span class=cl><span class=s2>}
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>registry[deviceKey] = device;
+</span></span></span><span class=line><span class=cl><span class=s2>flow.set(&#39;deviceRegistry&#39;, registry);
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>// Send to AzureMQ and OPC UA write
+</span></span></span><span class=line><span class=cl><span class=s2>let value = msg.payload.value || (msg.payload.data ? msg.payload.data[0] : msg.payload);
+</span></span></span><span class=line><span class=cl><span class=s2>return [{
+</span></span></span><span class=line><span class=cl><span class=s2>    topic: \&#34;edge/devices/\&#34; + deviceKey,
+</span></span></span><span class=line><span class=cl><span class=s2>    payload: {
+</span></span></span><span class=line><span class=cl><span class=s2>        deviceId: deviceKey,
+</span></span></span><span class=line><span class=cl><span class=s2>        value: value,
+</span></span></span><span class=line><span class=cl><span class=s2>        timestamp: Date.now()
+</span></span></span><span class=line><span class=cl><span class=s2>    }
+</span></span></span><span class=line><span class=cl><span class=s2>}, {
+</span></span></span><span class=line><span class=cl><span class=s2>    opcuaCommand: \&#34;write\&#34;,
+</span></span></span><span class=line><span class=cl><span class=s2>    nodetype: \&#34;variable\&#34;,
+</span></span></span><span class=line><span class=cl><span class=s2>    nodeId: \&#34;ns=1;s=\&#34; + deviceKey,
+</span></span></span><span class=line><span class=cl><span class=s2>    datatype: \&#34;Double\&#34;,
+</span></span></span><span class=line><span class=cl><span class=s2>    value: value
+</span></span></span><span class=line><span class=cl><span class=s2>}];&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;outputs&#34;: </span><span class=m>2</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>420</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>130</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;mqtt-out-azure&#34;</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=s2>&#34;opcua-server&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;mqtt-out-azure&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;mqtt out&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;core-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Azure MQ Broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;topic&#34;: </span><span class=s2>&#34;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;qos&#34;: </span><span class=s2>&#34;1&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;retain&#34;: </span><span class=s2>&#34;false&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;broker&#34;: </span><span class=s2>&#34;azure-mq-broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>700</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>100</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;opcua-server&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;OpcUa-Server&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;core-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;port&#34;: </span><span class=s2>&#34;4840&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;OPC UA Server&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;endpoint&#34;: </span><span class=s2>&#34;NodeRedOPCUA&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;users&#34;: </span><span class=p>[],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;allowAnonymous&#34;: </span><span class=kc>true</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>700</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>160</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;mqtt-broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;mqtt-broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Local MQTT Broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;broker&#34;: </span><span class=s2>&#34;localhost&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;port&#34;: </span><span class=s2>&#34;1883&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;clientid&#34;: </span><span class=s2>&#34;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;usetls&#34;: </span><span class=kc>false</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;protocolVersion&#34;: </span><span class=s2>&#34;4&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;keepalive&#34;: </span><span class=s2>&#34;60&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;cleansession&#34;: </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;azure-mq-broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;mqtt-broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Azure MQ Broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;broker&#34;: </span><span class=s2>&#34;azure-mq-service.mq.svc.cluster.local&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;port&#34;: </span><span class=s2>&#34;1883&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;clientid&#34;: </span><span class=s2>&#34;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;usetls&#34;: </span><span class=kc>false</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;protocolVersion&#34;: </span><span class=s2>&#34;4&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;keepalive&#34;: </span><span class=s2>&#34;60&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;cleansession&#34;: </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=w>
+</span></span></span><span class=line><span class=cl><span class=p>]</span></span></span></code></pre></div><h3 class="text-xl font-bold text-primary-500 leading-tight mb-2" id=mqtt-simulator><a href=#mqtt-simulator class=header-mark aria-label="Header mark for 'MQTT Simulator'"></a>MQTT Simulator</h3><p>Lightbulb + Smart Socket with realistic control and ramp behavior</p><ul><li>Lightbulb:<ul><li>Starts ON by default</li><li>Breathing brightness (30% ↔ 100%)</li><li>Controlled via MQTT home/lightbulb1/control</li><li>Smart Socket:</li><li>Starts ON by default</li><li>Power draw fluctuates (e.g., 100–200W)</li><li>Controlled via MQTT home/socket1/control</li><li>Every 5 seconds sending updates</li></ul></li><li>Full comments and structure</li></ul><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>yaml</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-18 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=p>[</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;mqtt-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;label&#34;: </span><span class=s2>&#34;MQTT Simulator Flow&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;disabled&#34;: </span><span class=kc>false</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;info&#34;: </span><span class=s2>&#34;Simulates MQTT lightbulb and smart socket with control topics and ramping output&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;lightbulb-state&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;function&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;mqtt-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Lightbulb State Machine&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;func&#34;: </span><span class=s2>&#34;// Simulates lightbulb brightness ramping while ON. OFF = brightness 0.
+</span></span></span><span class=line><span class=cl><span class=s2>let state = context.get(&#39;state&#39;) || { on: true, brightness: 30, direction: 1 };
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>if (state.on) {
+</span></span></span><span class=line><span class=cl><span class=s2>    state.brightness += state.direction * 5;
+</span></span></span><span class=line><span class=cl><span class=s2>    if (state.brightness &gt;= 100 || state.brightness &lt;= 30) {
+</span></span></span><span class=line><span class=cl><span class=s2>        state.direction *= -1;
+</span></span></span><span class=line><span class=cl><span class=s2>        state.brightness = Math.max(30, Math.min(100, state.brightness));
+</span></span></span><span class=line><span class=cl><span class=s2>    }
+</span></span></span><span class=line><span class=cl><span class=s2>} else {
+</span></span></span><span class=line><span class=cl><span class=s2>    state.brightness = 0;
+</span></span></span><span class=line><span class=cl><span class=s2>}
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>context.set(&#39;state&#39;, state);
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>return {
+</span></span></span><span class=line><span class=cl><span class=s2>    topic: &#39;home/lightbulb1/brightness&#39;,
+</span></span></span><span class=line><span class=cl><span class=s2>    payload: state.brightness
+</span></span></span><span class=line><span class=cl><span class=s2>};&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;outputs&#34;: </span><span class=m>1</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>340</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>100</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;mqtt-out&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;lightbulb-timer&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;inject&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;mqtt-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Every 5s&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;props&#34;: [{ &#34;p&#34;: </span><span class=s2>&#34;payload&#34;</span><span class=w> </span>}<span class=p>],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;repeat&#34;: </span><span class=s2>&#34;5&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;payload&#34;: </span><span class=s2>&#34;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;payloadType&#34;: </span><span class=s2>&#34;date&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>120</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>100</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;lightbulb-state&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;lightbulb-control&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;mqtt in&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;mqtt-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Lightbulb Control&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;topic&#34;: </span><span class=s2>&#34;home/lightbulb1/control&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;qos&#34;: </span><span class=s2>&#34;2&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;datatype&#34;: </span><span class=s2>&#34;json&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;broker&#34;: </span><span class=s2>&#34;mqtt-broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>130</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>160</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;lightbulb-control-handler&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;lightbulb-control-handler&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;function&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;mqtt-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Handle ON/OFF&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;func&#34;: </span><span class=s2>&#34;let state = context.get(&#39;state&#39;) || { on: true };
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>if (msg.payload &amp;&amp; msg.payload.state) {
+</span></span></span><span class=line><span class=cl><span class=s2>    state.on = msg.payload.state.toUpperCase() === &#39;ON&#39;;
+</span></span></span><span class=line><span class=cl><span class=s2>    context.set(&#39;state&#39;, state);
+</span></span></span><span class=line><span class=cl><span class=s2>}
+</span></span></span><span class=line><span class=cl><span class=s2>return null;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;outputs&#34;: </span><span class=m>1</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>350</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>160</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;socket-state&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;function&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;mqtt-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Socket State Machine&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;func&#34;: </span><span class=s2>&#34;let state = context.get(&#39;state&#39;) || { on: true };
+</span></span></span><span class=line><span class=cl><span class=s2>let power = 0;
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>if (state.on) {
+</span></span></span><span class=line><span class=cl><span class=s2>    power = 100 + Math.round(Math.random() * 100); // Simulate 100–200W
+</span></span></span><span class=line><span class=cl><span class=s2>}
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>context.set(&#39;lastPower&#39;, power);
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>return {
+</span></span></span><span class=line><span class=cl><span class=s2>    topic: &#39;home/socket1/power&#39;,
+</span></span></span><span class=line><span class=cl><span class=s2>    payload: power
+</span></span></span><span class=line><span class=cl><span class=s2>};&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;outputs&#34;: </span><span class=m>1</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>340</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>260</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;mqtt-out&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;socket-timer&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;inject&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;mqtt-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Every 5s&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;props&#34;: [{ &#34;p&#34;: </span><span class=s2>&#34;payload&#34;</span><span class=w> </span>}<span class=p>],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;repeat&#34;: </span><span class=s2>&#34;5&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;payload&#34;: </span><span class=s2>&#34;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;payloadType&#34;: </span><span class=s2>&#34;date&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>120</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>260</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;socket-state&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;socket-control&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;mqtt in&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;mqtt-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Socket Control&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;topic&#34;: </span><span class=s2>&#34;home/socket1/control&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;qos&#34;: </span><span class=s2>&#34;2&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;datatype&#34;: </span><span class=s2>&#34;auto&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;broker&#34;: </span><span class=s2>&#34;mqtt-broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>130</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>320</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;socket-control-handler&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;socket-control-handler&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;function&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;mqtt-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Handle ON/OFF&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;func&#34;: </span><span class=s2>&#34;let state = context.get(&#39;state&#39;) || { on: true };
+</span></span></span><span class=line><span class=cl><span class=s2>if (msg.payload === &#39;ON&#39;) state.on = true;
+</span></span></span><span class=line><span class=cl><span class=s2>if (msg.payload === &#39;OFF&#39;) state.on = false;
+</span></span></span><span class=line><span class=cl><span class=s2>context.set(&#39;state&#39;, state);
+</span></span></span><span class=line><span class=cl><span class=s2>return null;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;outputs&#34;: </span><span class=m>1</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>350</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>320</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;mqtt-out&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;mqtt out&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;mqtt-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Simulator MQTT Output&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;topic&#34;: </span><span class=s2>&#34;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;qos&#34;: </span><span class=s2>&#34;0&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;retain&#34;: </span><span class=s2>&#34;false&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;broker&#34;: </span><span class=s2>&#34;mqtt-broker&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>600</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>200</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=w>
+</span></span></span><span class=line><span class=cl><span class=p>]</span></span></span></code></pre></div><h3 class="text-xl font-bold text-primary-500 leading-tight mb-2" id=modbus-simulator><a href=#modbus-simulator class=header-mark aria-label="Header mark for 'Modbus Simulator'"></a>Modbus Simulator</h3><p>Thermostat + Motor with realistic ramp behavior, Simulated like real Modbus devices and Injects into <strong>Main Flow Modbus Receiver</strong></p><ul><li>Thermostat:<ul><li>Smooth temperature drift (21–24°C)</li><li>Motor:</li><li>Smooth RPM drift (1400–1500 RPM)</li><li>Every 5 seconds sending updates</li></ul></li><li>Full comments and structure</li></ul><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>yaml</p></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-19 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=l>// === Modbus Simulator Flow (Thermostat + Motor, Ramp Simulation) ===</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=p>[</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;modbus-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;label&#34;: </span><span class=s2>&#34;Modbus Simulator Flow&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;disabled&#34;: </span><span class=kc>false</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;info&#34;: </span><span class=s2>&#34;Simulates Modbus devices: thermostat (temperature) and motor (RPM) using function + inject&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;thermostat-state&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;function&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;modbus-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Thermostat State Machine&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;func&#34;: </span><span class=s2>&#34;let state = context.get(&#39;state&#39;) || { temp: 21.0, direction: 0.1 };
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>state.temp += state.direction;
+</span></span></span><span class=line><span class=cl><span class=s2>if (state.temp &gt;= 24.0 || state.temp &lt;= 21.0) {
+</span></span></span><span class=line><span class=cl><span class=s2>    state.direction *= -1;
+</span></span></span><span class=line><span class=cl><span class=s2>    state.temp = Math.max(21.0, Math.min(24.0, state.temp));
+</span></span></span><span class=line><span class=cl><span class=s2>}
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>context.set(&#39;state&#39;, state);
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>return {
+</span></span></span><span class=line><span class=cl><span class=s2>    topic: &#39;modbus/1&#39;,
+</span></span></span><span class=line><span class=cl><span class=s2>    payload: { deviceId: 1, data: [parseFloat(state.temp.toFixed(2))] }
+</span></span></span><span class=line><span class=cl><span class=s2>};&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;outputs&#34;: </span><span class=m>1</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>350</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>100</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;modbus-out&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;thermostat-timer&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;inject&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;modbus-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Every 5s&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;props&#34;: [{ &#34;p&#34;: </span><span class=s2>&#34;payload&#34;</span><span class=w> </span>}<span class=p>],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;repeat&#34;: </span><span class=s2>&#34;5&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;payload&#34;: </span><span class=s2>&#34;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;payloadType&#34;: </span><span class=s2>&#34;date&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>130</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>100</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;thermostat-state&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;motor-state&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;function&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;modbus-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Motor RPM State Machine&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;func&#34;: </span><span class=s2>&#34;let state = context.get(&#39;state&#39;) || { rpm: 1400, direction: 5 };
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>state.rpm += state.direction;
+</span></span></span><span class=line><span class=cl><span class=s2>if (state.rpm &gt;= 1500 || state.rpm &lt;= 1400) {
+</span></span></span><span class=line><span class=cl><span class=s2>    state.direction *= -1;
+</span></span></span><span class=line><span class=cl><span class=s2>    state.rpm = Math.max(1400, Math.min(1500, state.rpm));
+</span></span></span><span class=line><span class=cl><span class=s2>}
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>context.set(&#39;state&#39;, state);
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>return {
+</span></span></span><span class=line><span class=cl><span class=s2>    topic: &#39;modbus/2&#39;,
+</span></span></span><span class=line><span class=cl><span class=s2>    payload: { deviceId: 2, data: [state.rpm] }
+</span></span></span><span class=line><span class=cl><span class=s2>};&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;outputs&#34;: </span><span class=m>1</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>350</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>200</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;modbus-out&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;motor-timer&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;inject&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;modbus-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Every 5s&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;props&#34;: [{ &#34;p&#34;: </span><span class=s2>&#34;payload&#34;</span><span class=w> </span>}<span class=p>],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;repeat&#34;: </span><span class=s2>&#34;5&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;payload&#34;: </span><span class=s2>&#34;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;payloadType&#34;: </span><span class=s2>&#34;date&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>130</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>200</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;motor-state&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;modbus-out&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;function&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;modbus-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;Forward to Core Modbus Receiver&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;func&#34;: </span><span class=s2>&#34;// This node simulates injection to the main Modbus handler
+</span></span></span><span class=line><span class=cl><span class=s2>return msg;&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;outputs&#34;: </span><span class=m>1</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>640</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>150</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[[</span><span class=s2>&#34;modbus-forward&#34;</span><span class=p>]]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>{<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;id&#34;: </span><span class=s2>&#34;modbus-forward&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;type&#34;: </span><span class=s2>&#34;link out&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;z&#34;: </span><span class=s2>&#34;modbus-sim-tab&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;name&#34;: </span><span class=s2>&#34;To Modbus Core&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;links&#34;: </span><span class=p>[],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;x&#34;: </span><span class=m>840</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;y&#34;: </span><span class=m>150</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>&#34;wires&#34;: </span><span class=p>[]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>}<span class=w>
+</span></span></span><span class=line><span class=cl><span class=p>]</span></span></span></code></pre></div><h2 class="relative text-3xl font-bold leading-snug text-secondary-500 mb-2 mt-12 -ml-px"><div id=all-links class=onpage-anchor></div>All links in a practical list</h2><div class="w-full my-6"><a href=https://v8.dev/blog/math-random class="break-all flex font-bold hover:text-black underline items-center leading-snug text-primary-500" target=_blank><div class="flex-shrink-0 h-5 w-5 mr-2"><svg class="w-full h-full" viewBox="0 0 20 20" fill="currentcolor"><path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828.0 1 1 0 00-1.414 1.414 4 4 0 005.656.0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828.0 1 1 0 101.414-1.414 4 4 0 00-5.656.0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/></svg></div>https://v8.dev/blog/math-random</a></div><div class="w-full my-6"><a href=https://github.com/request/request/issues/3142 class="break-all flex font-bold hover:text-black underline items-center leading-snug text-primary-500" target=_blank><div class="flex-shrink-0 h-5 w-5 mr-2"><svg class="w-full h-full" viewBox="0 0 20 20" fill="currentcolor"><path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828.0 1 1 0 00-1.414 1.414 4 4 0 005.656.0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828.0 1 1 0 101.414-1.414 4 4 0 00-5.656.0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/></svg></div>https://github.com/request/request/issues/3142</a></div><div class="w-full my-6"><a href=https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/MigrationGuide.md class="break-all flex font-bold hover:text-black underline items-center leading-snug text-primary-500" target=_blank><div class="flex-shrink-0 h-5 w-5 mr-2"><svg class="w-full h-full" viewBox="0 0 20 20" fill="currentcolor"><path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828.0 1 1 0 00-1.414 1.414 4 4 0 005.656.0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828.0 1 1 0 101.414-1.414 4 4 0 00-5.656.0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/></svg></div>https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/MigrationGuide.md</a></div><div class="w-full my-6"><a href=https://github.com/npm/cli/releases/tag/v11.3.0 class="break-all flex font-bold hover:text-black underline items-center leading-snug text-primary-500" target=_blank><div class="flex-shrink-0 h-5 w-5 mr-2"><svg class="w-full h-full" viewBox="0 0 20 20" fill="currentcolor"><path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828.0 1 1 0 00-1.414 1.414 4 4 0 005.656.0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828.0 1 1 0 101.414-1.414 4 4 0 00-5.656.0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/></svg></div>https://github.com/npm/cli/releases/tag/v11.3.0</a></div><div class="w-full my-6"><a href=http://127.0.0.1:1880/%3c/span%3e%3c/span%3e%3c/code%3e%3c/pre%3e class="break-all flex font-bold hover:text-black underline items-center leading-snug text-primary-500" target=_blank><div class="flex-shrink-0 h-5 w-5 mr-2"><svg class="w-full h-full" viewBox="0 0 20 20" fill="currentcolor"><path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828.0 1 1 0 00-1.414 1.414 4 4 0 005.656.0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828.0 1 1 0 101.414-1.414 4 4 0 00-5.656.0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/></svg></div>http://127.0.0.1:1880/</span></span></code></pre></a></div><div class="w-full my-6"><a href=http://localhost:1880%3c/code%3e class="break-all flex font-bold hover:text-black underline items-center leading-snug text-primary-500" target=_blank><div class="flex-shrink-0 h-5 w-5 mr-2"><svg class="w-full h-full" viewBox="0 0 20 20" fill="currentcolor"><path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828.0 1 1 0 00-1.414 1.414 4 4 0 005.656.0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828.0 1 1 0 101.414-1.414 4 4 0 00-5.656.0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/></svg></div>http://localhost:1880</code></a></div></div><aside class="order-first lg:order-last lg:pt-12"><div class="lg:sticky lg:top-24 overflow-y-auto" x-data=taToc data-length=197 data-threshold=400 data-elements=6 data-title-show data-title-hide><h2 class="relative text-3xl lg:text-xl font-bold leading-tight text-secondary-500">Table of contents</h2><div class="tableofcontents pt-4 px-1"><nav id=TableOfContents><ul><li><a href=#name-space>Name Space</a></li><li><a href=#presistant-storage>Presistant Storage</a></li><li><a href=#deployment>Deployment</a></li></ul><ul><li><a href=#create-the-service>Create the Service</a><ul><li><a href=#port-redirection-over-the-ssh-tunnel>Port Redirection over the SSH Tunnel</a></li></ul></li></ul><ul><li><a href=#simulated-devices>Simulated Devices</a></li><li><a href=#flows>Flows</a><ul><li><a href=#main-flow>Main Flow</a></li><li><a href=#mqtt-simulator>MQTT Simulator</a></li><li><a href=#modbus-simulator>Modbus Simulator</a></li></ul></li></ul></nav></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script></div></aside></div><div class="relative -mx-8 lg:-mx-40 xl:-mx-40 2xl:-mx-40 h-16 mb-32"><div class="overflow-hidden absolute-center -z-1"><div class="w-full h-full flex-center"><img src=/images/img-separate-gradient.svg loading=eager alt class="hidden sm:block w-full min-w-[768px]">
+<img src=/images/img-separate.svg loading=eager alt class="block sm:hidden w-full min-w-[768px]"></div></div></div><div class="w-full sm:w-2/3 text-center text-secondary-500 mx-auto mb-8"><h2 class="relative text-5xl font-bold leading-tense overflow-hidden mb-4"><div id=strongmorestrong-articles class="absolute -top-28"></div><strong>More</strong> articles</h2><div class="text-lg leading-normal">Thoughts, topics or just solutions I would like to make available to you,
+colleagues and fellow enthusiasts.</div></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-y-12 sm:gap-12 my-12"><a href=/posts/iot-azure-arc-connected-k3s/><div class="flex-center shadow-glow bg-gradient-radius to-blue-100 border border-blue-100 rounded-xl p-4 h-40 mb-2"><img class="h-full object-contain" src=/images/series/azure-iot-featured.png></div><div class="text-md text-gray-600 leading-relaxed p-2"><h3 class="text-xl font-bold text-primary-500 leading-tight mb-2">IoT - Azure Arc Connected K3s</h3>Transform your on-premises infrastructure into a cloud-integrated powerhouse by combining K3s Kubernetes with Azure Arc on an Ubuntu server. This guide walks you through every step—from deploying K3s and configuring user access to connecting your cluster to Azure Arc, enabling observability with Grafana, and integrating full-scale monitoring with Azure Monitor. Whether you&rsquo;re building edge deployments or hybrid IoT solutions, this tutorial gives you a production-grade environment with the flexibility of the cloud and control of local resources.</div></a><a href=/posts/azure-arc-enabling-an-ubuntu-server/><div class="text-md text-gray-600 leading-relaxed p-2"><h3 class="text-xl font-bold text-primary-500 leading-tight mb-2">Azure Arc enabling an Ubuntu Server</h3>Discover how to transform a basic Ubuntu server into a fully Azure Arc-enabled edge device. This step-by-step guide walks you through onboarding a Linux server into Azure Arc, installing the hybrid agent, establishing secure remote access over web sockets, and enabling centralized management through the Azure Portal. Whether for IoT, hybrid cloud, or secure remote administration, this post equips you with the tools to bridge your edge environments seamlessly with Azure.</div></a><a href=/posts/streaming-vinyl-on-sonos/><div class="flex-center shadow-glow bg-gradient-radius to-blue-100 border border-blue-100 rounded-xl p-4 h-40 mb-2"><img class="h-full object-contain" src=./cover-e34de797.jpg></div><div class="text-md text-gray-600 leading-relaxed p-2"><h3 class="text-xl font-bold text-primary-500 leading-tight mb-2">Streaming Vinyl On Sonos</h3><p><strong>Mixup some Vyinl Oldies, a little Ice to cast, and a PI for some energy, and your ready to go</strong></p><p>A little known trivia - I was once a Disc Jokey, and spent a lot of my youth behind the decks, in clubs around the West Of Ireland. Today, I still am the proud owner of a very large collection of Vynil and CD music, which of course deserves to get a second life with my digital streaming audio system powered by Sonos</p></div></a></div></main></div></main><footer role=footer><div class="relative w-full bg-gray-100 bg-gradient-to-b from-gray-200 to-white pt-20"><div class="absolute inset-x-0 top-0 w-full h-40 text-white"><svg class="w-full" viewbox="0 0 1680 91" fill="currentcolor" preserveaspectratio="none"><path d="M1680 0H0L.324249e-4 61.9736C60.8062 60.5012 108.186 53.8676 158.825 46.7777 211.452 39.4093 267.601 31.548 346 28.4749c62.978-2.4687 133.888 5.1285 211.598 13.4542C669.71 53.9406 795.977 67.4685 933 54.4749c232-22 509 7.4989 747 35.9962V0z"/></svg></div><div class="flex justify-between w-full max-w-screen-2xl mx-auto px-8 lg:px-40 pb-16 pt-8"><div class="flex-shrink-0 w-2/12 sm:w-1/12"><img src=/images/img-logo-damian-flynn-blue.svg alt class=w-full></div><div class="flex-grow flex flex-wrap justify-between text-secondary-500 ml-8 pt-4"><div class="w-full sm:w-5/12 pb-8 sm:pb-2"><p class="text-base font-bold mb-2">Let me introduce myself</p><p class="text-sm text-gray-500 font-regular">I am a Microsoft Microsoft MVP with over 20 years of experience in making technology simpler through Infrastructure as Code (IaC) and cloud operations. I’m passionate about transforming complex Azure environments into intuitive systems, starting with a minimal viable product that delivers real value. My goal is to enhance user experience while empowering teams to grow and succeed in the cloud landscape.</p></div><div class="flex-shrink-0 w-4/12 sm:w-2/12 pb-2"><p class="text-base font-bold mb-2">Links</p><p class="text-sm leading-tight font-bold"><a href=/about class="inline-block text-primary-500 font-semibold hover:text-black hover:underline mb-1 mr-2">About</a>
+<a href=/posts class="inline-block text-primary-500 font-semibold hover:text-black hover:underline mb-1 mr-2">Articles</a>
+<a href=/contact.html class="inline-block text-primary-500 font-semibold hover:text-black hover:underline mb-1 mr-2">Contact</a>
+<a href=/work.html class="inline-block text-primary-500 font-semibold hover:text-black hover:underline mb-1 mr-2">Work</a>
+<a href=/disclaimer class="inline-block text-primary-500 font-semibold hover:text-black hover:underline mb-1 mr-2">Imprint</a>
+<a href=/privacy class="inline-block text-primary-500 font-semibold hover:text-black hover:underline mb-1 mr-2">Privacy</a></p></div><div class="flex-shrink-0 w-6/12 sm:w-4/12 pb-2"><p class="text-base font-bold mb-2">Various topics</p><p class="text-sm leading-tight font-bold"><a href=/series/azure-iot-operations class="block text-primary-500 font-semibold hover:text-black hover:underline mb-1">Azure IoT Operations</a>
+<a href=/series/building-azure-with-code class="block text-primary-500 font-semibold hover:text-black hover:underline mb-1">Building Azure with Code</a>
+<a href=/series/ignite-2019 class="block text-primary-500 font-semibold hover:text-black hover:underline mb-1">Ignite 2019</a></p></div></div></div><div class="absolute inset-x-0 -bottom-2 text-secondary-500"><svg class="w-full h-12" fill="currentcolor" viewbox="0 0 1680 52" preserveaspectratio="none"><path d="m419 21.2305c-194 0-295-15.23306-418.99999624-12.2305l4298e-8 43L1680 51.9981V41.2042c-80-11.9737-348-48.3153-542-39.97374S613 21.2305 419 21.2305z"/></svg></div></div><div class="relative bg-secondary-500 text-xs font-semibold text-center text-secondary-50"><div class="w-full max-w-screen-2xl mx-auto px-8 lg:px-40 pb-6 pt-2"><p><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2011 - 2026<a href=/ target=_blank rel="noopener noreferrer"> </a>&nbsp;|&nbsp;<a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></p><div class="flex items-center justify-center my-2"><a href=https://www.youtube.com/channel/UCC-9OqE4nfLxDf-TonKqIRw/ class="font-extrabold text-white mx-2" title="Opens in new Window">Youtube </a><a href=https://github.com/damianflynn class="font-extrabold text-white mx-2" target=_blank title="Opens in new Window">GitHub </a><a href=https://www.x.com/damian_flynn class="font-extrabold text-white mx-2" target=_blank title="Opens in new Window">X </a><a href=https://www.linkedin.com/in/damianflynn class="font-extrabold text-white mx-2" target=_blank title="Opens in new Window">Linkedin</a></div><p></p></div></div></footer><script src=/js/js-scripts.js></script><script type=speculationrules>
+        {
+          "prerender": [
+            {
+              "where": { "href_matches": "/*" },
+              "eagerness": "moderate"
+            }
+          ]
+        }
+    </script><script>console.log(`Page Title: IoT - NodeRED on Arc-Enabled Edge
+Page URL: https://damianflynn.github.io/posts/iot-nodered-on-arc-enabled-edge/
+Page Type: posts`)</script></body></html>

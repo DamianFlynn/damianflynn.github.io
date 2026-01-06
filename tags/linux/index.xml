@@ -11,17 +11,22 @@ The tool is coded in &lt;em&gt;Ruby&lt;/em&gt;, and implements a Domain Specifi
 &lt;p&gt;Finally, there is a Web based User experience included in the solution so we can get a fast overview of the world.&lt;/p&gt;</description></item><item><title>Guacamole Azure Appliance</title><link>https://damianflynn.github.io/posts/guacamole-azure-appliance/</link><pubDate>Sat, 02 Nov 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/guacamole-azure-appliance/</guid><description>&lt;p&gt;Apache Guacamole is a free and open source web application which lets you access your dashboard from anywhere using a modern web browser. It is a clientless remote desktop gateway which only requires Guacamole installed on a server and a web browser supporting HTML5.&lt;/p&gt;
 &lt;p&gt;Guacamole is the best way to keep multiple instances accessible over the internet. Once you add an instance to Guacamole, you don’t need to remember the password as it can securely store the credentials. It also lets you share the desktops among other users in a group. Guacamole supports multiple connection methods such as SSH, Telnet, VNC, and RDP.&lt;/p&gt;</description></item><item><title>CBus MQTT Bridge on Raspberry PI</title><link>https://damianflynn.github.io/posts/cbus-mqtt-bridge-on-raspberry-pi/</link><pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/cbus-mqtt-bridge-on-raspberry-pi/</guid><description>&lt;p&gt;Turn back to 2007; My wife and I built our home, integrating many smart technologies, including the Clipsal C-Bus lighting system. This solution is classified as a Prosumer technology, and is designed to integrate into whole house automation systems.&lt;/p&gt;
 &lt;p&gt;The C-Bus system implements however a propriatory technology, and utilizes a communication protocol which is not ‘open source’; however, accepting a licence agreement will permit access to this protocol for creating an programming interface.&lt;/p&gt;</description></item><item><title>Installing Docker and Compose on Raspbian Buster</title><link>https://damianflynn.github.io/posts/installing-docker-and-compose-on-raspbian-buster/</link><pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/installing-docker-and-compose-on-raspbian-buster/</guid><description>&lt;p&gt;Quickly update a new Raspberry Pi, which has an install of Raspbian Buster with Docker and Docker-compose.&lt;/p&gt;
-&lt;h1 id="docker"&gt;Docker&lt;/h1&gt;
+&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="docker"&gt;&lt;a href="#docker" class="header-mark" aria-label="Header mark for 'Docker'"&gt;&lt;/a&gt;
+ &lt;div id="docker" class="absolute -top-28"&gt;&lt;/div&gt;
+ Docker
+&lt;/h1&gt;
 &lt;p&gt;This is simple, as the Docker team have done all the work&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
-&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
-&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
-&lt;/span&gt;&lt;span class="lnt"&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class="lntd"&gt;
-&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;curl -fsSL get.docker.com -o get-docker.sh
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sh get-docker.sh
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;And, we can add our user to the Docker group so we do not need the &lt;code&gt;sudo&lt;/code&gt; every time. I am using the environment variable &lt;code&gt;$USER&lt;/code&gt;; which indicates who is logged in currently. In my case this is the user &lt;em&gt;pi&lt;/em&gt;.&lt;/p&gt;</description></item><item><title>Waking Deamons</title><link>https://damianflynn.github.io/posts/waking-deamons/</link><pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/waking-deamons/</guid><description>&lt;p&gt;With a multitude of Raspberry PI’s deployed around the house, each taking a dedicated duty in ensuring that services run transparently; It is not uncommon for me to discover the initialization scripts designed to have these services auto start at boot is not working.&lt;/p&gt;
+&lt;div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"&gt;
+ &lt;div class="
+ code-block-title 
+ 
+ tw-flex 
+ tw-flex-row 
+ tw-justify-between 
+ tw-w-full tw-bg-bgColor-secondary
+ "&gt; 
+
+ &lt;div class="code-block-title-bar tw-w-full"&gt;
+ &lt;p class="tw-select-none !tw-my-1"&gt;&lt;svg class="icon"
+ xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"&gt;&lt;!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --&gt;&lt;path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/&gt;&lt;/svg&gt;shell&lt;/p&gt;</description></item><item><title>Waking Deamons</title><link>https://damianflynn.github.io/posts/waking-deamons/</link><pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/waking-deamons/</guid><description>&lt;p&gt;With a multitude of Raspberry PI’s deployed around the house, each taking a dedicated duty in ensuring that services run transparently; It is not uncommon for me to discover the initialization scripts designed to have these services auto start at boot is not working.&lt;/p&gt;
 &lt;p&gt;The content of this post is a reference for different methods which can be employed to resolve these stubborn daemons; which always are to fond of reappearing after an unplanned outage; or what is more commonly referred to as a Power Failure!&lt;/p&gt;</description></item></channel></rss>
