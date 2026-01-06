@@ -49,10 +49,12 @@ jobs:
 
       - name: Install Hugo Modules
         run: |
+          echo "📦 Downloading Go modules to populate cache..."
+          go mod download
+          echo ""
           echo "📦 Installing Hugo modules..."
           hugo mod tidy
           hugo mod get -u
-          hugo mod vendor
           echo ""
           echo "📊 Module Graph:"
           hugo mod graph
