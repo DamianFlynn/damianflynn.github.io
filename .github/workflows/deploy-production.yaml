@@ -60,9 +60,11 @@ jobs:
           echo "📊 Module Graph:"
           hugo mod graph
           echo ""
-          echo "🔍 Checking module cache:"
-          find $(hugo mod vendor 2>&1 | grep -o '/.*hugo-haptic-theme.*' | head -1 || echo "_vendor/github.com/DamianFlynn/hugo-haptic-theme") -type d -name layouts 2>/dev/null || echo "No layouts directory found in module"
-          ls -la $(hugo config | grep -A 20 '"path": "github.com/DamianFlynn/hugo-haptic-theme"' | grep '"dir"' | cut -d'"' -f4 || echo "_vendor/github.com/DamianFlynn/hugo-haptic-theme") 2>/dev/null || echo "Module directory not found"
+          echo "🔍 Checking vendored theme module:"
+          ls -la _vendor/github.com/DamianFlynn/hugo-haptic-theme/ || echo "Theme not in _vendor"
+          echo ""
+          echo "🔍 Checking for layouts in vendored theme:"
+          find _vendor/github.com/DamianFlynn/hugo-haptic-theme -name "*.html" 2>/dev/null | head -5 || echo "No HTML files found"
       
       - name: Validate Content
         run: |
