@@ -60,15 +60,19 @@ jobs:
           echo "📊 Module Graph:"
           hugo mod graph
           echo ""
-          echo "🔍 Checking Go module cache for theme:"
-          find ~/go/pkg/mod -type d -name "hugo-haptic-theme*" 2>/dev/null || echo "Theme not in cache"
+          echo "🔍 Finding Hugo cache directory:"
+          HUGO_CACHE=$(find ~/.cache -type d -name "hugo_cache" 2>/dev/null | head -1)
+          echo "Hugo cache: $HUGO_CACHE"
           echo ""
-          echo "🔍 Checking for layouts in cached module:"
-          THEME_DIR=$(find ~/go/pkg/mod -type d -name "hugo-haptic-theme*" 2>/dev/null | head -1)
-          if [ -n "$THEME_DIR" ]; then
-            ls -la "$THEME_DIR/" | head -20
+          echo "🔍 Checking Hugo module cache:"
+          find "$HUGO_CACHE/modules" -type d -name "*hugo-haptic-theme*" 2>/dev/null | head -5 || echo "Theme not found in Hugo cache"
+          echo ""
+          echo "🔍 Checking for layouts:"
+          THEME_CACHE=$(find "$HUGO_CACHE/modules" -type d -name "*hugo-haptic-theme*" 2>/dev/null | head -1)
+          if [ -n "$THEME_CACHE" ]; then
+            ls -la "$THEME_CACHE/" | head -20
             echo ""
-            ls -la "$THEME_DIR/layouts/" 2>/dev/null | head -10 || echo "No layouts directory"
+            ls -la "$THEME_CACHE/layouts/" 2>/dev/null | head -10 || echo "❌ No layouts directory in cached module"
           fi
       
       - name: Validate Content
