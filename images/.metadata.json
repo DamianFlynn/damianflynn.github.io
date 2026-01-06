@@ -53,5 +53,15 @@
     "localPath": "content/posts/3-deploying-azure-iot-operations-on-arc-enabled-k3s-production-mqtt-broker-and-edge-data-platform/img-c01db88e-image.png",
     "lastFetched": "2026-01-06T22:37:51.161Z",
     "contentHash": "3f286ce8f22f5be9cc3176d8f5fe90b7"
+  },
+  "8aa8af30-5bbb-44cf-a107-115619357357": {
+    "localPath": "content/privacy/my-privacy-statement/cover-8aa8af30.jpg",
+    "lastFetched": "2026-01-06T23:44:32.351Z",
+    "contentHash": "dd843bc72db5bde91987cd3746816a95"
+  },
+  "8e68f651-a2c0-47ad-954c-d3cb9e45f449": {
+    "localPath": "content/disclaimer/my-disclaimer-statement/cover-8e68f651.jpg",
+    "lastFetched": "2026-01-06T23:44:33.413Z",
+    "contentHash": "0a837e1d67d5ebc85bd33cae4f31b769"
   }
 }
