@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/DamianFlynn/garden v0.0.0-20260105232523-ca4dbcacb6be // indirect
-	github.com/DamianFlynn/hugo-haptic-theme v0.1.1-0.20260106082628-8889bdbc2676 // indirect
+	github.com/DamianFlynn/hugo-haptic-theme v0.1.1-0.20260106083747-7f7a302510f5 // indirect
 )
 
 // Note: For local development, use go.work instead of replace directives
