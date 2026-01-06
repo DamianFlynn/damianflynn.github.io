@@ -41,13 +41,13 @@
   },
   "2e0eb56e-a1c3-800b-8025-e2b170055919": {
     "localPath": "content/posts/cbus-mqtt-bridge-on-raspberry-pi/cover-2e0eb56e.jpg",
-    "lastFetched": "2026-01-06T22:45:12.790Z",
+    "lastFetched": "2026-01-06T22:59:36.189Z",
     "contentHash": "69df892fdb65df4b1a60359069a7c710"
   },
   "728ba96c-7e67-44e1-9c52-94e44fe3ae81": {
     "localPath": "content/posts/2-arc-enabled-kubernetes-at-the-edge-deploying-k3s-for-azure-iot-operations/img-728ba96c-image.png",
-    "lastFetched": "2026-01-06T22:45:33.567Z",
-    "contentHash": "a24a8d17e8d49dd1ab3b37f44864a0be"
+    "lastFetched": "2026-01-06T22:59:44.897Z",
+    "contentHash": "b337f7580b0fd0df323bb62e4978553e"
   },
   "c01db88e-656a-4b88-aef6-720c9a0038f9": {
     "localPath": "content/posts/3-deploying-azure-iot-operations-on-arc-enabled-k3s-production-mqtt-broker-and-edge-data-platform/img-c01db88e-image.png",
