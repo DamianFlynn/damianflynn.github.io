@@ -57,6 +57,8 @@ jobs:
           echo "✅ Git configured to use GITHUB_TOKEN for private repos"
 
       - name: Install Hugo Modules
+        env:
+          GOPRIVATE: github.com/DamianFlynn/*
         run: |
           echo "📦 Downloading Go modules to populate cache..."
           go mod download
