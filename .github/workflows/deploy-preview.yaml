@@ -51,11 +51,17 @@ jobs:
         run: |
           git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
           echo "✅ Git configured to use GITHUB_TOKEN for private repos"
+        env:
+          GOPRIVATE: github.com/DamianFlynn/*
 
       - name: Install Hugo Modules
         env:
           GOPRIVATE: github.com/DamianFlynn/*
+          GIT_TERMINAL_PROMPT: "0"
         run: |
+          echo "📦 Clearing Hugo cache to force re-authentication..."
+          rm -rf ~/.cache/hugo_cache
+          echo ""
           echo "📦 Downloading Go modules to populate cache..."
           go mod download
           echo ""
