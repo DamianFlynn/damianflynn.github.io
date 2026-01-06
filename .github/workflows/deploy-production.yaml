@@ -60,11 +60,16 @@ jobs:
           echo "📊 Module Graph:"
           hugo mod graph
           echo ""
-          echo "🔍 Checking Go module cache:"
-          find ~/go/pkg/mod/github.com/!(*damian!(*flynn -type d -name layouts 2>/dev/null || echo "No layouts found in module cache"
+          echo "🔍 Checking Go module cache for theme:"
+          find ~/go/pkg/mod -type d -name "hugo-haptic-theme*" 2>/dev/null || echo "Theme not in cache"
           echo ""
-          echo "🔍 Listing files in cached theme module:"
-          ls -la ~/go/pkg/mod/github.com/\!damian\!flynn/hugo-haptic-theme@*/layouts/ 2>/dev/null | head -20 || echo "No layouts in cached module"
+          echo "🔍 Checking for layouts in cached module:"
+          THEME_DIR=$(find ~/go/pkg/mod -type d -name "hugo-haptic-theme*" 2>/dev/null | head -1)
+          if [ -n "$THEME_DIR" ]; then
+            ls -la "$THEME_DIR/" | head -20
+            echo ""
+            ls -la "$THEME_DIR/layouts/" 2>/dev/null | head -10 || echo "No layouts directory"
+          fi
       
       - name: Validate Content
         run: |
