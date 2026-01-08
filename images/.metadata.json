@@ -68,5 +68,10 @@
     "localPath": "content/posts/multi-tenant-azure-dev-setup-az-cli-vs-code-direnv-starship/cover-525d0357.jpg",
     "lastFetched": "2026-01-08T11:16:22.611Z",
     "contentHash": "e0bfe1bdbfd50cb7ed342fe0e718b3a8"
+  },
+  "2e2eb56e-a1c3-80bb-a0c7-c09d635e6a9d": {
+    "localPath": "content/posts/streamlining-work-with-multiple-azure-tenants/cover-2e2eb56e.jpg",
+    "lastFetched": "2026-01-08T11:48:39.213Z",
+    "contentHash": "bcaff513946bdfbf94ba03da9097e140"
   }
 }
