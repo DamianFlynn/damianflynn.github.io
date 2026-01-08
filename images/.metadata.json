@@ -51,8 +51,8 @@
   },
   "c01db88e-656a-4b88-aef6-720c9a0038f9": {
     "localPath": "content/posts/3-deploying-azure-iot-operations-on-arc-enabled-k3s-production-mqtt-broker-and-edge-data-platform/img-c01db88e-image.png",
-    "lastFetched": "2026-01-06T22:37:51.161Z",
-    "contentHash": "3f286ce8f22f5be9cc3176d8f5fe90b7"
+    "lastFetched": "2026-01-08T10:39:24.093Z",
+    "contentHash": "51f27a3b69c85344c9411d9e5b01fc95"
   },
   "8aa8af30-5bbb-44cf-a107-115619357357": {
     "localPath": "content/privacy/my-privacy-statement/cover-8aa8af30.jpg",
@@ -63,5 +63,10 @@
     "localPath": "content/disclaimer/my-disclaimer-statement/cover-8e68f651.jpg",
     "lastFetched": "2026-01-06T23:44:33.413Z",
     "contentHash": "0a837e1d67d5ebc85bd33cae4f31b769"
+  },
+  "525d0357-8eea-4c0a-9115-70e1bc690042": {
+    "localPath": "content/posts/multi-tenant-azure-dev-setup-az-cli-vs-code-direnv-starship/cover-525d0357.jpg",
+    "lastFetched": "2026-01-08T10:39:18.831Z",
+    "contentHash": "e0bfe1bdbfd50cb7ed342fe0e718b3a8"
   }
 }
