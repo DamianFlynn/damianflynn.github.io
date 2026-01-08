@@ -41,7 +41,7 @@
   },
   "2e0eb56e-a1c3-800b-8025-e2b170055919": {
     "localPath": "content/posts/cbus-mqtt-bridge-on-raspberry-pi/cover-2e0eb56e.jpg",
-    "lastFetched": "2026-01-06T22:59:36.189Z",
+    "lastFetched": "2026-01-08T12:46:58.491Z",
     "contentHash": "69df892fdb65df4b1a60359069a7c710"
   },
   "728ba96c-7e67-44e1-9c52-94e44fe3ae81": {
@@ -51,8 +51,8 @@
   },
   "c01db88e-656a-4b88-aef6-720c9a0038f9": {
     "localPath": "content/posts/3-deploying-azure-iot-operations-on-arc-enabled-k3s-production-mqtt-broker-and-edge-data-platform/img-c01db88e-image.png",
-    "lastFetched": "2026-01-08T10:39:24.093Z",
-    "contentHash": "51f27a3b69c85344c9411d9e5b01fc95"
+    "lastFetched": "2026-01-08T12:37:19.666Z",
+    "contentHash": "7c882300f78675657e91abda2b7c286c"
   },
   "8aa8af30-5bbb-44cf-a107-115619357357": {
     "localPath": "content/privacy/my-privacy-statement/cover-8aa8af30.jpg",
@@ -71,12 +71,12 @@
   },
   "2e2eb56e-a1c3-80bb-a0c7-c09d635e6a9d": {
     "localPath": "content/posts/streamlining-work-with-multiple-azure-tenants/cover-2e2eb56e.jpg",
-    "lastFetched": "2026-01-08T12:02:17.861Z",
+    "lastFetched": "2026-01-08T12:37:01.998Z",
     "contentHash": "bcaff513946bdfbf94ba03da9097e140"
   },
   "2e2eb56e-a1c3-80f2-8e8f-c63df8f9bcbc": {
     "localPath": "content/posts/voice-first-a-revolution-in-user-interaction/img-2e2eb56e-illustration-good-morning-voice-first_hu933f9d204d1eafc26e29eac2706cc57d_499777_288x0_resize_q55_h1_lanczos_3.webp",
-    "lastFetched": "2026-01-08T12:06:10.918Z",
+    "lastFetched": "2026-01-08T12:37:06.325Z",
     "contentHash": "300b36867a669883a8bac0b38d85bf26"
   }
 }
