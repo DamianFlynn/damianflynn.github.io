@@ -44,7 +44,7 @@
   identifier = "series"
   pre = ""
   post = ""
-  name = "Topics"
+  name = "Series"
   url = "/series/"
   title = ""
   weight = 3
@@ -54,6 +54,6 @@
   pre = ""
   post = ""
   name = "About"
-  url = "/about/"
+  url = "/about-me/"
   title = ""
   weight = 6
