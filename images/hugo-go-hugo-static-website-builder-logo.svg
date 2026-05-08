@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" role="img" aria-label="Hugo static site builder">
+  <!-- Go gopher blue background pill -->
+  <rect x="0" y="0" width="200" height="80" rx="8" fill="#f8f9fa"/>
+
+  <!-- Hugo wordmark -->
+  <text x="16" y="34" font-family="Arial, sans-serif" font-weight="700" font-size="28" fill="#FF4088">Hugo</text>
+
+  <!-- Plus symbol -->
+  <text x="96" y="34" font-family="Arial, sans-serif" font-weight="300" font-size="24" fill="#6c757d">+</text>
+
+  <!-- Go wordmark -->
+  <text x="122" y="34" font-family="Arial, sans-serif" font-weight="700" font-size="28" fill="#00ACD7">Go</text>
+
+  <!-- Subtitle -->
+  <text x="16" y="58" font-family="Arial, sans-serif" font-weight="400" font-size="13" fill="#6c757d" letter-spacing="1">Static Site Builder</text>
+</svg>

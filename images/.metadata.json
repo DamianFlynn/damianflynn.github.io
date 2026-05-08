@@ -71,12 +71,17 @@
   },
   "2e2eb56e-a1c3-80bb-a0c7-c09d635e6a9d": {
     "localPath": "content/posts/streamlining-work-with-multiple-azure-tenants/cover-2e2eb56e.jpg",
-    "lastFetched": "2026-01-08T12:37:01.998Z",
+    "lastFetched": "2026-01-14T08:00:06.337Z",
     "contentHash": "bcaff513946bdfbf94ba03da9097e140"
   },
   "2e2eb56e-a1c3-80f2-8e8f-c63df8f9bcbc": {
-    "localPath": "content/posts/what-is-hugo-and-how-does-it-work/img-2e2eb56e-hugo-releases-github-secrets_hu11443439386708188114.webp",
-    "lastFetched": "2026-01-08T15:41:44.549Z",
-    "contentHash": "3e6a1be15bf5d160c6431f8d0c9ff0d8"
+    "localPath": "content/posts/what-is-hugo-and-how-does-it-work/img-2e2eb56e-landing-page.svg",
+    "lastFetched": "2026-05-08T18:24:37.182Z",
+    "contentHash": "b78aff88c0158116b80fe81967c3ebea"
+  },
+  "42464b08-9a23-4424-a639-6c013fa6cef6": {
+    "localPath": "content/about-me/about-me/img-42464b08-microsoft-mvp-logo-square.png",
+    "lastFetched": "2026-05-08T12:22:34.239Z",
+    "contentHash": "89e397bb08ee8a0e49b46104e9364c3a"
   }
 }
