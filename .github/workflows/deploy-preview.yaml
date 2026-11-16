@@ -84,7 +84,14 @@ jobs:
           # Create project if it doesn't exist (will fail gracefully if it already exists)
           wrangler pages project create damianflynn-preview --production-branch=main || true
           # Deploy to Cloudflare Pages and capture output
+          # Fail the job when the deploy fails: a swallowed exit code reported "success"
+          # for months while the Cloudflare token was invalid and the alias served a stale build.
+          set -o pipefail
           OUTPUT=$(wrangler pages deploy public --project-name=damianflynn-preview --branch=preview --commit-dirty=true 2>&1 | tee /dev/stderr)
+          if echo "$OUTPUT" | grep -qE "\[ERROR\]|Authentication error|Invalid access token"; then
+            echo "::error::Cloudflare Pages deploy failed; check CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID"
+            exit 1
+          fi
           # Extract the deployment URL
           DEPLOYMENT_URL=$(echo "$OUTPUT" | grep -o 'https://[a-zA-Z0-9.-]*damianflynn-preview.pages.dev' | head -1)
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
