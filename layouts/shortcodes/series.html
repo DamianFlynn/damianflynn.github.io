@@ -1,0 +1,23 @@
+{{- /*
+  series shortcode — lists the posts of a series taxonomy term.
+  Usage: the series shortcode with the series name as its first argument
+  (falls back to the page's own `series` front matter when no argument is given).
+  Legacy posts exported from the old blog use this; the haptic theme does not define it.
+*/ -}}
+{{- $names := slice -}}
+{{- with .Get 0 -}}{{- $names = $names | append . -}}{{- else -}}{{- with .Page.Params.series -}}{{- $names = $names | append . -}}{{- end -}}{{- end -}}
+{{- range $name := $names -}}
+  {{- with $.Site.GetPage (printf "/series/%s" ($name | urlize)) -}}
+    {{- $posts := .Pages.ByDate -}}
+    {{- if $posts -}}
+<nav class="series-list my-8 p-6 rounded-xl border border-blue-100 shadow-glow bg-gradient-radius to-blue-100 text-secondary-500" aria-label="Posts in the series {{ $name }}">
+  <h3 class="text-xl font-bold mb-3">Series: <a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+  <ol class="list-decimal pl-6">
+    {{- range $posts -}}
+    <li>{{ if eq .RelPermalink $.Page.RelPermalink }}<strong>{{ .Title }}</strong>{{ else }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</li>
+    {{- end -}}
+  </ol>
+</nav>
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
