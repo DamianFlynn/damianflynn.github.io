@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Networking on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/tags/networking/</link><description>Recent content in Networking on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 07 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/tags/networking/index.xml" rel="self" type="application/rss+xml"/><item><title>Configuring FreeRadius for 802.1x</title><link>https://damianflynn.github.io/posts/configuring-freeradius-for-802.1x/</link><pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/configuring-freeradius-for-802.1x/</guid><description>&lt;p&gt;In a pervious post, I covered the steps to &lt;a href="https://damianflynn.github.io/posts/installing-freeradius/" rel=""&gt;deploy the current stable release of FreeRadius, by installing the packages from the NetworkRadius organizations repository&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We will now, focus on configuring the FreeRadius server so that it can authenticate 802.1x requests, which depends on valid [Computer Certificates](/posts/create-pki-certificate-for-linux-server/#Creating our Certificate Request).&lt;/p&gt;
+&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="why" class="absolute -top-28"&gt;&lt;/div&gt;
+ Why?
+&lt;/h2&gt;
+&lt;p&gt;Why would we go to this trouble, especially given the fact that Windows has shipped with its own NPS service, for the past 20 years?&lt;/p&gt;</description></item><item><title>Extracting Certificates from a PFX</title><link>https://damianflynn.github.io/posts/extracting-certificates-from-a-pfx/</link><pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/extracting-certificates-from-a-pfx/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="openssl-seperating-a-pfx-into-public-and-private-key-files"&gt;&lt;a href="#openssl-seperating-a-pfx-into-public-and-private-key-files" class="header-mark" aria-label="Header mark for 'OpenSSL seperating a PFX into Public and Private Key Files'"&gt;&lt;/a&gt;
+ &lt;div id="openssl-seperating-a-pfx-into-public-and-private-key-files" class="absolute -top-28"&gt;&lt;/div&gt;
+ OpenSSL seperating a PFX into Public and Private Key Files
+&lt;/h1&gt;
+&lt;p&gt;Using &lt;strong&gt;OpenSSL&lt;/strong&gt; we can extract the private key, and the certificate into independent file&amp;rsquo;s, which is required for most networking devices, and linux services.&lt;/p&gt;
+&lt;p&gt;You will need to install the &lt;a href="https://damianflynn.github.io/posts/installing-the-latest-openssl-release/" rel=""&gt;OpenSSL&lt;/a&gt;, package, either on your system.&lt;/p&gt;
+&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="export-the-private-key-from-the-pfx-file" class="absolute -top-28"&gt;&lt;/div&gt;
+ Export the private key from the PFX file
+&lt;/h2&gt;
+&lt;p&gt;We begin, by passing in the PFX and requesting the Private key to be placed into its own file. This process will require that you provide the password which is used to protect the PFX file, and also a new password to protect the new private key file (this is not optional).&lt;/p&gt;</description></item><item><title>Creating a PFX from a certificate in Windows</title><link>https://damianflynn.github.io/posts/creating-a-pfx-from-a-certificate-in-windows/</link><pubDate>Thu, 04 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/creating-a-pfx-from-a-certificate-in-windows/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="exporting-windows-certificates-to-pfx"&gt;&lt;a href="#exporting-windows-certificates-to-pfx" class="header-mark" aria-label="Header mark for 'Exporting Windows Certificates to PFX'"&gt;&lt;/a&gt;
+ &lt;div id="exporting-windows-certificates-to-pfx" class="absolute -top-28"&gt;&lt;/div&gt;
+ Exporting Windows Certificates to PFX
+&lt;/h1&gt;
+&lt;p&gt;A &lt;code&gt;.pfx&lt;/code&gt; file is in essence an archive which can contain multiple objects, and can also be password protected; The format of this file is known as &lt;em&gt;PKCS#12&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Typically, a &lt;code&gt;.pfx&lt;/code&gt; usually contains one or more certificate, typically the chain of upstream authorities, and the corresponding private key. The most common usage of a PFX file is simplify certificate distribution to alternate systems or deployed to services.&lt;/p&gt;</description></item><item><title>Create PKI Certificate for Linux Server</title><link>https://damianflynn.github.io/posts/create-pki-certificate-for-linux-server/</link><pubDate>Wed, 03 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/create-pki-certificate-for-linux-server/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="issuing-a-certificate-using-openssl"&gt;&lt;a href="#issuing-a-certificate-using-openssl" class="header-mark" aria-label="Header mark for 'Issuing a Certificate using OpenSSL'"&gt;&lt;/a&gt;
+ &lt;div id="issuing-a-certificate-using-openssl" class="absolute -top-28"&gt;&lt;/div&gt;
+ Issuing a Certificate using OpenSSL
+&lt;/h1&gt;
+&lt;p&gt;It is enevitable, that at some point in time, you will need to issue a certificate for your system. There are a couple of relativly simple steps to acheive this, begining with the creation of a certificate request, then submitting this to an online certificate authority, which will process the request and issue you a certificate with both a Public and Private Key.&lt;/p&gt;</description></item><item><title>Installing the Latest OpenSSL release</title><link>https://damianflynn.github.io/posts/installing-the-latest-openssl-release/</link><pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/installing-the-latest-openssl-release/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="installing-the-latest-openssl-release-on-ubuntu"&gt;&lt;a href="#installing-the-latest-openssl-release-on-ubuntu" class="header-mark" aria-label="Header mark for 'Installing the Latest OpenSSL release on Ubuntu'"&gt;&lt;/a&gt;
+ &lt;div id="installing-the-latest-openssl-release-on-ubuntu" class="absolute -top-28"&gt;&lt;/div&gt;
+ Installing the Latest OpenSSL release on Ubuntu
+&lt;/h1&gt;
+&lt;p&gt;Being over 25 years old, OpenSSL can be found on just about any system you work with today; but this does not imply that the version installed is current (or even close).&lt;/p&gt;
+&lt;p&gt;During its life, there have been many instances where OpenSSL has been in the news, where some new vulnerability has being discovered, and quickly after, patched.&lt;/p&gt;</description></item><item><title>Installing FreeRadius</title><link>https://damianflynn.github.io/posts/installing-freeradius/</link><pubDate>Mon, 01 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/installing-freeradius/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="freeradius-getting-started"&gt;&lt;a href="#freeradius-getting-started" class="header-mark" aria-label="Header mark for 'FreeRADIUS Getting Started'"&gt;&lt;/a&gt;
+ &lt;div id="freeradius-getting-started" class="absolute -top-28"&gt;&lt;/div&gt;
+ FreeRADIUS Getting Started
+&lt;/h1&gt;
+&lt;p&gt;FreeRADIUS is an open source, high-performance, modular, scalable and feature-rich RADIUS server. It ships with both server and radius client, development libraries and numerous additional RADIUS related utilities, for Linux&lt;/p&gt;
+&lt;p&gt;FreeRADIUS supports request proxying, with fail-over and load balancing, as well as the ability to access many types of back-end databases.&lt;/p&gt;
+&lt;p&gt;RADIUS, which stands for &lt;em&gt;&lt;strong&gt;R&lt;/strong&gt;emote &lt;strong&gt;A&lt;/strong&gt;uthentication &lt;strong&gt;D&lt;/strong&gt;ial-&lt;strong&gt;I&lt;/strong&gt;n &lt;strong&gt;U&lt;/strong&gt;ser &lt;strong&gt;S&lt;/strong&gt;ervice&lt;/em&gt;, is a network protocol used for remote user authentication and accounting. It provides AAA services; namely &lt;strong&gt;A&lt;/strong&gt;uthorization, &lt;strong&gt;A&lt;/strong&gt;uthentication, and &lt;strong&gt;A&lt;/strong&gt;ccounting.&lt;/p&gt;</description></item><item><title>Configure Wireguard on UniFi USG</title><link>https://damianflynn.github.io/posts/configure-wireguard-on-unifi-usg/</link><pubDate>Sat, 17 Aug 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/configure-wireguard-on-unifi-usg/</guid><description>&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="install-the-wireguard-package" class="absolute -top-28"&gt;&lt;/div&gt;
+ Install the Wireguard Package
+&lt;/h2&gt;
+&lt;p&gt;SSH directly to your USG, and run the following commands:&lt;/p&gt;
+&lt;div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"&gt;
+ &lt;div class="
+ code-block-title 
+ 
+ tw-flex 
+ tw-flex-row 
+ tw-justify-between 
+ tw-w-full tw-bg-bgColor-secondary
+ "&gt; 
+
+ &lt;div class="code-block-title-bar tw-w-full"&gt;
+ &lt;p class="tw-select-none !tw-my-1"&gt;&lt;svg class="icon"
+ xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"&gt;&lt;!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --&gt;&lt;path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/&gt;&lt;/svg&gt;bash&lt;/p&gt;</description></item></channel></rss>

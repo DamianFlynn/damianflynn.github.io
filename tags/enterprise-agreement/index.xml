@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Enterprise Agreement on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/tags/enterprise-agreement/</link><description>Recent content in Enterprise Agreement on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 24 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/tags/enterprise-agreement/index.xml" rel="self" type="application/rss+xml"/><item><title>Azure EA - Delegating Privileges</title><link>https://damianflynn.github.io/posts/azure-ea-delegating-privileges/</link><pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/azure-ea-delegating-privileges/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="azure-enterprise-agreement-privilages-delegating"&gt;&lt;a href="#azure-enterprise-agreement-privilages-delegating" class="header-mark" aria-label="Header mark for 'Azure Enterprise Agreement, Privilages Delegating'"&gt;&lt;/a&gt;
+ &lt;div id="azure-enterprise-agreement-privilages-delegating" class="absolute -top-28"&gt;&lt;/div&gt;
+ Azure Enterprise Agreement, Privilages Delegating
+&lt;/h1&gt;
+&lt;p&gt;Under the Enterprise agreement we have some different Persona&amp;rsquo;s, which have quite different abilities and operations upon which they are permitted to preform.&lt;/p&gt;
+&lt;p&gt;Billing account simplifies billing for your organization while providing you enhanced billing and cost management capabilities. The following diagram explains how billing is organized in the new billing account.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/mca-setup-account" target="_blank" rel="noopener noreferrer"&gt;https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/mca-setup-account&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+
+&lt;img src="https://damianflynn.github.io/posts/azure-ea-delegating-privileges/az-billing-ea_privilege_delegation.new_structure.png" alt="" /&gt;
+&lt;/p&gt;
+&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="roles-and-accounts" class="absolute -top-28"&gt;&lt;/div&gt;
+ Roles and Accounts
+&lt;/h2&gt;
+&lt;p&gt;Before we being the process of delegation, It is important to understand this Hierarchy, so we can correctly proceed with the technical work ahead.&lt;/p&gt;</description></item><item><title>Installing Docker and Compose on Raspbian Buster</title><link>https://damianflynn.github.io/posts/installing-docker-and-compose-on-raspbian-buster/</link><pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/installing-docker-and-compose-on-raspbian-buster/</guid><description>&lt;p&gt;Quickly update a new Raspberry Pi, which has an install of Raspbian Buster with Docker and Docker-compose.&lt;/p&gt;
+&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="docker" class="absolute -top-28"&gt;&lt;/div&gt;
+ Docker
+&lt;/h2&gt;
+&lt;p&gt;This is simple, as the Docker team have done all the work&lt;/p&gt;
+&lt;div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"&gt;
+ &lt;div class="
+ code-block-title 
+ 
+ tw-flex 
+ tw-flex-row 
+ tw-justify-between 
+ tw-w-full tw-bg-bgColor-secondary
+ "&gt; 
+
+ &lt;div class="code-block-title-bar tw-w-full"&gt;
+ &lt;p class="tw-select-none !tw-my-1"&gt;&lt;svg class="icon"
+ xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"&gt;&lt;!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --&gt;&lt;path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/&gt;&lt;/svg&gt;bash&lt;/p&gt;</description></item></channel></rss>
