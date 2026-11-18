@@ -1,8 +1,6 @@
 # CBus MQTT Bridge on Raspberry PI
 
 
-# CBus MQTT Bridge on Raspberry PI
-
 Turn back to 2007; My wife and I built our home, integrating many smart technologies, including the Clipsal CBus lighting system. This solution is classified as a Prosumer technology, and is designed to integrate into whole house automation systems.
 
 The CBus system implements however a proprietary technology, and utilizes a communication protocol which is not 'open source'; however, accepting a license agreement will permit access to this protocol for creating an programming interface.

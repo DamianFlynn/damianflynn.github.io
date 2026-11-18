@@ -1,8 +1,6 @@
 # Hitting Reset
 
 
-# Hitting Reset
-
 10 Years, It is hard to believe that I have been posting thoughts here that long. And how so much has changed since I begun?
 
 I started this journey with the encouragement of some amazing people in Microsoft, as an opportunity to spread the news about *Hyper-V* and even more relevant at the time *System Center Virtual Machine Manager* which was still known by its code name!.
