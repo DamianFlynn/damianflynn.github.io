@@ -39,16 +39,24 @@
  Install the Wireguard Package
 &lt;/h2&gt;
 &lt;p&gt;SSH directly to your USG, and run the following commands:&lt;/p&gt;
-&lt;div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"&gt;
- &lt;div class="
- code-block-title 
- 
- tw-flex 
- tw-flex-row 
- tw-justify-between 
- tw-w-full tw-bg-bgColor-secondary
- "&gt; 
+&lt;div class="code-block highlight show-line-numbers my-2"&gt;
+ &lt;details class="code-block-details" open&gt;
+ &lt;summary class="code-block-title "&gt;
+ &lt;span class="code-block-label"&gt;bash&lt;/span&gt;
+ &lt;span class="code-block-toggle"&gt;&lt;span class="code-block-show"&gt;Show&lt;/span&gt;&lt;span class="code-block-hide"&gt;Hide&lt;/span&gt; 3 lines&lt;/span&gt;
+ &lt;span class="code-block-status" role="status" aria-live="polite"&gt;&lt;/span&gt;
+ &lt;button type="button" class="code-block-copy" data-code-target="codeblock-id-ccd4937b7b1c7c00dfbc753f6a0349cd-0" hidden&gt;Copy code&lt;/button&gt;
+ &lt;span class="code-block-chevron" aria-hidden="true"&gt;⌄&lt;/span&gt;
+ &lt;/summary&gt;
+ &lt;pre style="counter-reset: codeblock;" class="block"&gt;&lt;code
+ id="codeblock-id-ccd4937b7b1c7c00dfbc753f6a0349cd-0"
+ class="chroma block code-block-content ease-in-out"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;curl -L https://github.com/Lochnair/vyatta-wireguard/releases/download/0.0.20190123/wireguard-ugw3-0.0.20190702-1.deb -o /tmp/wireguard.deb
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;dpkg -i /tmp/wireguard.deb&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;/details&gt;
+&lt;/div&gt;
+&lt;h3 class="text-xl font-bold text-secondary-500 leading-tight mb-2" id="create-the-tunnel-secrets"&gt;&lt;a href="#create-the-tunnel-secrets" class="header-mark" aria-label="Header mark for 'Create the Tunnel Secrets'"&gt;&lt;/a&gt;
+ Create the Tunnel Secrets
+&lt;/h3&gt;
 
- &lt;div class="code-block-title-bar tw-w-full"&gt;
- &lt;p class="tw-select-none !tw-my-1"&gt;&lt;svg class="icon"
- xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"&gt;&lt;!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --&gt;&lt;path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/&gt;&lt;/svg&gt;bash&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;To keep stuff private, we will encrypt the traffic using a long password, known as a &amp;lsquo;Key&amp;rsquo;. To make sure this is unique, we will use a tool provided by Wireguard to make a random key for us.&lt;/p&gt;</description></item></channel></rss>

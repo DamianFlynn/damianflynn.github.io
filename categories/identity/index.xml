@@ -53,7 +53,10 @@
  
 
 
-&lt;img src="https://damianflynn.github.io/posts/azure-ea-delegating-privileges/az-billing-ea_privilege_delegation.new_structure.png" alt="" /&gt;
+&lt;figure class="my-8"&gt;
+ &lt;img src="https://damianflynn.github.io/posts/azure-ea-delegating-privileges/az-billing-ea_privilege_delegation.new_structure.png" alt="" class="w-full rounded-lg" /&gt;
+ 
+&lt;/figure&gt;
 &lt;/p&gt;
 &lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
  &lt;div id="roles-and-accounts" class="absolute -top-28"&gt;&lt;/div&gt;
