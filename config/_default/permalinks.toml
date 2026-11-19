@@ -2,5 +2,7 @@
 # https://gohugo.io/content-management/urls/#permalinks-configuration-example
 '/' = ":title"
 posts = ":sections/:title"
+# Talk identity is delivery-specific and survives title edits.
+talks = "/talks/:slug/"
 # posts = ":year/:month/:filename"
 # posts = ":filename"
