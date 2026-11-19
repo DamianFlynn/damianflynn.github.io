@@ -50,6 +50,12 @@
   weight = 3
 
 [[main]]
+  identifier = "talks"
+  name = "Talks"
+  url = "/talks/"
+  weight = 4
+
+[[main]]
   identifier = "about"
   pre = ""
   post = ""

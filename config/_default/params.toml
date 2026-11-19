@@ -1,5 +1,7 @@
 # DoIt theme version
 version = "0.3.X"
+# Talks are searchable contributions, not articles in the home feed.
+mainSections = ["posts"]
 # site default theme ("light", "dark", "black", "auto")
 defaultTheme = "auto"
 dateFormat =  "2 Jan, 2006"
