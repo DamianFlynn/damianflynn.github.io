@@ -28,3 +28,9 @@ enableEmoji = true
     [[module.imports.mounts]]
       source = "static"
       target = "static"
+
+[[cascade]]
+[cascade._target]
+kind = '{term,taxonomy}'
+[cascade.build]
+publishResources = false
