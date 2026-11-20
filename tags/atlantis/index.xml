@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Atlantis on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/tags/atlantis/</link><description>Recent content in Atlantis on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 09 Nov 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/tags/atlantis/index.xml" rel="self" type="application/rss+xml"/><item><title>bicep-action: Plan, Review and Deploy Bicep from Pull Requests</title><link>https://damianflynn.github.io/posts/bicep-action-plan-review-and-deploy-bicep-from-pull-requests/</link><pubDate>Mon, 09 Nov 2026 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/bicep-action-plan-review-and-deploy-bicep-from-pull-requests/</guid><description>&lt;p&gt;
+
+
+
+
+
+
+&lt;figure class="my-8"&gt;
+ &lt;img src="https://raw.githubusercontent.com/innofactororg/bicep-action/v1/docs/images/hero.png" alt="Plan, review, deploy" class="w-full rounded-lg" /&gt;
+ 
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Terraform teams stopped deploying blind years ago. They open a pull request, a bot runs &lt;code&gt;terraform plan&lt;/code&gt; and posts the result as a comment, a colleague reads exactly what will be created, changed and destroyed, and only then does anyone type &lt;code&gt;atlantis apply&lt;/code&gt;. Most Bicep teams still merge and find out. The pipeline runs, the deployment succeeds or fails, and the first time anyone sees what Azure actually did is in the activity log afterwards.&lt;/p&gt;</description></item></channel></rss>

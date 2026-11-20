@@ -1,4 +1,62 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/</link><description>Incredible Technology, Incredibly Simple</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 13 Nov 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Change Detection using Oxidized</title><link>https://damianflynn.github.io/posts/change-detection-using-oxidized/</link><pubDate>Thu, 17 Nov 2022 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/change-detection-using-oxidized/</guid><description><![CDATA[<div class="featured-image">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/</link><description>Incredible Technology, Incredibly Simple</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>bicep-deploy vs bicep-action: A Tool or a Workflow?</title><link>https://damianflynn.github.io/posts/bicep-deploy-vs-bicep-action-a-tool-or-a-workflow/</link><pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/bicep-deploy-vs-bicep-action-a-tool-or-a-workflow/</guid><description><![CDATA[<div class="featured-image">
+                <img src="/posts/bicep-deploy-vs-bicep-action-a-tool-or-a-workflow/hero.png" referrerpolicy="no-referrer">
+            </div><h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="azurebicep-deploy-vs-bicep-action-a-tool-or-a-workflow"><a href="#azurebicep-deploy-vs-bicep-action-a-tool-or-a-workflow" class="header-mark" aria-label="Header mark for 'Azure/bicep-deploy vs bicep-action: A Tool or a Workflow?'"></a>
+  <div id="azurebicep-deploy-vs-bicep-action-a-tool-or-a-workflow" class="absolute -top-28"></div>
+  Azure/bicep-deploy vs bicep-action: A Tool or a Workflow?
+</h1>
+<p>
+
+
+
+
+
+  
+  
+    
+  
+
+
+<figure class="my-8">
+  <img src="/posts/bicep-deploy-vs-bicep-action-a-tool-or-a-workflow/bicep-deploy-vs-bicep-action/hero.png" alt="A tool versus a workflow" class="w-full rounded-lg"  />
+  
+</figure>
+</p>
+<p>I maintain <a href="https://github.com/innofactororg/bicep-action" target="_blank" rel="noopener noreferrer">innofactororg/bicep-action</a>, so I should say up front that I am not a neutral party. I am also the person who most needs this comparison to be honest, because every time someone evaluates bicep-action for a new estate, the first question is the obvious one: why not just use Microsoft&rsquo;s?</p>]]></description></item><item><title>bicep-action: Plan, Review and Deploy Bicep from Pull Requests</title><link>https://damianflynn.github.io/posts/bicep-action-plan-review-and-deploy-bicep-from-pull-requests/</link><pubDate>Mon, 09 Nov 2026 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/bicep-action-plan-review-and-deploy-bicep-from-pull-requests/</guid><description><![CDATA[<div class="featured-image">
+                <img src="/posts/bicep-action-plan-review-and-deploy-bicep-from-pull-requests/hero.png" referrerpolicy="no-referrer">
+            </div><p>
+
+
+
+
+
+
+<figure class="my-8">
+  <img src="https://raw.githubusercontent.com/innofactororg/bicep-action/v1/docs/images/hero.png" alt="Plan, review, deploy" class="w-full rounded-lg"  />
+  
+</figure>
+</p>
+<p>Terraform teams stopped deploying blind years ago. They open a pull request, a bot runs <code>terraform plan</code> and posts the result as a comment, a colleague reads exactly what will be created, changed and destroyed, and only then does anyone type <code>atlantis apply</code>. Most Bicep teams still merge and find out. The pipeline runs, the deployment succeeds or fails, and the first time anyone sees what Azure actually did is in the activity log afterwards.</p>]]></description></item><item><title>Azure Quota Groups: Recycling Capacity You Already Own</title><link>https://damianflynn.github.io/posts/azure-quota-groups-recycling-capacity-you-already-own/</link><pubDate>Mon, 02 Nov 2026 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/azure-quota-groups-recycling-capacity-you-already-own/</guid><description><![CDATA[<div class="featured-image">
+                <img src="/posts/azure-quota-groups-recycling-capacity-you-already-own/hero.png" referrerpolicy="no-referrer">
+            </div><p>The most expensive vCPU in Azure is the one you already had approved, gave back by accident, and now have to ask for again. That is exactly what happens every time an old subscription is cancelled. Years of quota increases, each one a support ticket, a business justification and a few days of waiting, disappear with the subscription. Meanwhile the brand-new subscription that replaces it starts life with default limits, in a region where capacity is tight, and the first deployment into it fails with a quota error the platform team then has to chase.</p>]]></description></item><item><title>From Azure DevOps Wiki to a Corporate PDF</title><link>https://damianflynn.github.io/posts/from-azure-devops-wiki-to-a-corporate-pdf/</link><pubDate>Mon, 05 Oct 2026 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/from-azure-devops-wiki-to-a-corporate-pdf/</guid><description><![CDATA[<p>The project documentation is in good shape. The team has been maintaining an Azure DevOps wiki, the architecture pages link to the detailed design, and the deployment instructions sit alongside the decisions that explain them.</p>
+<p>Then comes the handover request: “Can you send us the design document as a PDF? Please use the company template.”</p>
+<p>That is a reasonable request. The recipient might not have access to Azure DevOps. An architecture board may need a fixed version to review, or the customer may need to file the document in a records system. A wiki is useful for the people doing the work; a controlled document is useful for the people accepting it.</p>]]></description></item><item><title>Running Tailscale on a Ubiquiti EdgeRouter</title><link>https://damianflynn.github.io/posts/running-tailscale-on-a-ubiquiti-edgerouter/</link><pubDate>Sat, 14 Dec 2024 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/running-tailscale-on-a-ubiquiti-edgerouter/</guid><description><![CDATA[<div class="featured-image">
+                <img src="/posts/running-tailscale-on-a-ubiquiti-edgerouter/hero.png" referrerpolicy="no-referrer">
+            </div><p>Having grown up in the world of &lsquo;on premise&rsquo; computing, I have always prioritized data privacy in my home network.</p>
+<p>Though there may not be much of interest to hackers, there is still personal data and services that I want to keep secure. I have spent years working with OpenVPN and IPSec, building and supporting a Dynamic Multi-site VPN Mesh with Cisco DMVPN, and I know first hand the challenges of connecting clients to a private network and managing keys.</p>]]></description></item><item><title>Considering Terraform and Bicep</title><link>https://damianflynn.github.io/posts/considering-terraform-and-bicep/</link><pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/considering-terraform-and-bicep/</guid><description><![CDATA[<div class="featured-image">
+                <img src="/posts/considering-terraform-and-bicep/hero.png" referrerpolicy="no-referrer">
+            </div><p>As more organizations adopt cloud infrastructure, the demand for infrastructure as code (IAC) solutions has grown. Infrastructure as code allows developers to manage and automate infrastructure deployments using code, making it easier to track changes and maintain consistency.</p>
+<p>Terraform and Bicep are two popular IAC solutions that enable developers to manage and automate infrastructure deployments using code.</p>
+<p>While both tools share some similarities, Terraform is more widely adopted solution with many benefits,  In this post, we will highligh some of the benfits each expose, so you can start to figure out where you next learning should be focused</p>]]></description></item><item><title>Theming Hugo with Module</title><link>https://damianflynn.github.io/posts/theming-hugo-with-module/</link><pubDate>Mon, 21 Nov 2022 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/theming-hugo-with-module/</guid><description><![CDATA[<div class="featured-image">
+                <img src="/posts/theming-hugo-with-module/hero.png" referrerpolicy="no-referrer">
+            </div><p>To utilize modules in Hugo for our theme, we first must ensure that our site supports Hugo Modules.</p>
+<blockquote class="blockquote">
+    <p>You can quickly verify that you site is configured for Hugo Modules, as it should contain a  <code>go.mod</code> file in the repository root.</p>
+
+</blockquote><h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px">
+  <div id="import-the-theme-module" class="absolute -top-28"></div>
+  Import the <code>theme</code> module
+</h2>
+<p>The concept of a Hugo <em>theme</em> has been superseded with the concept of <em>modules</em>, with the main difference that the former will allow you to build your site entirely, while the latter might implement only some modular features like enabling the ATOM feed, or adding a search to your website.</p>]]></description></item><item><title>Change Detection using Oxidized</title><link>https://damianflynn.github.io/posts/change-detection-using-oxidized/</link><pubDate>Thu, 17 Nov 2022 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/change-detection-using-oxidized/</guid><description><![CDATA[<div class="featured-image">
                 <img src="/posts/change-detection-using-oxidized/hero.png" referrerpolicy="no-referrer">
             </div><p>The process is very simple:</p>
 <ol>
@@ -14,96 +72,4 @@
 <p>One of the products which I oversee the devleopment of is called the &lsquo;Concierge&rsquo; and recently maintaining it has been a challange instead of a joy. It was architected with Fuctions v1 principals, and its well time for a look inside the tool box.</p>]]></description></item><item><title>Azure IaC - Function Keys</title><link>https://damianflynn.github.io/posts/azure-iac-function-keys/</link><pubDate>Mon, 07 Nov 2022 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/azure-iac-function-keys/</guid><description><![CDATA[<div class="featured-image">
                 <img src="/posts/azure-iac-function-keys/hero.png" referrerpolicy="no-referrer">
             </div><p>Todays conundrum: As I deploy a new Function Application, I need a simple methodology to retrieve the Host Keys for the function application so that I validate the deployment has been successful; and potentially pass on the key to related services, for example API Management.</p>
-<p>As before, I am leveraging templates, and will stay cloud native; this time depending on the functions Output ability to present the keys.</p>]]></description></item><item><title>Obsidian2Hugo</title><link>https://damianflynn.github.io/posts/obsidian2hugo/</link><pubDate>Mon, 07 Nov 2022 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/obsidian2hugo/</guid><description><![CDATA[<div class="featured-image">
-                <img src="/posts/obsidian2hugo/hero.png" referrerpolicy="no-referrer">
-            </div><p>My Blog has evolved over the years, initially hosted on Wordpress, but some 6 years back I abandond that plaform for Static Sites, initially with Jekyll and used Github Pages, but that also got sunset in favor of my current generator Hugo.</p>
-<p>As part of my current workflow, I use Obsidian for almost all my notes, which includes the posts which you get to read publically on this blog.</p>
-<p>To make this happen, there are some very cool open source projects which I am relying to pipeline the content for its raw source, to the presentation which is finally published.</p>]]></description></item><item><title>AD - Administrative Limits</title><link>https://damianflynn.github.io/posts/ad-administrative-limits/</link><pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/ad-administrative-limits/</guid><description><![CDATA[<div class="featured-image">
-                <img src="/posts/ad-administrative-limits/sw_active-directory_administrative-limits.jpg" referrerpolicy="no-referrer">
-            </div><p>I recently ran into an issue with a particular environment where Active Directory and PKI services were deployed. One of the service accounts which I was attempting to &lsquo;unlock&rsquo; refused to co-operate and instead offered the most unhelpful message.</p>
-<p><code>Administrative limit for this request was exceeded</code> - this was not my first time encountering the message, previously this haunted me while I was managing a Windows PKI infrastructure and with some quick searches, confirmed my initial suspicion. This is a symptom of an AD object quite simply being to large!</p>]]></description></item><item><title>Bicep - Tags as Parameters</title><link>https://damianflynn.github.io/posts/bicep-tags-as-parameters/</link><pubDate>Fri, 23 Jul 2021 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/bicep-tags-as-parameters/</guid><description><![CDATA[<div class="featured-image">
-                <img src="/posts/bicep-tags-as-parameters/iac_bicep_tags-as-parameters.png" referrerpolicy="no-referrer">
-            </div><p>In an earlier post, we look at using ARM to lookup the value of Tags&rsquo; at both at the Subscription and Resource Level.</p>
-<p>With Bicep this is much easier to understand. This is the same lab configuration as in the original post, but this time to code should be a lot more readable.</p>
-<div class="code-block highlight show-line-numbers  my-2">
-  <details class="code-block-details">
-    <summary class="code-block-title ">
-      <span class="code-block-label">powershell</span>
-      <span class="code-block-toggle"><span class="code-block-show">Show</span><span class="code-block-hide">Hide</span> 33 lines</span>
-      <span class="code-block-status" role="status" aria-live="polite"></span>
-      <button type="button" class="code-block-copy" data-code-target="codeblock-id-f3f0712ddc409798c2fe9581f2593e6b-0" hidden>Copy code</button>
-      <span class="code-block-chevron" aria-hidden="true">⌄</span>
-    </summary>
-    <pre style="counter-reset: codeblock;" class="block"><code
-      id="codeblock-id-f3f0712ddc409798c2fe9581f2593e6b-0"
-      class="chroma block code-block-content ease-in-out"><span class="line"><span class="cl"><span class="p">//</span> <span class="n">Sample</span> <span class="n">to</span> <span class="n">lookup</span> <span class="n">tag</span> <span class="n">values</span> 
-</span></span><span class="line"><span class="cl"><span class="p">//</span> <span class="n">Both</span> <span class="n">Subscription</span> <span class="n">and</span> <span class="n">Resource</span> <span class="n">Level</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">@description</span><span class="p">(</span><span class="s1">&#39;The resource ID of the resource we wish to look up a tag from.&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">param</span> <span class="n">sourceResourceId</span> <span class="n">string</span> <span class="p">=</span> <span class="s1">&#39;/subscriptions/547d54ea-411b-459e-b6f8-b3cc5e84c535/resourceGroups/p-vm/providers/Microsoft.Compute/virtualMachines/p-vm001&#39;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">//</span> <span class="n">Variables</span> <span class="n">to</span> <span class="n">reference</span> <span class="n">the</span> <span class="n">Tags</span> <span class="n">Resource</span> <span class="n">Providers</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">//</span> <span class="n">Subscription</span> <span class="n">Tags</span> <span class="n">Resource</span> <span class="n">Provider</span>
-</span></span><span class="line"><span class="cl"><span class="n">var</span> <span class="n">referenceSubscriptionTagsResourceId</span> <span class="p">=</span> <span class="s1">&#39;/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Resources/tags/default&#39;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">//</span> <span class="n">Resource</span> <span class="n">Tags</span> <span class="n">Resource</span> <span class="n">Provider</span>
-</span></span><span class="line"><span class="cl"><span class="n">var</span> <span class="n">referenceResourceTagsResourceId</span> <span class="p">=</span> <span class="s1">&#39;${sourceResourceId}/providers/Microsoft.Resources/tags/default&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="n">var</span> <span class="n">referenceTagsApi</span> <span class="p">=</span> <span class="s1">&#39;2020-06-01&#39;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">//</span> 
-</span></span><span class="line"><span class="cl"><span class="p">//</span> <span class="n">Lookup</span> <span class="n">the</span> <span class="n">tags</span> <span class="n">and</span> <span class="k">return</span> <span class="n">the</span> <span class="n">value</span>
-</span></span><span class="line"><span class="cl"><span class="p">//</span> 
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">//</span> <span class="n">Subscription</span> <span class="n">Tags</span>
-</span></span><span class="line"><span class="cl"><span class="n">output</span> <span class="n">subscriptionRecoveryVaultRGTag</span> <span class="n">string</span> <span class="p">=</span> <span class="n">reference</span><span class="p">(</span><span class="n">referenceSubscriptionTagsResourceId</span><span class="p">,</span> <span class="n">referenceTagsApi</span><span class="p">).</span><span class="py">tags</span><span class="p">.</span><span class="py">recoveryVaultRG</span>
-</span></span><span class="line"><span class="cl"><span class="n">output</span> <span class="n">subscriptionRecoveryVaultTag</span> <span class="n">string</span> <span class="p">=</span> <span class="n">reference</span><span class="p">(</span><span class="n">referenceSubscriptionTagsResourceId</span><span class="p">,</span> <span class="n">referenceTagsApi</span><span class="p">).</span><span class="py">tags</span><span class="p">.</span><span class="py">recoveryVault</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">//</span> <span class="n">Resource</span> <span class="n">Tags</span>
-</span></span><span class="line"><span class="cl"><span class="n">output</span> <span class="n">resourceRecoveryPolicyTag</span> <span class="n">string</span> <span class="p">=</span> <span class="n">reference</span><span class="p">(</span><span class="n">referenceResourceTagsResourceId</span><span class="p">,</span> <span class="n">referenceTagsApi</span><span class="p">).</span><span class="py">tags</span><span class="p">.</span><span class="py">recoveryPolicy</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">//</span> <span class="n">Concatanation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">outputs</span> <span class="n">to</span> <span class="n">build</span> <span class="n">Resource</span> <span class="n">Ids</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">output</span> <span class="n">recoveryVaultId</span> <span class="n">string</span> <span class="p">=</span> <span class="n">resourceId</span><span class="p">(</span><span class="n">subscription</span><span class="p">().</span><span class="n">subscriptionId</span><span class="p">,</span> <span class="n">reference</span><span class="p">(</span><span class="n">referenceSubscriptionTagsResourceId</span><span class="p">,</span> <span class="n">referenceTagsApi</span><span class="p">).</span><span class="py">tags</span><span class="p">.</span><span class="n">recoveryVaultRG</span><span class="p">,</span> <span class="s1">&#39;Microsoft.RecoveryServices/vaults&#39;</span><span class="p">,</span> <span class="n">reference</span><span class="p">(</span><span class="n">referenceSubscriptionTagsResourceId</span><span class="p">,</span> <span class="n">referenceTagsApi</span><span class="p">).</span><span class="py">tags</span><span class="p">.</span><span class="n">recoveryVault</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">output</span> <span class="n">recoveryPolicyId</span> <span class="n">string</span> <span class="p">=</span> <span class="s1">&#39;${resourceId(subscription().subscriptionId, reference(referenceSubscriptionTagsResourceId, referenceTagsApi).tags.recoveryVaultRG, &#39;</span><span class="n">Microsoft</span><span class="p">.</span><span class="n">RecoveryServices</span><span class="p">/</span><span class="n">vaults</span><span class="s1">&#39;, reference(referenceSubscriptionTagsResourceId, referenceTagsApi).tags.recoveryVault)}/backupPolicies/${reference(referenceResourceTagsResourceId, referenceTagsApi).tags.recoveryPolicy}&#39;</span></span></span></code></pre>
-  </details>
-</div>
-<hr>
-<!-- enrich:containment -->
-<p><em>Part of: damianflynn</em></p>]]></description></item><item><title>Configuring FreeRadius for 802.1x</title><link>https://damianflynn.github.io/posts/configuring-freeradius-for-802.1x/</link><pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/configuring-freeradius-for-802.1x/</guid><description><![CDATA[<div class="featured-image">
-                <img src="/posts/configuring-freeradius-for-802.1x/hero.png" referrerpolicy="no-referrer">
-            </div><p>In a pervious post, I covered the steps to <a href="/posts/installing-freeradius/" rel="">deploy the current stable release of FreeRadius, by installing the packages from the NetworkRadius organizations repository</a>.</p>
-<p>We will now, focus on configuring the FreeRadius server so that it can authenticate 802.1x requests, which depends on valid [Computer Certificates](/posts/create-pki-certificate-for-linux-server/#Creating our Certificate Request).</p>
-<h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px">
-  <div id="why" class="absolute -top-28"></div>
-  Why?
-</h2>
-<p>Why would we go to this trouble, especially given the fact that Windows has shipped with its own NPS service, for the past 20 years?</p>]]></description></item><item><title>Extracting Certificates from a PFX</title><link>https://damianflynn.github.io/posts/extracting-certificates-from-a-pfx/</link><pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/extracting-certificates-from-a-pfx/</guid><description><![CDATA[<div class="featured-image">
-                <img src="/posts/extracting-certificates-from-a-pfx/banner.png" referrerpolicy="no-referrer">
-            </div><h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="openssl-seperating-a-pfx-into-public-and-private-key-files"><a href="#openssl-seperating-a-pfx-into-public-and-private-key-files" class="header-mark" aria-label="Header mark for 'OpenSSL seperating a PFX into Public and Private Key Files'"></a>
-  <div id="openssl-seperating-a-pfx-into-public-and-private-key-files" class="absolute -top-28"></div>
-  OpenSSL seperating a PFX into Public and Private Key Files
-</h1>
-<p>Using <strong>OpenSSL</strong> we can extract the private key, and the certificate into independent file&rsquo;s, which is required for most networking devices, and linux services.</p>
-<p>You will need to install the <a href="/posts/installing-the-latest-openssl-release/" rel="">OpenSSL</a>, package, either on your system.</p>
-<h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px">
-  <div id="export-the-private-key-from-the-pfx-file" class="absolute -top-28"></div>
-  Export the private key from the PFX file
-</h2>
-<p>We begin, by passing in the PFX and requesting the Private key to be placed into its own file. This process will require that you provide the password which is used to protect the PFX file, and also a new password to protect the new private key file (this is not optional).</p>]]></description></item><item><title>Creating a PFX from a certificate in Windows</title><link>https://damianflynn.github.io/posts/creating-a-pfx-from-a-certificate-in-windows/</link><pubDate>Thu, 04 Mar 2021 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/creating-a-pfx-from-a-certificate-in-windows/</guid><description><![CDATA[<div class="featured-image">
-                <img src="/posts/creating-a-pfx-from-a-certificate-in-windows/hero.png" referrerpolicy="no-referrer">
-            </div><h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="exporting-windows-certificates-to-pfx"><a href="#exporting-windows-certificates-to-pfx" class="header-mark" aria-label="Header mark for 'Exporting Windows Certificates to PFX'"></a>
-  <div id="exporting-windows-certificates-to-pfx" class="absolute -top-28"></div>
-  Exporting Windows Certificates to PFX
-</h1>
-<p>A <code>.pfx</code> file is in essence an archive which can contain multiple objects, and can also be password protected; The format of this file is known as <em>PKCS#12</em></p>
-<p>Typically, a <code>.pfx</code> usually contains one or more certificate, typically the chain of upstream authorities, and the corresponding private key. The most common usage of a PFX file is simplify certificate distribution to alternate systems or deployed to services.</p>]]></description></item><item><title>Create PKI Certificate for Linux Server</title><link>https://damianflynn.github.io/posts/create-pki-certificate-for-linux-server/</link><pubDate>Wed, 03 Mar 2021 00:00:00 +0000</pubDate><author><name>damian</name></author><guid>https://damianflynn.github.io/posts/create-pki-certificate-for-linux-server/</guid><description><![CDATA[<div class="featured-image">
-                <img src="/posts/create-pki-certificate-for-linux-server/hero.png" referrerpolicy="no-referrer">
-            </div><h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="issuing-a-certificate-using-openssl"><a href="#issuing-a-certificate-using-openssl" class="header-mark" aria-label="Header mark for 'Issuing a Certificate using OpenSSL'"></a>
-  <div id="issuing-a-certificate-using-openssl" class="absolute -top-28"></div>
-  Issuing a Certificate using OpenSSL
-</h1>
-<p>It is enevitable, that at some point in time, you will need to issue a certificate for your system. There are a couple of relativly simple steps to acheive this, begining with the creation of a certificate request, then submitting this to an online certificate authority, which will process the request and issue you a certificate with both a Public and Private Key.</p>]]></description></item></channel></rss>
+<p>As before, I am leveraging templates, and will stay cloud native; this time depending on the functions Output ability to present the keys.</p>]]></description></item></channel></rss>

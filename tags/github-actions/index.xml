@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Github-Actions on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/tags/github-actions/</link><description>Recent content in Github-Actions on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/tags/github-actions/index.xml" rel="self" type="application/rss+xml"/><item><title>bicep-deploy vs bicep-action: A Tool or a Workflow?</title><link>https://damianflynn.github.io/posts/bicep-deploy-vs-bicep-action-a-tool-or-a-workflow/</link><pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/bicep-deploy-vs-bicep-action-a-tool-or-a-workflow/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="azurebicep-deploy-vs-bicep-action-a-tool-or-a-workflow"&gt;&lt;a href="#azurebicep-deploy-vs-bicep-action-a-tool-or-a-workflow" class="header-mark" aria-label="Header mark for 'Azure/bicep-deploy vs bicep-action: A Tool or a Workflow?'"&gt;&lt;/a&gt;
+ &lt;div id="azurebicep-deploy-vs-bicep-action-a-tool-or-a-workflow" class="absolute -top-28"&gt;&lt;/div&gt;
+ Azure/bicep-deploy vs bicep-action: A Tool or a Workflow?
+&lt;/h1&gt;
+&lt;p&gt;
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+
+&lt;figure class="my-8"&gt;
+ &lt;img src="https://damianflynn.github.io/posts/bicep-deploy-vs-bicep-action-a-tool-or-a-workflow/bicep-deploy-vs-bicep-action/hero.png" alt="A tool versus a workflow" class="w-full rounded-lg" /&gt;
+ 
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;I maintain &lt;a href="https://github.com/innofactororg/bicep-action" target="_blank" rel="noopener noreferrer"&gt;innofactororg/bicep-action&lt;/a&gt;, so I should say up front that I am not a neutral party. I am also the person who most needs this comparison to be honest, because every time someone evaluates bicep-action for a new estate, the first question is the obvious one: why not just use Microsoft&amp;rsquo;s?&lt;/p&gt;</description></item><item><title>bicep-action: Plan, Review and Deploy Bicep from Pull Requests</title><link>https://damianflynn.github.io/posts/bicep-action-plan-review-and-deploy-bicep-from-pull-requests/</link><pubDate>Mon, 09 Nov 2026 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/bicep-action-plan-review-and-deploy-bicep-from-pull-requests/</guid><description>&lt;p&gt;
+
+
+
+
+
+
+&lt;figure class="my-8"&gt;
+ &lt;img src="https://raw.githubusercontent.com/innofactororg/bicep-action/v1/docs/images/hero.png" alt="Plan, review, deploy" class="w-full rounded-lg" /&gt;
+ 
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Terraform teams stopped deploying blind years ago. They open a pull request, a bot runs &lt;code&gt;terraform plan&lt;/code&gt; and posts the result as a comment, a colleague reads exactly what will be created, changed and destroyed, and only then does anyone type &lt;code&gt;atlantis apply&lt;/code&gt;. Most Bicep teams still merge and find out. The pipeline runs, the deployment succeeds or fails, and the first time anyone sees what Azure actually did is in the activity log afterwards.&lt;/p&gt;</description></item></channel></rss>
