@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Infrastructure as Code on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/categories/infrastructure-as-code/</link><description>Recent content in Infrastructure as Code on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/categories/infrastructure-as-code/index.xml" rel="self" type="application/rss+xml"/><item><title>bicep-deploy vs bicep-action: A Tool or a Workflow?</title><link>https://damianflynn.github.io/posts/bicep-deploy-vs-bicep-action-a-tool-or-a-workflow/</link><pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/bicep-deploy-vs-bicep-action-a-tool-or-a-workflow/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="azurebicep-deploy-vs-bicep-action-a-tool-or-a-workflow"&gt;&lt;a href="#azurebicep-deploy-vs-bicep-action-a-tool-or-a-workflow" class="header-mark" aria-label="Header mark for 'Azure/bicep-deploy vs bicep-action: A Tool or a Workflow?'"&gt;&lt;/a&gt;
+ &lt;div id="azurebicep-deploy-vs-bicep-action-a-tool-or-a-workflow" class="absolute -top-28"&gt;&lt;/div&gt;
+ Azure/bicep-deploy vs bicep-action: A Tool or a Workflow?
+&lt;/h1&gt;
+&lt;p&gt;
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+
+&lt;figure class="my-8"&gt;
+ &lt;img src="https://damianflynn.github.io/posts/bicep-deploy-vs-bicep-action-a-tool-or-a-workflow/bicep-deploy-vs-bicep-action/hero.png" alt="A tool versus a workflow" class="w-full rounded-lg" /&gt;
+ 
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;I maintain &lt;a href="https://github.com/innofactororg/bicep-action" target="_blank" rel="noopener noreferrer"&gt;innofactororg/bicep-action&lt;/a&gt;, so I should say up front that I am not a neutral party. I am also the person who most needs this comparison to be honest, because every time someone evaluates bicep-action for a new estate, the first question is the obvious one: why not just use Microsoft&amp;rsquo;s?&lt;/p&gt;</description></item><item><title>Letting AI operate production Azure — what it gets wrong</title><link>https://damianflynn.github.io/talks/ai-operating-production/</link><pubDate>Sat, 07 Nov 2026 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/talks/ai-operating-production/</guid><description>&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="abstract" class="absolute -top-28"&gt;&lt;/div&gt;
+ Abstract
+&lt;/h2&gt;
+&lt;p&gt;Real failure stories from AI-assisted operations, each with the guardrail that fixed it:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;an Azure GET can&amp;rsquo;t prove a property is settable (recommended four times off an empty read);&lt;/li&gt;
+&lt;li&gt;advising a change from a stale read in the middle of a cutover;&lt;/li&gt;
+&lt;li&gt;restating a verified fact until it&amp;rsquo;s wrong;&lt;/li&gt;
+&lt;li&gt;a disk caching change that hot-detached a production disk;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;a freeze is not a control&amp;rdquo;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Plus the patterns that worked: subagents, cross-model review with gh copilot, and grep-verifying every HIGH finding. It&amp;rsquo;s honest, funny, and very MVP.&lt;/p&gt;</description></item><item><title>bicep-action: Plan, Review and Deploy Bicep from Pull Requests</title><link>https://damianflynn.github.io/posts/bicep-action-plan-review-and-deploy-bicep-from-pull-requests/</link><pubDate>Mon, 09 Nov 2026 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/bicep-action-plan-review-and-deploy-bicep-from-pull-requests/</guid><description>&lt;p&gt;
+
+
+
+
+
+
+&lt;figure class="my-8"&gt;
+ &lt;img src="https://raw.githubusercontent.com/innofactororg/bicep-action/v1/docs/images/hero.png" alt="Plan, review, deploy" class="w-full rounded-lg" /&gt;
+ 
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Terraform teams stopped deploying blind years ago. They open a pull request, a bot runs &lt;code&gt;terraform plan&lt;/code&gt; and posts the result as a comment, a colleague reads exactly what will be created, changed and destroyed, and only then does anyone type &lt;code&gt;atlantis apply&lt;/code&gt;. Most Bicep teams still merge and find out. The pipeline runs, the deployment succeeds or fails, and the first time anyone sees what Azure actually did is in the activity log afterwards.&lt;/p&gt;</description></item><item><title>Considering Terraform and Bicep</title><link>https://damianflynn.github.io/posts/considering-terraform-and-bicep/</link><pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/considering-terraform-and-bicep/</guid><description>&lt;p&gt;As more organizations adopt cloud infrastructure, the demand for infrastructure as code (IAC) solutions has grown. Infrastructure as code allows developers to manage and automate infrastructure deployments using code, making it easier to track changes and maintain consistency.&lt;/p&gt;
+&lt;p&gt;Terraform and Bicep are two popular IAC solutions that enable developers to manage and automate infrastructure deployments using code.&lt;/p&gt;
+&lt;p&gt;While both tools share some similarities, Terraform is more widely adopted solution with many benefits, In this post, we will highligh some of the benfits each expose, so you can start to figure out where you next learning should be focused&lt;/p&gt;</description></item><item><title>Azure IaC - Tags as Parameters</title><link>https://damianflynn.github.io/posts/azure-iac-tags-as-parameters/</link><pubDate>Sun, 17 Jan 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/azure-iac-tags-as-parameters/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="azure-as-a-state-machine-dogfooding-tags"&gt;&lt;a href="#azure-as-a-state-machine-dogfooding-tags" class="header-mark" aria-label="Header mark for 'Azure as a State Machine, dogfooding Tags'"&gt;&lt;/a&gt;
+ &lt;div id="azure-as-a-state-machine-dogfooding-tags" class="absolute -top-28"&gt;&lt;/div&gt;
+ Azure as a State Machine, dogfooding Tags
+&lt;/h1&gt;
+&lt;p&gt;In the post, I am going to introduce a concept which will allow you to greatly up your Infrastructure as Code game, by using Azure as a State Machine!&lt;/p&gt;
+&lt;p&gt;One of the typical challenges when deploying ARM templates, is the sheer number of parameters which we find as a requirement to complete a deployment; which as you will appreciate gets considerably harder as we target many environments.&lt;/p&gt;</description></item><item><title>Azure IaC - Appending Tags</title><link>https://damianflynn.github.io/posts/azure-iac-appending-tags/</link><pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/azure-iac-appending-tags/</guid><description>&lt;p&gt;Todays conundrum: As I am leveraging templates, there will always be some standard tags I require to implement within the template, but I also require to provide additional tags as a parameter to be appended with the deployment.&lt;/p&gt;
+&lt;p&gt;My objective is to set up tags within an ARM template in accordance with good governance and the Cloud adoption framework.&lt;/p&gt;
+&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="solution" class="absolute -top-28"&gt;&lt;/div&gt;
+ Solution
+&lt;/h2&gt;
+&lt;p&gt;ARM Template functions to the rescue. Todays salvation is called &lt;code&gt;union&lt;/code&gt;, which you can learn more about on the actual [reference site][https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions-array#union]&lt;/p&gt;</description></item><item><title>Defining Policy as Code with ARM Templates</title><link>https://damianflynn.github.io/posts/defining-policy-as-code-with-arm-templates/</link><pubDate>Tue, 20 Nov 2018 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/defining-policy-as-code-with-arm-templates/</guid><description>&lt;p&gt;My colleagues and friends &lt;a href="https://blog.tyang.org/2018/06/06/using-arm-templates-to-deploying-azure-policy-definitions-that-requires-input-parameters/" target="_blank" rel="noopener noreferrer"&gt;Tao Yang&lt;/a&gt; , and &lt;a href="https://cloudadministrator.net/2018/07/17/defining-input-parameters-for-policy-definitions-in-arm-template/" target="_blank" rel="noopener noreferrer"&gt;Stanislav Zhelyazkov&lt;/a&gt; have both recently posts interesting topics on how to implement your Azure Policy as Code which I strongly recommend you take a few moments to review&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://blog.tyang.org/2018/06/06/using-arm-templates-to-deploying-azure-policy-definitions-that-requires-input-parameters/" target="_blank" rel="noopener noreferrer"&gt;Using ARM Templates to deploy azure policy definitions that require input parameters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://cloudadministrator.net/2018/07/17/defining-input-parameters-for-policy-definitions-in-arm-template/" target="_blank" rel="noopener noreferrer"&gt;Defining input parameters for policy definitions in ARM Templates&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="improving-readability" class="absolute -top-28"&gt;&lt;/div&gt;
+ Improving Readability
+&lt;/h2&gt;
+&lt;p&gt;Both of these topics address the core of the challenges we face when approaching policy as an Infrastructure as Code problem. However, one of the things that is lost in the translation is the readability of the templates which they are deploying.&lt;/p&gt;</description></item></channel></rss>

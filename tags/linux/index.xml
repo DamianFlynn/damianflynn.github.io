@@ -4,22 +4,7 @@
  &lt;div id="why" class="absolute -top-28"&gt;&lt;/div&gt;
  Why?
 &lt;/h2&gt;
-&lt;p&gt;Why would we go to this trouble, especially given the fact that Windows has shipped with its own NPS service, for the past 20 years?&lt;/p&gt;</description></item><item><title>Extracting Certificates from a PFX</title><link>https://damianflynn.github.io/posts/extracting-certificates-from-a-pfx/</link><pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/extracting-certificates-from-a-pfx/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="openssl-seperating-a-pfx-into-public-and-private-key-files"&gt;&lt;a href="#openssl-seperating-a-pfx-into-public-and-private-key-files" class="header-mark" aria-label="Header mark for 'OpenSSL seperating a PFX into Public and Private Key Files'"&gt;&lt;/a&gt;
- &lt;div id="openssl-seperating-a-pfx-into-public-and-private-key-files" class="absolute -top-28"&gt;&lt;/div&gt;
- OpenSSL seperating a PFX into Public and Private Key Files
-&lt;/h1&gt;
-&lt;p&gt;Using &lt;strong&gt;OpenSSL&lt;/strong&gt; we can extract the private key, and the certificate into independent file&amp;rsquo;s, which is required for most networking devices, and linux services.&lt;/p&gt;
-&lt;p&gt;You will need to install the &lt;a href="https://damianflynn.github.io/posts/installing-the-latest-openssl-release/" rel=""&gt;OpenSSL&lt;/a&gt;, package, either on your system.&lt;/p&gt;
-&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
- &lt;div id="export-the-private-key-from-the-pfx-file" class="absolute -top-28"&gt;&lt;/div&gt;
- Export the private key from the PFX file
-&lt;/h2&gt;
-&lt;p&gt;We begin, by passing in the PFX and requesting the Private key to be placed into its own file. This process will require that you provide the password which is used to protect the PFX file, and also a new password to protect the new private key file (this is not optional).&lt;/p&gt;</description></item><item><title>Creating a PFX from a certificate in Windows</title><link>https://damianflynn.github.io/posts/creating-a-pfx-from-a-certificate-in-windows/</link><pubDate>Thu, 04 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/creating-a-pfx-from-a-certificate-in-windows/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="exporting-windows-certificates-to-pfx"&gt;&lt;a href="#exporting-windows-certificates-to-pfx" class="header-mark" aria-label="Header mark for 'Exporting Windows Certificates to PFX'"&gt;&lt;/a&gt;
- &lt;div id="exporting-windows-certificates-to-pfx" class="absolute -top-28"&gt;&lt;/div&gt;
- Exporting Windows Certificates to PFX
-&lt;/h1&gt;
-&lt;p&gt;A &lt;code&gt;.pfx&lt;/code&gt; file is in essence an archive which can contain multiple objects, and can also be password protected; The format of this file is known as &lt;em&gt;PKCS#12&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Typically, a &lt;code&gt;.pfx&lt;/code&gt; usually contains one or more certificate, typically the chain of upstream authorities, and the corresponding private key. The most common usage of a PFX file is simplify certificate distribution to alternate systems or deployed to services.&lt;/p&gt;</description></item><item><title>Create PKI Certificate for Linux Server</title><link>https://damianflynn.github.io/posts/create-pki-certificate-for-linux-server/</link><pubDate>Wed, 03 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/create-pki-certificate-for-linux-server/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="issuing-a-certificate-using-openssl"&gt;&lt;a href="#issuing-a-certificate-using-openssl" class="header-mark" aria-label="Header mark for 'Issuing a Certificate using OpenSSL'"&gt;&lt;/a&gt;
+&lt;p&gt;Why would we go to this trouble, especially given the fact that Windows has shipped with its own NPS service, for the past 20 years?&lt;/p&gt;</description></item><item><title>Create PKI Certificate for Linux Server</title><link>https://damianflynn.github.io/posts/create-pki-certificate-for-linux-server/</link><pubDate>Wed, 03 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/create-pki-certificate-for-linux-server/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="issuing-a-certificate-using-openssl"&gt;&lt;a href="#issuing-a-certificate-using-openssl" class="header-mark" aria-label="Header mark for 'Issuing a Certificate using OpenSSL'"&gt;&lt;/a&gt;
  &lt;div id="issuing-a-certificate-using-openssl" class="absolute -top-28"&gt;&lt;/div&gt;
  Issuing a Certificate using OpenSSL
 &lt;/h1&gt;
@@ -39,5 +24,26 @@
  Streaming Music from USB Turntable
 &lt;/h1&gt;
 &lt;p&gt;A little known trivia - I was once a DJ, and spent a lot of my youth behind the decks, in clubs around the West Of Ireland. Today, I still am the proud owner of a very large collection of Vynil and CD music, which of course deserves to get a second life with my digital streaming audio system powered by Sonos&lt;/p&gt;</description></item><item><title>ZFS - Primer</title><link>https://damianflynn.github.io/posts/zfs-primer/</link><pubDate>Thu, 05 Mar 2020 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/zfs-primer/</guid><description>&lt;p&gt;For years, my home lab ran on a Dell PowerEdge R620 and R510, both well supplied with disks and RAM. They were dependable machines and gave me plenty of room to learn about virtualisation, networking and the architecture behind Azure Stack.&lt;/p&gt;
-&lt;p&gt;They also had a second job. From my wife&amp;rsquo;s point of view, I&amp;rsquo;d installed a very elaborate airing cupboard. The room stayed warm enough to dry clothes, while the server fans did an excellent job of collecting the resulting fluff.&lt;/p&gt;</description></item><item><title>CBus MQTT Bridge on Raspberry PI</title><link>https://damianflynn.github.io/posts/cbus-mqtt-bridge-on-raspberry-pi/</link><pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/cbus-mqtt-bridge-on-raspberry-pi/</guid><description>&lt;p&gt;Turn back to 2007; My wife and I built our home, integrating many smart technologies, including the Clipsal CBus lighting system. This solution is classified as a Prosumer technology, and is designed to integrate into whole house automation systems.&lt;/p&gt;
-&lt;p&gt;The CBus system implements however a proprietary technology, and utilizes a communication protocol which is not &amp;lsquo;open source&amp;rsquo;; however, accepting a license agreement will permit access to this protocol for creating an programming interface.&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;They also had a second job. From my wife&amp;rsquo;s point of view, I&amp;rsquo;d installed a very elaborate airing cupboard. The room stayed warm enough to dry clothes, while the server fans did an excellent job of collecting the resulting fluff.&lt;/p&gt;</description></item><item><title>Installing Docker and Compose on Raspbian Buster</title><link>https://damianflynn.github.io/posts/installing-docker-and-compose-on-raspbian-buster/</link><pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/installing-docker-and-compose-on-raspbian-buster/</guid><description>&lt;p&gt;Quickly update a new Raspberry Pi, which has an install of Raspbian Buster with Docker and Docker-compose.&lt;/p&gt;
+&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="docker" class="absolute -top-28"&gt;&lt;/div&gt;
+ Docker
+&lt;/h2&gt;
+&lt;p&gt;This is simple, as the Docker team have done all the work&lt;/p&gt;
+&lt;div class="code-block highlight show-line-numbers my-2"&gt;
+ &lt;details class="code-block-details" open&gt;
+ &lt;summary class="code-block-title "&gt;
+ &lt;span class="code-block-label"&gt;bash&lt;/span&gt;
+ &lt;span class="code-block-toggle"&gt;&lt;span class="code-block-show"&gt;Show&lt;/span&gt;&lt;span class="code-block-hide"&gt;Hide&lt;/span&gt; 2 lines&lt;/span&gt;
+ &lt;span class="code-block-status" role="status" aria-live="polite"&gt;&lt;/span&gt;
+ &lt;button type="button" class="code-block-copy" data-code-target="codeblock-id-316f508ce637ffd096d16c1503bdef94-0" hidden&gt;Copy code&lt;/button&gt;
+ &lt;span class="code-block-chevron" aria-hidden="true"&gt;⌄&lt;/span&gt;
+ &lt;/summary&gt;
+ &lt;pre style="counter-reset: codeblock;" class="block"&gt;&lt;code
+ id="codeblock-id-316f508ce637ffd096d16c1503bdef94-0"
+ class="chroma block code-block-content ease-in-out"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;curl -fsSL get.docker.com -o get-docker.sh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sh get-docker.sh&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;And, we can add our user to the Docker group so we do not need the &lt;code&gt;sudo&lt;/code&gt; every time. I am using the environment variable &lt;code&gt;$USER&lt;/code&gt;; which indicates who is logged in currently. In my case this is the user &lt;em&gt;pi&lt;/em&gt;.&lt;/p&gt;</description></item><item><title>Waking Deamons</title><link>https://damianflynn.github.io/posts/waking-deamons/</link><pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/waking-deamons/</guid><description>&lt;p&gt;With a multitude of Raspberry PI&amp;rsquo;s deployed around the house, each taking a dedicated duty in ensuring that services run transparently; It is not uncommon for me to discover the initialization scripts designed to have these services auto start at boot is not working.&lt;/p&gt;
+&lt;p&gt;The content of this post is a reference for different methods which can be employed to resolve these stubborn daemons; which always are to fond of reappearing after an unplanned outage; or what is more commonly referred to as a Power Failure!&lt;/p&gt;</description></item></channel></rss>

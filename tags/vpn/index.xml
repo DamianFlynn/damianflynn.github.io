@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VPN on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/tags/vpn/</link><description>Recent content in VPN on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sat, 14 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/tags/vpn/index.xml" rel="self" type="application/rss+xml"/><item><title>Running Tailscale on a Ubiquiti EdgeRouter</title><link>https://damianflynn.github.io/posts/running-tailscale-on-a-ubiquiti-edgerouter/</link><pubDate>Sat, 14 Dec 2024 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/running-tailscale-on-a-ubiquiti-edgerouter/</guid><description>&lt;p&gt;Having grown up in the world of &amp;lsquo;on premise&amp;rsquo; computing, I have always prioritized data privacy in my home network.&lt;/p&gt;
+&lt;p&gt;Though there may not be much of interest to hackers, there is still personal data and services that I want to keep secure. I have spent years working with OpenVPN and IPSec, building and supporting a Dynamic Multi-site VPN Mesh with Cisco DMVPN, and I know first hand the challenges of connecting clients to a private network and managing keys.&lt;/p&gt;</description></item><item><title>Configure Wireguard on UniFi USG</title><link>https://damianflynn.github.io/posts/configure-wireguard-on-unifi-usg/</link><pubDate>Sat, 17 Aug 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/configure-wireguard-on-unifi-usg/</guid><description>&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="install-the-wireguard-package" class="absolute -top-28"&gt;&lt;/div&gt;
+ Install the Wireguard Package
+&lt;/h2&gt;
+&lt;p&gt;SSH directly to your USG, and run the following commands:&lt;/p&gt;
+&lt;div class="code-block highlight show-line-numbers my-2"&gt;
+ &lt;details class="code-block-details" open&gt;
+ &lt;summary class="code-block-title "&gt;
+ &lt;span class="code-block-label"&gt;bash&lt;/span&gt;
+ &lt;span class="code-block-toggle"&gt;&lt;span class="code-block-show"&gt;Show&lt;/span&gt;&lt;span class="code-block-hide"&gt;Hide&lt;/span&gt; 3 lines&lt;/span&gt;
+ &lt;span class="code-block-status" role="status" aria-live="polite"&gt;&lt;/span&gt;
+ &lt;button type="button" class="code-block-copy" data-code-target="codeblock-id-ccd4937b7b1c7c00dfbc753f6a0349cd-0" hidden&gt;Copy code&lt;/button&gt;
+ &lt;span class="code-block-chevron" aria-hidden="true"&gt;⌄&lt;/span&gt;
+ &lt;/summary&gt;
+ &lt;pre style="counter-reset: codeblock;" class="block"&gt;&lt;code
+ id="codeblock-id-ccd4937b7b1c7c00dfbc753f6a0349cd-0"
+ class="chroma block code-block-content ease-in-out"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;curl -L https://github.com/Lochnair/vyatta-wireguard/releases/download/0.0.20190123/wireguard-ugw3-0.0.20190702-1.deb -o /tmp/wireguard.deb
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;dpkg -i /tmp/wireguard.deb&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;/details&gt;
+&lt;/div&gt;
+&lt;h3 class="text-xl font-bold text-secondary-500 leading-tight mb-2" id="create-the-tunnel-secrets"&gt;&lt;a href="#create-the-tunnel-secrets" class="header-mark" aria-label="Header mark for 'Create the Tunnel Secrets'"&gt;&lt;/a&gt;
+ Create the Tunnel Secrets
+&lt;/h3&gt;
+
+&lt;p&gt;To keep stuff private, we will encrypt the traffic using a long password, known as a &amp;lsquo;Key&amp;rsquo;. To make sure this is unique, we will use a tool provided by Wireguard to make a random key for us.&lt;/p&gt;</description></item></channel></rss>

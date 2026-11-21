@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Networking on Incredible Technology, Incredibly Simple</title><link>https://damianflynn.github.io/categories/networking/</link><description>Recent content in Networking on Incredible Technology, Incredibly Simple</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sat, 14 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://damianflynn.github.io/categories/networking/index.xml" rel="self" type="application/rss+xml"/><item><title>Running Tailscale on a Ubiquiti EdgeRouter</title><link>https://damianflynn.github.io/posts/running-tailscale-on-a-ubiquiti-edgerouter/</link><pubDate>Sat, 14 Dec 2024 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/running-tailscale-on-a-ubiquiti-edgerouter/</guid><description>&lt;p&gt;Having grown up in the world of &amp;lsquo;on premise&amp;rsquo; computing, I have always prioritized data privacy in my home network.&lt;/p&gt;
+&lt;p&gt;Though there may not be much of interest to hackers, there is still personal data and services that I want to keep secure. I have spent years working with OpenVPN and IPSec, building and supporting a Dynamic Multi-site VPN Mesh with Cisco DMVPN, and I know first hand the challenges of connecting clients to a private network and managing keys.&lt;/p&gt;</description></item><item><title>Change Detection using Oxidized</title><link>https://damianflynn.github.io/posts/change-detection-using-oxidized/</link><pubDate>Thu, 17 Nov 2022 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/change-detection-using-oxidized/</guid><description>&lt;p&gt;The process is very simple:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Login to each device in the router list &lt;code&gt;router.db&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;Run Commands to get the information that will be saved&lt;/li&gt;
+&lt;li&gt;Clean the output&lt;/li&gt;
+&lt;li&gt;Commit the Changes to GIT Repository&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The tool is coded in &lt;em&gt;Ruby&lt;/em&gt;, and implements a Domain Specific Language (DSL) for interaction.&lt;/p&gt;
+&lt;p&gt;Finally, there is a Web based User experience included in the solution so we can get a fast overview of the world.&lt;/p&gt;</description></item><item><title>Configuring FreeRadius for 802.1x</title><link>https://damianflynn.github.io/posts/configuring-freeradius-for-802.1x/</link><pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/configuring-freeradius-for-802.1x/</guid><description>&lt;p&gt;In a pervious post, I covered the steps to &lt;a href="https://damianflynn.github.io/posts/installing-freeradius/" rel=""&gt;deploy the current stable release of FreeRadius, by installing the packages from the NetworkRadius organizations repository&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We will now, focus on configuring the FreeRadius server so that it can authenticate 802.1x requests, which depends on valid [Computer Certificates](/posts/create-pki-certificate-for-linux-server/#Creating our Certificate Request).&lt;/p&gt;
+&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="why" class="absolute -top-28"&gt;&lt;/div&gt;
+ Why?
+&lt;/h2&gt;
+&lt;p&gt;Why would we go to this trouble, especially given the fact that Windows has shipped with its own NPS service, for the past 20 years?&lt;/p&gt;</description></item><item><title>Installing FreeRadius</title><link>https://damianflynn.github.io/posts/installing-freeradius/</link><pubDate>Mon, 01 Mar 2021 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/installing-freeradius/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="freeradius-getting-started"&gt;&lt;a href="#freeradius-getting-started" class="header-mark" aria-label="Header mark for 'FreeRADIUS Getting Started'"&gt;&lt;/a&gt;
+ &lt;div id="freeradius-getting-started" class="absolute -top-28"&gt;&lt;/div&gt;
+ FreeRADIUS Getting Started
+&lt;/h1&gt;
+&lt;p&gt;FreeRADIUS is an open source, high-performance, modular, scalable and feature-rich RADIUS server. It ships with both server and radius client, development libraries and numerous additional RADIUS related utilities, for Linux&lt;/p&gt;
+&lt;p&gt;FreeRADIUS supports request proxying, with fail-over and load balancing, as well as the ability to access many types of back-end databases.&lt;/p&gt;
+&lt;p&gt;RADIUS, which stands for &lt;em&gt;&lt;strong&gt;R&lt;/strong&gt;emote &lt;strong&gt;A&lt;/strong&gt;uthentication &lt;strong&gt;D&lt;/strong&gt;ial-&lt;strong&gt;I&lt;/strong&gt;n &lt;strong&gt;U&lt;/strong&gt;ser &lt;strong&gt;S&lt;/strong&gt;ervice&lt;/em&gt;, is a network protocol used for remote user authentication and accounting. It provides AAA services; namely &lt;strong&gt;A&lt;/strong&gt;uthorization, &lt;strong&gt;A&lt;/strong&gt;uthentication, and &lt;strong&gt;A&lt;/strong&gt;ccounting.&lt;/p&gt;</description></item><item><title>Ignite 2019 - Private Link, Delivering Services Privately</title><link>https://damianflynn.github.io/posts/ignite-2019-private-link-delivering-services-privately/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/ignite-2019-private-link-delivering-services-privately/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="azure-private-link"&gt;&lt;a href="#azure-private-link" class="header-mark" aria-label="Header mark for 'Azure Private Link'"&gt;&lt;/a&gt;
+ &lt;div id="azure-private-link" class="absolute -top-28"&gt;&lt;/div&gt;
+ Azure Private Link
+&lt;/h1&gt;
+&lt;p&gt;&lt;a href="https://damianflynn.github.io/posts/conf-microsoft-ignite-2019/" rel=""&gt;MS Ignite 2019&lt;/a&gt; Session: #BRK3168
+Presenters: Narayan Annamalai and Sumeet Mittal&lt;/p&gt;
+&lt;blockquote class="blockquote"&gt;
+ &lt;p&gt;This service has exited Public Preview, and is now published to all regions as General Availability&lt;/p&gt;
+&lt;/blockquote&gt;&lt;p&gt;&lt;del&gt;Additionally today (November 2019) in US West Central, US North, and US East the ability to use with &lt;em&gt;CosmosDB&lt;/em&gt; has been added to this service&lt;/del&gt;&lt;/p&gt;</description></item><item><title>Ignite 2019 - Web Application Gateway and Firewall</title><link>https://damianflynn.github.io/posts/ignite-2019-web-application-gateway-and-firewall/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/ignite-2019-web-application-gateway-and-firewall/</guid><description>&lt;p&gt;Ignite Session: BRK3169
+Presenter: Amit Srivastava&lt;/p&gt;
+&lt;p&gt;Mission Critical HTTP Applications, there are many things to consider&lt;/p&gt;
+&lt;p&gt;Personalized, Micro-Services, Rich Context&amp;hellip;. To support this MS have a number of services i the Suite - Azure Frontdoor, Application Gateway, Azure CDN, Web Application Firewall, Azure Load Balancer, and Azure Traffic Manager&lt;/p&gt;
+&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="azure-application-gateway"&gt;&lt;a href="#azure-application-gateway" class="header-mark" aria-label="Header mark for 'Azure Application Gateway'"&gt;&lt;/a&gt;
+ &lt;div id="azure-application-gateway" class="absolute -top-28"&gt;&lt;/div&gt;
+ Azure Application Gateway
+&lt;/h1&gt;
+&lt;p&gt;Regional Gateway as a service&lt;/p&gt;</description></item><item><title>Configuring the Web Application Firewall with PowerShell</title><link>https://damianflynn.github.io/posts/configuring-the-web-application-firewall-with-powershell/</link><pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/configuring-the-web-application-firewall-with-powershell/</guid><description>&lt;p&gt;Microsoft Azure Application Gateway is a Layer 7 application delivery controller (ADC) offered as a service in Azure. It provides load balancing, SSL termination, end-to-end SSL, URL path-based routing, and basic web application firewall (WAF) functionality.&lt;/p&gt;
+&lt;p&gt;Working with the WAF, I usually build a basic configuration in the Portal before exporting the ARM JSON, which, then becomes my primary method to working on this service.&lt;/p&gt;
+&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="why-json-you-may-ask" class="absolute -top-28"&gt;&lt;/div&gt;
+ Why JSON you may ask&amp;hellip;
+&lt;/h2&gt;
+&lt;p&gt;One of my biggest gripes with the Azure Firewall solutions currently is based on thier CRUD &lt;em&gt;(Create, Read, Update and Delete)&lt;/em&gt; interface. It always results in a workflow from hell, training along the lines of &amp;lsquo;&lt;em&gt;Edit, Save,&lt;/em&gt; &lt;em&gt;&lt;strong&gt;WAIT,&lt;/strong&gt;&lt;/em&gt;, &lt;em&gt;Edit, Save,&lt;/em&gt; &lt;em&gt;&lt;strong&gt;WAIT&lt;/strong&gt;&lt;/em&gt;&amp;rsquo; in a painful loop. What should be a fast and straightforward configuration update, typically is a process that must be executed over many hours, preferably on a second screen.&lt;/p&gt;</description></item><item><title>Configure Wireguard on UniFi USG</title><link>https://damianflynn.github.io/posts/configure-wireguard-on-unifi-usg/</link><pubDate>Sat, 17 Aug 2019 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/configure-wireguard-on-unifi-usg/</guid><description>&lt;h2 class="relative text-3xl font-bold leading-tight text-secondary-500 mb-2 mt-12 -ml-px"&gt;
+ &lt;div id="install-the-wireguard-package" class="absolute -top-28"&gt;&lt;/div&gt;
+ Install the Wireguard Package
+&lt;/h2&gt;
+&lt;p&gt;SSH directly to your USG, and run the following commands:&lt;/p&gt;
+&lt;div class="code-block highlight show-line-numbers my-2"&gt;
+ &lt;details class="code-block-details" open&gt;
+ &lt;summary class="code-block-title "&gt;
+ &lt;span class="code-block-label"&gt;bash&lt;/span&gt;
+ &lt;span class="code-block-toggle"&gt;&lt;span class="code-block-show"&gt;Show&lt;/span&gt;&lt;span class="code-block-hide"&gt;Hide&lt;/span&gt; 3 lines&lt;/span&gt;
+ &lt;span class="code-block-status" role="status" aria-live="polite"&gt;&lt;/span&gt;
+ &lt;button type="button" class="code-block-copy" data-code-target="codeblock-id-ccd4937b7b1c7c00dfbc753f6a0349cd-0" hidden&gt;Copy code&lt;/button&gt;
+ &lt;span class="code-block-chevron" aria-hidden="true"&gt;⌄&lt;/span&gt;
+ &lt;/summary&gt;
+ &lt;pre style="counter-reset: codeblock;" class="block"&gt;&lt;code
+ id="codeblock-id-ccd4937b7b1c7c00dfbc753f6a0349cd-0"
+ class="chroma block code-block-content ease-in-out"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;curl -L https://github.com/Lochnair/vyatta-wireguard/releases/download/0.0.20190123/wireguard-ugw3-0.0.20190702-1.deb -o /tmp/wireguard.deb
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;dpkg -i /tmp/wireguard.deb&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;/details&gt;
+&lt;/div&gt;
+&lt;h3 class="text-xl font-bold text-secondary-500 leading-tight mb-2" id="create-the-tunnel-secrets"&gt;&lt;a href="#create-the-tunnel-secrets" class="header-mark" aria-label="Header mark for 'Create the Tunnel Secrets'"&gt;&lt;/a&gt;
+ Create the Tunnel Secrets
+&lt;/h3&gt;
+
+&lt;p&gt;To keep stuff private, we will encrypt the traffic using a long password, known as a &amp;lsquo;Key&amp;rsquo;. To make sure this is unique, we will use a tool provided by Wireguard to make a random key for us.&lt;/p&gt;</description></item></channel></rss>
