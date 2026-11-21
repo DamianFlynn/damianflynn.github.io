@@ -1,7 +1,7 @@
 # These permalinks settings are used to make post links cleaner
 # https://gohugo.io/content-management/urls/#permalinks-configuration-example
 '/' = ":title"
-posts = ":sections/:title"
+posts = ":sections/:slug"
 # Talk identity is delivery-specific and survives title edits.
 talks = "/talks/:slug/"
 # posts = ":year/:month/:filename"
