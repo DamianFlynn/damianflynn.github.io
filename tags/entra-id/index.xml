@@ -8,7 +8,7 @@
  Abstract
 &lt;/h2&gt;
 &lt;p&gt;Everyone agrees AI agents should be treated like employees: their own identity, scoped permissions, an owner, monitoring and offboarding. Then you try to do it.&lt;/p&gt;
-&lt;p&gt;The agent on your laptop runs as you, because your machine is the security context. Your IT team rejects the application identity you ask for, because it doesn&amp;rsquo;t do MFA. Half your backends never see Entra ID at all, because they authenticate with personal access tokens. And the moment an agent can act on behalf of a user, &amp;ldquo;who owns this agent&amp;rdquo; quietly turns into &amp;ldquo;whose permissions does it have&amp;rdquo;.&lt;/p&gt;</description></item><item><title>Azure Enterprise Agreement: Delegating Roles for Subscription Creation</title><link>https://damianflynn.github.io/posts/azure-enterprise-agreement-delegating-roles-for-subscription-creation/</link><pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/azure-enterprise-agreement-delegating-roles-for-subscription-creation/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="azure-enterprise-agreement-privilages-delegating"&gt;&lt;a href="#azure-enterprise-agreement-privilages-delegating" class="header-mark" aria-label="Header mark for 'Azure Enterprise Agreement, Privilages Delegating'"&gt;&lt;/a&gt;
+&lt;p&gt;The agent on your laptop runs as you, because your machine is the security context. Your IT team rejects the application identity you ask for, because it doesn&amp;rsquo;t do MFA. Half your backends never see Entra ID at all, because they authenticate with personal access tokens. And the moment an agent can act on behalf of a user, &amp;ldquo;who owns this agent&amp;rdquo; quietly turns into &amp;ldquo;whose permissions does it have&amp;rdquo;.&lt;/p&gt;</description></item><item><title>Azure Enterprise Agreement: Delegating Roles for Subscription Creation</title><link>https://damianflynn.github.io/posts/azure-ea-delegating-privileges/</link><pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/azure-ea-delegating-privileges/</guid><description>&lt;h1 class="relative text-5xl font-semibold leading-tense text-secondary-500 mb-4 -ml-px" id="azure-enterprise-agreement-privilages-delegating"&gt;&lt;a href="#azure-enterprise-agreement-privilages-delegating" class="header-mark" aria-label="Header mark for 'Azure Enterprise Agreement, Privilages Delegating'"&gt;&lt;/a&gt;
  &lt;div id="azure-enterprise-agreement-privilages-delegating" class="absolute -top-28"&gt;&lt;/div&gt;
  Azure Enterprise Agreement, Privilages Delegating
 &lt;/h1&gt;
@@ -28,7 +28,7 @@
 
 
 &lt;figure class="my-8"&gt;
- &lt;img src="https://damianflynn.github.io/posts/azure-enterprise-agreement-delegating-roles-for-subscription-creation/az-billing-ea_privilege_delegation.new_structure.png" alt="" class="w-full rounded-lg" /&gt;
+ &lt;img src="https://damianflynn.github.io/posts/azure-ea-delegating-privileges/az-billing-ea_privilege_delegation.new_structure.png" alt="" class="w-full rounded-lg" /&gt;
  
 &lt;/figure&gt;
 &lt;/p&gt;
