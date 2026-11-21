@@ -10,7 +10,7 @@
 &lt;li&gt;a disk caching change that hot-detached a production disk;&lt;/li&gt;
 &lt;li&gt;&amp;ldquo;a freeze is not a control&amp;rdquo;.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Plus the patterns that worked: subagents, cross-model review with gh copilot, and grep-verifying every HIGH finding. It&amp;rsquo;s honest, funny, and very MVP.&lt;/p&gt;</description></item><item><title>Change Detection using Oxidized</title><link>https://damianflynn.github.io/posts/change-detection-using-oxidized/</link><pubDate>Thu, 17 Nov 2022 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/change-detection-using-oxidized/</guid><description>&lt;p&gt;The process is very simple:&lt;/p&gt;
+&lt;p&gt;Plus the patterns that worked: subagents, cross-model review with gh copilot, and grep-verifying every HIGH finding. It&amp;rsquo;s honest, funny, and very MVP.&lt;/p&gt;</description></item><item><title>Network Change Detection with Oxidized and Git</title><link>https://damianflynn.github.io/posts/network-change-detection-with-oxidized-and-git/</link><pubDate>Thu, 17 Nov 2022 00:00:00 +0000</pubDate><guid>https://damianflynn.github.io/posts/network-change-detection-with-oxidized-and-git/</guid><description>&lt;p&gt;The process is very simple:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Login to each device in the router list &lt;code&gt;router.db&lt;/code&gt;,&lt;/li&gt;
 &lt;li&gt;Run Commands to get the information that will be saved&lt;/li&gt;
