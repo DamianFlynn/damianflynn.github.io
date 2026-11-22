@@ -467,3 +467,8 @@ paginate = 10
   avatar = "/images/damian_flynn.webp"
   gravatarEmail = "damian.flynn@gmail.com"
   link = "https://github.com/damianflynn"
+
+# Rybbit analytics on the self-hosted instance; the theme renders it in production builds only
+[rybbit]
+  host = "pulse.deercrest.info"
+  siteId = "82add8b3b627"
