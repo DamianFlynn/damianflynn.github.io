@@ -2,7 +2,7 @@
 // /pulse/<name> is forwarded to https://pulse.deercrest.info/api/<name>. Only the
 // public tracking endpoints are reachable; every other path, including the admin
 // API, answers 404, so this is not an open proxy.
-const RYBBIT = 'https://pulse.deercrest.info';
+import { RYBBIT, buildEvent, send, pixelResponse } from '../_shared/feed.js';
 const ALLOWED = [
   /^script\.js$/,
   /^replay\.js$/,
@@ -13,9 +13,23 @@ const ALLOWED = [
   /^session-replay\/record\/[A-Za-z0-9_-]+$/,
 ];
 
-export async function onRequest({ request }) {
+export async function onRequest({ request, env, waitUntil }) {
   const url = new URL(request.url);
   const name = url.pathname.replace(/^\/pulse\//, '');
+
+  // /pulse/p/<slug>.gif: the end-of-item image of a feed; counts one item view.
+  const pixel = name.match(/^p\/([a-z0-9-]{1,120})\.gif$/);
+  if (pixel) {
+    if (request.method === 'GET') {
+      const event = buildEvent({
+        name: 'rss_view', pathname: '/posts/' + pixel[1] + '/', hostname: url.hostname,
+        ip: request.headers.get('CF-Connecting-IP'), userAgent: request.headers.get('User-Agent'),
+        extra: { slug: pixel[1] },
+      });
+      if (JSON.parse(event.properties).kind !== 'crawler') waitUntil(send(env, event));
+    }
+    return pixelResponse();
+  }
   if (!ALLOWED.some((re) => re.test(name))) return new Response('Not found', { status: 404 });
   if (!['GET', 'HEAD', 'POST', 'OPTIONS'].includes(request.method)) return new Response('Method not allowed', { status: 405 });
 
