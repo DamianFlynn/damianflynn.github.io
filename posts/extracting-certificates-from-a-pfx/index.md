@@ -5,7 +5,7 @@
 
 Using **OpenSSL** we can extract the private key, and the certificate into independent file's, which is required for most networking devices, and linux services.
 
-You will need to install the [OpenSSL](/posts/build-and-install-the-latest-openssl-on-ubuntu/), package, either on your system.
+You will need to install the [OpenSSL](/posts/installing-the-latest-openssl-release/), package, either on your system.
 
 ## Export the private key from the PFX file
 

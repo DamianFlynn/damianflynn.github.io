@@ -1,9 +1,9 @@
 # FreeRADIUS for 802.1X with Certificates: EAP and PKI Setup
 
 
-In a pervious post, I covered the steps to [deploy the current stable release of FreeRadius, by installing the packages from the NetworkRadius organizations repository](/posts/install-freeradius-on-ubuntu-from-the-network-radius-repository/).
+In a pervious post, I covered the steps to [deploy the current stable release of FreeRadius, by installing the packages from the NetworkRadius organizations repository](/posts/installing-freeradius/).
 
-We will now, focus on configuring the FreeRadius server so that it can authenticate 802.1x requests, which depends on valid [Computer Certificates](/posts/issue-a-windows-pki-certificate-to-a-linux-server-with-openssl/#Creating our Certificate Request).
+We will now, focus on configuring the FreeRadius server so that it can authenticate 802.1x requests, which depends on valid [Computer Certificates](/posts/create-pki-certificate-for-linux-server/#Creating our Certificate Request).
 
 ## Why?
 

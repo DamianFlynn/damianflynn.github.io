@@ -5,7 +5,7 @@
 
 It is enevitable, that at some point in time, you will need to issue a certificate for your system. There are a couple of relativly simple steps to acheive this, begining with the creation of a certificate request, then submitting this to an online certificate authority, which will process the request and issue you a certificate with both a Public and Private Key.
 
-In this post, we will use the **[OpenSSL](/posts/build-and-install-the-latest-openssl-on-ubuntu/)** utility to create such a request file, and walk trough the steps of issuing a certificate from a Windows PKI Server.
+In this post, we will use the **[OpenSSL](/posts/installing-the-latest-openssl-release/)** utility to create such a request file, and walk trough the steps of issuing a certificate from a Windows PKI Server.
 
 ## Creating our Certificate Request
 
@@ -38,12 +38,12 @@ The above is a working template - the only changes you should make to this file 
 
 ## Create the Private Key
 
-From the computer you are wishing to create the certificate for (for example a [Linux FreeRadius server](/posts/install-freeradius-on-ubuntu-from-the-network-radius-repository/), we will generate the request for private key using the template as follows.
+From the computer you are wishing to create the certificate for (for example a [Linux FreeRadius server](/posts/installing-freeradius/), we will generate the request for private key using the template as follows.
 
 > [!Note] OpenSSL
 > OpenSSL will ask some additional questions during execution
 
-The following command parameters instruct [OpenSSL](/posts/build-and-install-the-latest-openssl-on-ubuntu/) to generate a certificate request
+The following command parameters instruct [OpenSSL](/posts/installing-the-latest-openssl-release/) to generate a certificate request
 * `req`: OpenSSL should generate a Certificate Request
 * `-newkey rsa:2048`: The Request should be encrypted using **RSA 2048** 
 * `-nodes`: 

@@ -115,7 +115,7 @@ Now, we are ready, we have the configuration all set for this installation
 
 Launching our browser to the oxidized site hosted on `TCP 8888` renders the current status
 
-[Hugo and Obsidian](/posts/obsidian-to-hugo-with-obsidian2hugo/)
+[Hugo and Obsidian](/posts/obsidian2hugo/)
 
 *(image unavailable — “List of Devices Monitored for Change Detection” screenshot not in source vault)*
 
