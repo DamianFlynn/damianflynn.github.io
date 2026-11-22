@@ -12,7 +12,7 @@ gitRepo = "https://github.com/damianflynn/damianflynn.github.io"
 fingerprint = ""
 
 # website images for Open Graph and Twitter Cards
-images = ["/images/avatar.webp"]
+images = ["/images/avatar-2026.webp"]
 enablePWA = false
 bundle = false
 license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
@@ -232,7 +232,7 @@ paginate = 10
 
     [page.seo.publisher]
       # Publisher info
-      logoUrl = "/images/avatar.webp"
+      logoUrl = "/images/avatar-2026.webp"
       name = "xxxx"
 
     [page.related]
@@ -249,9 +249,15 @@ paginate = 10
     # Gravatar Email for preferred avatar in home page
     gravatarEmail = "damian.flynn@gmail.com"
     # URL of avatar shown in home page
-    avatarURL = "/images/avatar.webp"
+    avatarURL = "/images/avatar-2026.webp"
     # URL the avatar links to
     avatarLinkURL = "https://linkedin.com/in/damianflynn"
+    # Illustrated cut-out figure shown in the landing hero (theme option).
+    # Remove to fall back to the legacy photo portrait.
+    heroImage = "/images/hero-damian.webp"
+    heroImageWidth = 800
+    heroImageHeight = 1200
+    heroImageAlt = "Damian Flynn"
     # title shown in home page (HTML format is supported)
     title = ""
     # subtitle shown in home page
@@ -464,7 +470,7 @@ paginate = 10
 
 [Author]
   name = "Damian Flynn"
-  avatar = "/images/damian_flynn.webp"
+  avatar = "/images/avatar-2026.webp"
   gravatarEmail = "damian.flynn@gmail.com"
   link = "https://github.com/damianflynn"
 
