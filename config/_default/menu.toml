@@ -56,6 +56,12 @@
   weight = 4
 
 [[main]]
+  identifier = "graph"
+  name = "Graph"
+  url = "/graph/"
+  weight = 5
+
+[[main]]
   identifier = "about"
   pre = ""
   post = ""
