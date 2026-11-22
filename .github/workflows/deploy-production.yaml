@@ -1,4 +1,4 @@
-# Production Deployment to GitHub Pages
+# Production Deployment to Cloudflare Pages (damianflynn.com)
 #
 # This workflow builds and deploys the production version of the site
 # Excludes drafts, expired, and future content
@@ -29,8 +29,8 @@ jobs:
     name: Build and Deploy Production
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
-      url: https://damianflynn.github.io
+      name: production
+      url: https://damianflynn.com
     concurrency:
       group: production-deployment
       cancel-in-progress: false
@@ -112,11 +112,25 @@ jobs:
         run: hugo --minify --gc --ignoreCache
         env:
           HUGO_ENV: production
+          # First-party analytics: the script and the feed counters go through this site's own /pulse functions
+          HUGO_PARAMS_RYBBIT_PROXY: /pulse
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          publish_branch: gh-pages
-          cname: damianflynn.github.io
+      - name: Deploy to Cloudflare Pages
+        run: |
+          npm install -g wrangler
+          # Create the project once; an existing project is not an error.
+          wrangler pages project create damianflynn --production-branch=main || true
+          set -o pipefail
+          OUTPUT=$(wrangler pages deploy public --project-name=damianflynn --branch=main --commit-dirty=true 2>&1 | tee /dev/stderr)
+          if echo "$OUTPUT" | grep -qE "\[ERROR\]|Authentication error|Invalid access token"; then
+            echo "::error::Cloudflare Pages deploy failed; check CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID"
+            exit 1
+          fi
+          # The feed counters send events with an API key kept as a Pages secret (never in the repository)
+          if [ -n "${RYBBIT_API_KEY:-}" ]; then
+            printf '%s' "$RYBBIT_API_KEY" | wrangler pages secret put RYBBIT_API_KEY --project-name=damianflynn
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          RYBBIT_API_KEY: ${{ secrets.RYBBIT_API_KEY }}
