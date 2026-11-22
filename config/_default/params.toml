@@ -242,7 +242,7 @@ paginate = 10
 # Home page config
 [home]
   # amount of RSS pages
-  rss = 10
+  rss = 20
 
   [home.profile]
     enable = true

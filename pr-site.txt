@@ -1,0 +1,9 @@
+Posts are addressed by their vault slug (`posts = ":sections/:slug"`), as talks already are. Retitling a post no longer moves its address.
+
+Why now: the 63 approved retitles went live with the title-built permalink, which moved 35 published post addresses on production and left the old ones answering 404. With this change the addresses return to their old values (the vault slugs were set to the live segments; the one slug with a dot is an alias).
+
+Also bumps the theme pin to `8afeffc` (multi-word tag chips lost their label and link; theme PR 25).
+
+Local proof: a build of the current garden with this branch has every one of the 41 post addresses of the previous production sitemap, except the dotted FreeRADIUS one, which is a vault alias.
+
+https://claude.ai/code/session_013LWw1uTVLWvjykvso9Pjuc
