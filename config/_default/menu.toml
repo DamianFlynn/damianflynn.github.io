@@ -50,9 +50,10 @@
   weight = 3
 
 [[main]]
-  identifier = "talks"
-  name = "Talks"
-  url = "/talks/"
+  identifier = "events"
+  name = "Events"
+  url = "/events/"
+  title = "Events I speak at or host, with the talks and sessions from each"
   weight = 4
 
 [[main]]
