@@ -102,7 +102,7 @@ paginate = 10
   # https://github.com/user/repo/issues/new?title=[bug]%20{title}&body=|Field|Value|%0A|-|-|%0A|Title|{title}|%0A|Url|{url}|%0A|Filename|https://github.com/user/repo/blob/main/{path}|"
   # https://gitlab.com/user/repo/-/issues/new?issue[title]=[bug]%20{title}&issue[description]=|Field|Value|%0A|-|-|%0A|Title|{title}|%0A|Url|{url}|%0A|Filename|https://gitlab.com/user/repo/-/edit/main/{path}|
   # whether to show the full text content in RSS
-  rssFullText = false
+  rssFullText = true
   # Page style ("normal", "wide")
   pageStyle = "normal"
   seriesNavigation = true
@@ -467,3 +467,8 @@ paginate = 10
   avatar = "/images/damian_flynn.webp"
   gravatarEmail = "damian.flynn@gmail.com"
   link = "https://github.com/damianflynn"
+
+# Rybbit analytics on the self-hosted instance; the theme renders it in production builds only
+[rybbit]
+  host = "pulse.deercrest.info"
+  siteId = "82add8b3b627"

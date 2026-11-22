@@ -1,0 +1,7 @@
+{{- define "title" -}}
+    {{- (index .Pages 0).Title }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+    {{- partial "static-section.html" . -}}
+{{- end -}}
