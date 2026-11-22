@@ -112,6 +112,8 @@ jobs:
         run: hugo --minify --gc --ignoreCache
         env:
           HUGO_ENV: production
+          # First-party analytics: the script and the feed counters go through this site's own /pulse functions
+          HUGO_PARAMS_RYBBIT_PROXY: /pulse
 
       - name: Deploy to Cloudflare Pages
         run: |
@@ -124,6 +126,11 @@ jobs:
             echo "::error::Cloudflare Pages deploy failed; check CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID"
             exit 1
           fi
+          # The feed counters send events with an API key kept as a Pages secret (never in the repository)
+          if [ -n "${RYBBIT_API_KEY:-}" ]; then
+            printf '%s' "$RYBBIT_API_KEY" | wrangler pages secret put RYBBIT_API_KEY --project-name=damianflynn
+          fi
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          RYBBIT_API_KEY: ${{ secrets.RYBBIT_API_KEY }}
