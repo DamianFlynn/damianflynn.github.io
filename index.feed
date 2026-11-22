@@ -117,6 +117,19 @@
         "language": "en"
     },
     {
+        "title" : "Getting Azure Function Keys with ARM Templates",
+        "date_published" : "2022-11-07T00:00:00Z",
+        "date_modified" : "2022-11-07T00:00:00Z",
+        "id" : "https://damianflynn.github.io/posts/azure-iac-function-keys/",
+        "url" : "https://damianflynn.github.io/posts/azure-iac-function-keys/",
+        "summary": "Today\u0026rsquo;s conundrum: I\u0026rsquo;ve deployed a new Function Application, and another service needs a key to call it. API Management is a good example. The infrastructure deployment should prepare that integration without someone opening the portal, copying a key and pasting it into the next configuration step.\nARM templates can create a named host key and retrieve its value through listKeys. Giving the integration its own named key also makes its purpose clearer than reusing a generic default key.\nThe examples below show the resource definition and the lookup used in my original deployment. They are fragments to merge into an existing Function App template, not a complete deployment on their own.\n",
+        "author" : {
+          "name" : "damian"
+        },
+        "content_html" : "\u003cp\u003eToday\u0026rsquo;s conundrum: I\u0026rsquo;ve deployed a new \u003ca href=\"/posts/azure-functions-scaffolding/\" rel=\"\"\u003eFunction Application\u003c/a\u003e, and another service needs a key to call it. API Management is a good example. The infrastructure deployment should prepare that integration without someone opening the portal, copying a key and pasting it into the next configuration step.\u003c/p\u003e\n\u003cp\u003eARM templates can create a named host key and retrieve its value through \u003ccode\u003elistKeys\u003c/code\u003e. Giving the integration its own named key also makes its purpose clearer than reusing a generic default key.\u003c/p\u003e\n\u003cp\u003eThe examples below show the resource definition and the lookup used in my original deployment. They are fragments to merge into an existing Function App template, not a complete deployment on their own.\u003c/p\u003e\u003cp\u003e\u003ca href=\"https://damianflynn.github.io/posts/azure-iac-function-keys/\"\u003eRead the full post on Incredible Technology, Incredibly Simple\u003c/a\u003e\u003c/p\u003e",
+        "language": "en"
+    },
+    {
         "title" : "Obsidian to Hugo with Obsidian2Hugo",
         "date_published" : "2022-11-07T00:00:00Z",
         "date_modified" : "2022-11-07T00:00:00Z",
@@ -140,6 +153,19 @@
           "name" : "damian"
         },
         "content_html" : "\u003cp\u003eI recently ran into an issue with a particular environment where Active Directory and PKI services were deployed. One of the service accounts which I was attempting to \u0026lsquo;unlock\u0026rsquo; refused to co-operate and instead offered the most unhelpful message.\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003eAdministrative limit for this request was exceeded\u003c/code\u003e - this was not my first time encountering the message, previously this haunted me while I was managing a Windows PKI infrastructure and with some quick searches, confirmed my initial suspicion. This is a symptom of an AD object quite simply being to large!\u003c/p\u003e\u003cp\u003e\u003ca href=\"https://damianflynn.github.io/posts/ad-administrative-limits/\"\u003eRead the full post on Incredible Technology, Incredibly Simple\u003c/a\u003e\u003c/p\u003e",
+        "language": "en"
+    },
+    {
+        "title" : "Azure Tags as Bicep Parameters",
+        "date_published" : "2021-07-23T00:00:00Z",
+        "date_modified" : "2021-07-23T00:00:00Z",
+        "id" : "https://damianflynn.github.io/posts/bicep-tags-as-parameters/",
+        "url" : "https://damianflynn.github.io/posts/bicep-tags-as-parameters/",
+        "summary": "A deployment often needs to find infrastructure that already exists. A virtual machine might belong to a subscription with a shared Recovery Services vault, while its backup policy depends on the workload. Passing the vault name, its resource group and the policy name into every deployment works, but repeats configuration that may already be recorded in Azure.\nIn the earlier post, Azure Tags as ARM Template Parameters, I used tags to look up those values from an ARM JSON template. This is the same lab scenario expressed in Bicep. The lookup behaves the same way, but the string interpolation makes the resource paths easier to follow.\n",
+        "author" : {
+          "name" : "damian"
+        },
+        "content_html" : "\u003cp\u003eA deployment often needs to find infrastructure that already exists. A virtual machine might belong to a subscription with a shared Recovery Services vault, while its backup policy depends on the workload. Passing the vault name, its resource group and the policy name into every deployment works, but repeats configuration that may already be recorded in Azure.\u003c/p\u003e\n\u003cp\u003eIn the earlier post, \u003ca href=\"/posts/azure-iac-tags-as-parameters/\" rel=\"\"\u003eAzure Tags as ARM Template Parameters\u003c/a\u003e, I used tags to look up those values from an ARM JSON template. This is the same lab scenario expressed in Bicep. The lookup behaves the same way, but the string interpolation makes the resource paths easier to follow.\u003c/p\u003e\u003cp\u003e\u003ca href=\"https://damianflynn.github.io/posts/bicep-tags-as-parameters/\"\u003eRead the full post on Incredible Technology, Incredibly Simple\u003c/a\u003e\u003c/p\u003e",
         "language": "en"
     },
     {
