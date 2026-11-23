@@ -99,6 +99,20 @@ Visit http://localhost:1313 - changes to theme/content auto-reload instantly!
 
 **See [SETUP.md](SETUP.md) for complete setup instructions.**
 
+## Synced social comments
+
+Replies to a page's social announcement posts (X, LinkedIn, Bluesky) are shown on the page as a threaded discussion, rendered at build time. Readers' browsers make no third-party calls.
+
+- A page opts in with `comments: {x: <url>, linkedin: <url>, bluesky: <url>}` in its front matter (a `mastodon` link is shown as a join link only; Zernio cannot read it).
+- `.github/workflows/sync-comments.yaml` runs `scripts/sync-comments.mjs` every 15 minutes (and on demand). It reads the garden repo's page list only when the garden `main` sha changes, makes one Zernio list call, and reads a thread only when its comment count changed (plus a re-read around 03:00 UTC of threads that have comments, to pick up edits and hides). A run with nothing to do makes two API calls and exits in seconds.
+- Polling is age-based per tracked post: younger than 48 hours every run, up to 14 days at most hourly, older at most daily.
+- It cannot get stuck: each platform fails on its own (a 429 on X never blocks LinkedIn or Bluesky, and data that did change is still committed); failures back off exponentially in `_state.json` (15 min doubling to 6 h, or the `Retry-After` value) instead of sleeping; at most 20 thread reads per run; a low `X-RateLimit-Remaining` ends the run early; existing data is never blanked. After 6 failed runs for a platform the run emits a `::warning::` annotation and after 24 an `::error::`, and still exits 0 so the schedule keeps going. (A rejected API key, HTTP 401, does fail the run.)
+- Changes land as `data/comments/<posts|talks>-<slug>.json` in one `chore(comments): sync social replies` commit on `main`; when reader-visible data changed the workflow then dispatches `deploy-production.yaml`. `data/comments/_state.json` is the script's own bookkeeping (a state-only commit is not deployed); do not edit it.
+- Secrets: `ZERNIO_API_KEY` (Zernio API key) and `PRIVATE_REPO_TOKEN` (reads the garden repo). Without the key the run logs a notice and exits cleanly.
+- Hide a comment: add its `id` (as found in the data file) to the JSON list in `data/comments/_hidden.json`, e.g. `["urn:li:comment:(...)"]`. Its replies go with it. Hiding the comment on the platform itself (Zernio `isHidden`) has the same effect.
+- Cost: the repository is public so Actions minutes are free; Zernio inbox reads are cheap but X reads are metered (fractions of a cent), which is why X threads are read only when their count changes.
+- Tests: `node --test scripts/test-sync-comments.mjs` (offline, mocked Zernio and GitHub).
+
 ## Deployment Strategy
 
 ### Environment Versioning

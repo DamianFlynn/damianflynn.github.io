@@ -1,0 +1,41 @@
+{
+ "status": "success",
+ "comments": [
+  {
+   "id": "urn:li:comment:(urn:li:activity:7530541470781562881,7530587476000792576)",
+   "message": "Agree 100% :)",
+   "createdTime": "2026-11-23T11:06:05.828Z",
+   "from": {
+    "id": "urn:li:person:WlFGXuX7H3",
+    "name": "Sohail Shaikh",
+    "username": "sohail-shaikh-134a30222",
+    "picture": null,
+    "isOwner": false
+   },
+   "likeCount": 0,
+   "replyCount": 0,
+   "platform": "linkedin",
+   "url": null,
+   "replies": [],
+   "isHidden": false,
+   "canReply": true,
+   "canDelete": false,
+   "canHide": false,
+   "canLike": true,
+   "isLiked": false,
+   "canPin": false,
+   "isPinned": false
+  }
+ ],
+ "pagination": {
+  "hasMore": false,
+  "cursor": "1"
+ },
+ "meta": {
+  "platform": "linkedin",
+  "postId": "urn:li:share:7530541469049229314",
+  "accountId": "6a4c1a569d9472faae9d2d0c",
+  "postUrn": "urn:li:share:7530541469049229314",
+  "lastUpdated": "2026-11-23T16:19:53.787Z"
+ }
+}
