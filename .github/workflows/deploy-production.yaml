@@ -16,6 +16,8 @@ on:
   # Runs daily at midnight to refresh content from the source
   schedule:
     - cron: '0 0 * * *'  # Run at midnight daily
+    # Posts scheduled for 08:00 UTC (publish_at) are hidden by Hugo until a build runs after that time
+    - cron: '5 8 * * *'
   # Allows manual triggering of the workflow
   workflow_dispatch:
 
