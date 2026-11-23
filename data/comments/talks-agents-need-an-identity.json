@@ -1,0 +1,36 @@
+{
+  "fetchedAt": "2026-11-23T16:27:38.179Z",
+  "page": "/talks/agents-need-an-identity/",
+  "threads": [
+    {
+      "comments": [],
+      "count": 0,
+      "platform": "x",
+      "url": "https://x.com/damian_flynn/status/2124775768513204629"
+    },
+    {
+      "comments": [
+        {
+          "author": {
+            "handle": "sohail-shaikh-134a30222",
+            "name": "Sohail Shaikh"
+          },
+          "createdAt": "2026-11-23T11:06:05.828Z",
+          "id": "urn:li:comment:(urn:li:activity:7530541470781562881,7530587476000792576)",
+          "likes": 0,
+          "replies": [],
+          "text": "Agree 100% :)"
+        }
+      ],
+      "count": 1,
+      "platform": "linkedin",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7530541469049229314/"
+    },
+    {
+      "comments": [],
+      "count": 0,
+      "platform": "bluesky",
+      "url": "https://bsky.app/profile/damianflynn.com/post/3n2xokvq4ae2s"
+    }
+  ]
+}

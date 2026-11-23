@@ -1,0 +1,68 @@
+# Sync social replies (X, LinkedIn, Bluesky) from Zernio into data/comments/*.json.
+# The theme renders them at build time, so readers' browsers make no third-party calls.
+# Secrets: ZERNIO_API_KEY (Zernio), PRIVATE_REPO_TOKEN (read access to the garden repo).
+
+name: Sync Comments
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: sync-comments
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync social replies
+    if: github.repository == 'DamianFlynn/damianflynn.github.io'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Sync from Zernio
+        id: sync
+        env:
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+          GARDEN_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN || secrets.GITHUB_TOKEN }}
+        run: node scripts/sync-comments.mjs
+
+      # Runs even when the sync step exits non-zero (bad credential), so data it did change is still saved.
+      - name: Commit, push and deploy when data changed
+        if: ${{ !cancelled() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOY: ${{ steps.sync.outputs.deploy }}
+        run: |
+          if [ -z "$(git status --porcelain -- data/comments)" ]; then
+            echo "No comment data changed; nothing to do."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/comments
+          git commit -m "chore(comments): sync social replies"
+          if ! git push origin HEAD:main; then
+            echo "Push raced with another commit; rebasing once."
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+          # A state-only commit (backoff bookkeeping) changes nothing readers see, so it is not deployed.
+          # Pushes made with GITHUB_TOKEN do not trigger other workflows; a dispatch does.
+          if [ "$DEPLOY" = "true" ]; then
+            gh workflow run deploy-production.yaml --ref main
+          fi

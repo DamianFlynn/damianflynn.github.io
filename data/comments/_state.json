@@ -1,0 +1,139 @@
+{
+  "gardenSha": "616aceca18e97d43f27e2c86f879b527bb7b7337",
+  "pages": {
+    "content/talks/agents-need-an-identity/index.md": {
+      "kind": "talks",
+      "links": {
+        "bluesky": "https://bsky.app/profile/damianflynn.com/post/3n2xokvq4ae2s",
+        "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7530541469049229314/",
+        "x": "https://x.com/damian_flynn/status/2124775768513204629"
+      },
+      "sha": "e08dfa70775fee09dd922e8de00d0ba509d4f7e8",
+      "slug": "agents-need-an-identity",
+      "src": "content/talks/agents-need-an-identity/index.md"
+    }
+  },
+  "platforms": {
+    "bluesky": {
+      "consecutiveFailures": 0,
+      "lastAttempt": "2026-11-23T16:27:38.179Z",
+      "lastSuccess": "2026-11-23T16:27:38.179Z"
+    },
+    "linkedin": {
+      "consecutiveFailures": 0,
+      "lastAttempt": "2026-11-23T16:27:38.179Z",
+      "lastSuccess": "2026-11-23T16:27:38.179Z"
+    },
+    "x": {
+      "consecutiveFailures": 0,
+      "lastAttempt": "2026-11-23T16:27:38.179Z",
+      "lastSuccess": "2026-11-23T16:27:38.179Z"
+    }
+  },
+  "seen": [
+    "001541bc439e8b45ad60305da4b07429ccc9de96",
+    "015c28daee05d4b780dd48f3643ef346d20c0819",
+    "0733dfeda5d376d4500983d101d92a888d27ef46",
+    "0c6838206004e6df23ac9c5517a690f30c43c1e2",
+    "111569dd84cbd35b425c1a7eee1fa4de23748f99",
+    "141a8c7a324d55fd23f118efca4bc1ef78a28303",
+    "143eca9f3b1cd0768c1f7870cff64783f60a2650",
+    "15ed606bcf484144ea4e68296f6718e090dea54a",
+    "160ad41bccc8b85646badc40551ff600d93e442c",
+    "1c7bd0c16eb7b9574fd16f1e8acaa535d8209261",
+    "24c019a533b5d77f7e6f7a2f45b8465e468a31c8",
+    "2e8ed181df494c32c5efbb8829c065c7028c94c0",
+    "2eccc1218b182400c7822dc567811df9b2e46fc4",
+    "2efff01398eae2b6b32d6534b1df542ba6648deb",
+    "33525bbc78c84b76a6ca74c6ded623b560eb7c24",
+    "35bc33c38b563be7444655b58d744c13f7f5b909",
+    "364c2f93c34dbd9f76ce1a6ceca19b0670b32768",
+    "3f0d14f337a44f07d3a26ba7fba5aef0db3ec273",
+    "3f364d2bffcf065f1e4b4632f4a5cd5ae468f08d",
+    "3f931f02d180a96910e56f838fc53b04f162a61f",
+    "40c122ac182799dc5bec35d96442f37f8987ba3b",
+    "4199443ebe9fd2f4bcc34b9ded4104ccabf575e2",
+    "421133e70ed01f5e3c1aff5c0e198ac9d8bb4987",
+    "4703e18c18b3cafb0cbdc2ed1f404bf3a2133f35",
+    "4a3c91b3e4a0d00b7b1e0e6c07452486f1bfc087",
+    "545db6f26f79f68cdcc11166c5514cd563a0ac4f",
+    "56bfd1b07eb5aad1a088d2aa7412da4ca6cedef6",
+    "56ff3a79089dc44794b46bd02d0f136a56c0fbf4",
+    "5bd89f435ea458962e74c59951d3ad8fe66979d8",
+    "5ed72520429765f243248394b90281ed61b2500a",
+    "5ffcad8db222b36dd4c29dc89f270c9187f9a0a9",
+    "601e698996435b4021e7b5bbf0def0d30ca4e72a",
+    "69559676437df043471f4d4f2e3e3f9fe41b64d1",
+    "6bad2b8069dcea194c91c7e82cded85dade1b52a",
+    "744fbad91d75112b0c5fd45b66df6d39072e3b71",
+    "747a313486d2fa8f980157584f96cbb0f3b05c0f",
+    "79d7667fcdfa9777a72e39334a0fd032ccb44bf8",
+    "79dbaff0ac2675046a58bbefe5b30139aafdda12",
+    "7b8e30710f89be369ce5e60345298d7fa88a088a",
+    "7ee537a858dcc6bc1acfd9251a78fff8a61b1157",
+    "82ac783938e25c78863c35af11df5d44a7cb736f",
+    "88959c2726d9f59fc13205cf402312feadb6acc9",
+    "8b932691f6d811cfe1d0ccb53ab7b9dbbe7807a7",
+    "8d244650ee00c3df3b4bf8d8475e7e7c19af1d21",
+    "9ae74c9938f27fd9f389b9614b8aef7277118bac",
+    "9e0b458ef19d239bddc13824c09419d2e541c1a5",
+    "9f1f7f0a6443bb59149aa902ed320cf22ea4afaa",
+    "a42fbf7ac1c6c90ad5dcc89d249fcc459f138ff2",
+    "a7e4a0bcfb1f9d832c4502f623b88c3362f7d90e",
+    "a9cc4bc95e67e67aa1c2724342afdda11aaa0cb3",
+    "ab9f8c42c3c3e05ec258b8ef74a9bf5fdece514a",
+    "ac2489391279f3d03287eefae6dc698d380aaad9",
+    "b2b86de73a735f4eefb04ee12b8b4f79e5af025a",
+    "b3101a3b5146b8716ca946741ee043fbd40babbb",
+    "b70e31e6a3e4c8a51834c73be61e7f20c13c93e7",
+    "b77b775023f29a32f6c13ed3250e1152c0dcbae7",
+    "b9f1dc0352d37f41e04abc305ea721f47524cd36",
+    "c4900ce9ca8c7f7d3eb86e0721777557a41c16c0",
+    "cc56e7d69ca135513881d1415b5fd56c56f6c1b3",
+    "cda9eb2f7cff75bc0837f79ea2b8c0cc77259327",
+    "d26a8e337893ee49a9b1564ff995ce9289b2b5ac",
+    "d276f78c87b344564fc13042a01f550fca10a13d",
+    "d29a389f5edee9cb35f8360f40f4c32ad533f58c",
+    "d68814f77fd6ab5566e69f93b4ec2782d0c09d17",
+    "da7a3894b2b4a07d20506c1290c00deae0a39277",
+    "dd20a55f6dc35cab26ad07d3dc181f2ff4912083",
+    "dd22a1bd52f5f81d72233be54c66281b76212c73",
+    "e08dfa70775fee09dd922e8de00d0ba509d4f7e8",
+    "e2269dff7970f262c35fd8687500adf296ee20cb",
+    "e2eb0c334fcc449790e7689f84b225afbcfc1d71",
+    "e736bd3fd8bf3765d4f3bf0751fb3b73cd6c87e7",
+    "eacb1ddf13c1b571863f1d5cf32e4cfecb145d11"
+  ],
+  "threads": {
+    "bluesky:3n2xokvq4ae2s": {
+      "accountId": "6b035077ddd34ee4f599dbab",
+      "consecutiveFailures": 0,
+      "count": 0,
+      "created": "2026-11-23T08:10:50.545Z",
+      "id": "at://did:plc:epkveu5mlyzlggxg57celkrm/app.bsky.feed.post/3n2xokvq4ae2s",
+      "lastAttempt": "2026-11-23T16:27:38.179Z",
+      "lastSuccess": "2026-11-23T16:27:38.179Z",
+      "newest": ""
+    },
+    "linkedin:7530541469049229314": {
+      "accountId": "6a4c1a569d9472faae9d2d0c",
+      "consecutiveFailures": 0,
+      "count": 1,
+      "created": "2026-11-23T08:03:17.899Z",
+      "id": "urn:li:share:7530541469049229314",
+      "lastAttempt": "2026-11-23T16:27:38.179Z",
+      "lastSuccess": "2026-11-23T16:27:38.179Z",
+      "newest": "2026-11-23T11:06:05.828Z"
+    },
+    "x:2124775768513204629": {
+      "accountId": "6b02d1167d530f1ebe6a60a6",
+      "consecutiveFailures": 0,
+      "count": 0,
+      "created": "2026-11-23T08:03:14.000Z",
+      "id": "2124775768513204629",
+      "lastAttempt": "2026-11-23T16:27:38.179Z",
+      "lastSuccess": "2026-11-23T16:27:38.179Z",
+      "newest": ""
+    }
+  }
+}
