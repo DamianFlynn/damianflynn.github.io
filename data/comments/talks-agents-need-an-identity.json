@@ -1,10 +1,23 @@
 {
-  "fetchedAt": "2026-11-24T03:07:01.157Z",
+  "fetchedAt": "2026-11-24T09:48:56.796Z",
   "page": "/talks/agents-need-an-identity/",
   "threads": [
     {
-      "comments": [],
-      "count": 0,
+      "comments": [
+        {
+          "author": {
+            "handle": "SiuHarry202601",
+            "name": "Harry Siu | Agent Runtime Governance"
+          },
+          "createdAt": "2026-11-23T23:15:05.000Z",
+          "id": "2125005242697757183",
+          "likes": 0,
+          "replies": [],
+          "text": "@damian_flynn @AzureCommUG The shared-PAT example is useful. If you remove a permission from one agent's contract while it's running, does the gateway enforce that change on its next tool call?",
+          "url": "https://twitter.com/i/status/2125005242697757183"
+        }
+      ],
+      "count": 1,
       "platform": "x",
       "url": "https://x.com/damian_flynn/status/2124775768513204629"
     },
