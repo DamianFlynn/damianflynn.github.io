@@ -366,3 +366,19 @@ test('union keeps the cheap path: a second run with unchanged data makes two cal
   const r = await h.run({ socialDir: dir });
   assert.deepEqual(r.changed, []); assert.equal(r.calls, 2);
 });
+
+
+import { isSeedComment } from './sync-comments.mjs';
+test('the announcement\'s own link comment is not part of the conversation', () => {
+  const owner = { id: 's1', message: 'The full post: https://damianflynn.com/posts/x/', createdTime: '2026-11-24T09:00:30Z', from: { name: 'D', username: 'd', isOwner: true }, replies: [] };
+  const until = Date.parse('2026-11-24T09:00:00Z') + 10 * 60 * 1000;
+  assert.equal(isSeedComment(owner, until), true);
+  assert.deepEqual(normaliseComments([owner], new Set(), { seedUntil: until }), []);
+  // later than the window, no link, replies underneath, not the owner, or no window given: all kept
+  assert.equal(isSeedComment({ ...owner, createdTime: '2026-11-24T10:00:00Z' }, until), false);
+  assert.equal(isSeedComment({ ...owner, message: 'Thanks for reading' }, until), false);
+  assert.equal(isSeedComment({ ...owner, replies: [{ id: 'r' }] }, until), false);
+  assert.equal(isSeedComment({ ...owner, from: { name: 'P', username: 'p', isOwner: false } }, until), false);
+  assert.equal(isSeedComment(owner, undefined), false);
+  assert.equal(normaliseComments([owner]).length, 1);
+});

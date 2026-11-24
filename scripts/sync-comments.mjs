@@ -58,10 +58,21 @@ export function plainText(s) {
 }
 
 // ---------- comment tree ----------
-export function normaliseComments(list, hidden = new Set()) {
+const SEED_WINDOW_MS = 10 * 60 * 1000;
+// The announcement itself carries the link to the page in a comment of its own (the LinkedIn first comment, the second
+// X post): that is the seed, not part of the conversation. `seedUntil` is the time up to which an owner's top-level
+// comment that holds a link and has no replies is treated as that seed.
+export function isSeedComment(c, seedUntil) {
+  if (!Number.isFinite(seedUntil) || c?.from?.isOwner !== true) return false;
+  if (Array.isArray(c.replies) && c.replies.length) return false;
+  const when = Date.parse(c.createdTime);
+  return Number.isFinite(when) && when <= seedUntil && /https?:\/\//i.test(String(c.message || ''));
+}
+export function normaliseComments(list, hidden = new Set(), opts = {}) {
   const out = [];
   for (const c of Array.isArray(list) ? list : []) {
     if (!c || c.isHidden === true || hidden.has(String(c.id))) continue; // a hidden comment takes its replies with it
+    if (isSeedComment(c, opts.seedUntil)) continue;
     const when = Date.parse(c.createdTime);
     const node = {
       id: String(c.id),
@@ -241,7 +252,7 @@ export async function run(opts) {
   }
   const platformOf = key => key.split(':')[0];
   const fresh = {}; // key -> {tree,count}
-  const forceRead = ctx.now.getUTCHours() === 3 && ctx.now.getUTCMinutes() < 15;
+  const forceRead = process.env.FORCE_READ === '1' || (ctx.now.getUTCHours() === 3 && ctx.now.getUTCMinutes() < 15);
   const existing = key => { const w = wanted.get(key)[0]; const d = readJson(`${w.page.kind}-${w.page.slug}.json`, null); return (d?.threads || []).find(t => t.platform === w.platform) || null; };
 
   const failedKeys = new Set(); const failedPlatforms = new Set();
@@ -326,7 +337,7 @@ export async function run(opts) {
             if (!res.pagination?.hasMore || !res.pagination.cursor) break;
             c = res.pagination.cursor;
           }
-          const tree = normaliseComments(comments, hidden);
+          const tree = normaliseComments(comments, hidden, { seedUntil: Date.parse(item.createdTime) + SEED_WINDOW_MS });
           const old = existing(key);
           if (!tree.length && old?.comments?.length && !comments.length) throw new Transient(`zernio thread ${platform}: empty answer for a thread that has comments`);
           fresh[key] = { tree, count: countAll(tree) };
