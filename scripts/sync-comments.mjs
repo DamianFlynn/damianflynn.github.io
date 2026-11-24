@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 // Sync social replies from Zernio into data/comments/*.json (build-time discussion).
 // Node 20, built-ins only. Never logs the API key or any request header.
-import { readFileSync, writeFileSync, appendFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, appendFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isValidLink } from './social-urls.mjs';
 
 const ZERNIO = 'https://getlate.dev/api/v1';
 const PLATFORM_ORDER = ['x', 'linkedin', 'bluesky', 'mastodon'];
@@ -104,6 +105,35 @@ export function parseFrontMatter(text, path) {
   return { kind, slug, links };
 }
 
+// ---------- data/social: the second source of thread links ----------
+// Written by scripts/social-links.mjs. Front matter wins per network; data only fills the gaps.
+export function readSocialPages(dir) {
+  const pages = [];
+  if (!dir) return pages;
+  let names = [];
+  try { names = readdirSync(dir).filter(n => /^(posts|talks)-[a-z0-9]+(?:-[a-z0-9]+)*\.json$/.test(n)).sort(); } catch { return pages; }
+  for (const n of names) {
+    let d; try { d = JSON.parse(readFileSync(join(dir, n), 'utf8')); } catch { continue; }
+    const m = n.match(/^(posts|talks)-(.+)\.json$/);
+    if (!d || d.page !== `/${m[1]}/${m[2]}/` || typeof d.links !== 'object' || !d.links) continue;
+    const links = {};
+    for (const p of PLATFORM_ORDER) if (isValidLink(p, d.links[p])) links[p] = d.links[p];
+    if (Object.keys(links).length) pages.push({ kind: m[1], slug: m[2], links, src: `data/social/${n}` });
+  }
+  return pages;
+}
+export function unionPages(gardenPages, socialPages) {
+  const byKey = new Map();
+  for (const p of gardenPages) byKey.set(`${p.kind}-${p.slug}`, { ...p, links: { ...p.links } });
+  for (const s of socialPages) {
+    const k = `${s.kind}-${s.slug}`;
+    const cur = byKey.get(k);
+    if (cur) cur.links = { ...s.links, ...cur.links };
+    else byKey.set(k, { ...s, links: { ...s.links } });
+  }
+  return [...byKey.values()].sort((a, b) => a.src.localeCompare(b.src));
+}
+
 // ---------- HTTP ----------
 export class Transient extends Error { constructor(m, retryAfter = 0) { super(m); this.retryAfter = retryAfter; } }
 async function http(fetchFn, url, headers, label, onHeaders) {
@@ -183,7 +213,7 @@ const VOLATILE = new Set(['lastAttempt', 'lastSuccess']);
 const core = state => serialize(JSON.parse(JSON.stringify(state), (k, v) => (VOLATILE.has(k) ? undefined : v)));
 
 export async function run(opts) {
-  const ctx = { fetch: globalThis.fetch, now: new Date(), log: () => {}, gardenRepo: 'DamianFlynn/garden', dataDir: 'data/comments', maxFetches: MAX_THREAD_FETCHES, ...opts };
+  const ctx = { fetch: globalThis.fetch, now: new Date(), log: () => {}, gardenRepo: 'DamianFlynn/garden', dataDir: 'data/comments', socialDir: null, maxFetches: MAX_THREAD_FETCHES, ...opts };
   const { log } = ctx;
   if (!ctx.apiKey) { log('notice: ZERNIO_API_KEY is not set; nothing to do'); return { changed: [], calls: 0, deployable: false }; }
   const dir = ctx.dataDir;
@@ -205,7 +235,7 @@ export async function run(opts) {
   try { await scanGarden(ctx, state); } catch (e) { if (e instanceof Fatal) fatal = e; else log(`warn: ${e.message}; using cached page list`); }
 
   const wanted = new Map(); // key -> [{page, platform, url}]
-  for (const p of Object.values(state.pages).sort((a, b) => a.src.localeCompare(b.src))) for (const [platform, url] of Object.entries(p.links)) {
+  for (const p of unionPages(Object.values(state.pages), readSocialPages(ctx.socialDir))) for (const [platform, url] of Object.entries(p.links)) {
     const key = postKey(platform, url);
     if (key) { if (!wanted.has(key)) wanted.set(key, []); wanted.get(key).push({ page: p, platform, url }); }
   }
@@ -349,6 +379,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
       apiKey: process.env.ZERNIO_API_KEY,
       ghToken: process.env.GARDEN_TOKEN || process.env.GITHUB_TOKEN,
       dataDir: dirArg > 0 ? process.argv[dirArg + 1] : join(dirname(fileURLToPath(import.meta.url)), '..', 'data', 'comments'),
+      socialDir: join(dirname(fileURLToPath(import.meta.url)), '..', 'data', 'social'),
       log,
     });
     log(`done: ${r.calls} API calls, changed: ${r.changed.length ? r.changed.join(', ') : 'nothing'}`);

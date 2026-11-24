@@ -1,0 +1,60 @@
+{
+  "post": {
+    "_id": "6b04d6a47be7a3c9552894e4",
+    "content": "Would you believe me if I said one blog title change took down 35 of my posts?\n\nOne line of config built every address from its title. Dead links for 25 minutes.\n\nWhat's the smallest change that ever broke your site?\n\n#Hugo #DevOps",
+    "createdAt": "2026-11-24T00:13:25.128Z",
+    "crosspostingEnabled": true,
+    "hashtags": [],
+    "lastEnqueuedAt": "2026-11-24T09:02:36.552Z",
+    "mentions": [],
+    "platforms": [
+      {
+        "_id": "ent-twitter",
+        "accountId": {
+          "_id": "acc-twitter",
+          "displayName": "Test Author",
+          "isActive": true,
+          "platform": "twitter",
+          "username": "test_author"
+        },
+        "contentHash": "5adac0c4cf616325917e7c4b79627713",
+        "platform": "twitter",
+        "platformPostId": "2125153322625585254",
+        "platformPostUrl": "https://twitter.com/i/web/status/2125153322625585254",
+        "platformSpecificData": {
+          "threadItems": [
+            {
+              "content": "Hook text of the thread."
+            },
+            {
+              "content": "The full post, with the code and the mistakes: https://damianflynn.com/posts/markdown-notion-obsidian-building-this-blog/?utm_source=x"
+            }
+          ],
+          "threadPostIds": [
+            "2125153322625585254",
+            "2125153324408205383"
+          ]
+        },
+        "publishAttempts": 1,
+        "publishedAt": "2026-11-24T09:03:30.837Z",
+        "scheduledFor": "2026-11-24T09:00:00.000Z",
+        "status": "published"
+      }
+    ],
+    "publishingClaimedAt": "2026-11-24T09:00:21.215Z",
+    "recycling": {
+      "contentVariationIndex": 0,
+      "contentVariations": [],
+      "enabled": false,
+      "gapFreq": "month",
+      "recycleCount": 0
+    },
+    "scheduledFor": "2026-11-24T09:00:00.000Z",
+    "status": "published",
+    "tags": [],
+    "timezone": "Europe/Dublin",
+    "title": "",
+    "updatedAt": "2026-11-24T09:03:30.964Z",
+    "visibility": "public"
+  }
+}

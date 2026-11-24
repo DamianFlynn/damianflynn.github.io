@@ -1,0 +1,46 @@
+{
+  "post": {
+    "_id": "6b04d54c0b5053e8bfd819cd",
+    "content": "Here's what I did to trust a scheduled job. Every 15 minutes it writes a receipt, and every refusal has a name. I read it before I trust the push.\n\nWhat does your job say when it fails?\n\n#DevOps\n\nhttps://damianflynn.com/posts/markdown-notion-obsidian-building-this-blog/?utm_source=bluesky",
+    "createdAt": "2026-11-24T00:07:41.146Z",
+    "crosspostingEnabled": true,
+    "hashtags": [],
+    "lastEnqueuedAt": "2026-11-24T09:10:36.426Z",
+    "mentions": [],
+    "platforms": [
+      {
+        "_id": "ent-bluesky",
+        "accountId": {
+          "_id": "acc-bluesky",
+          "displayName": "author.example",
+          "isActive": true,
+          "platform": "bluesky",
+          "username": "author.example"
+        },
+        "contentHash": "6ed49021c68dc3e699611857375de3c1",
+        "platform": "bluesky",
+        "platformPostId": "at://did:plc:testtesttesttesttesttest/app.bsky.feed.post/3n32ceud77u22",
+        "platformPostUrl": "https://bsky.app/profile/author.example/post/3n32ceud77u22",
+        "publishAttempts": 1,
+        "publishedAt": "2026-11-24T09:10:41.869Z",
+        "scheduledFor": "2026-11-24T09:10:00.000Z",
+        "status": "published"
+      }
+    ],
+    "publishingClaimedAt": "2026-11-24T09:10:21.533Z",
+    "recycling": {
+      "contentVariationIndex": 0,
+      "contentVariations": [],
+      "enabled": false,
+      "gapFreq": "month",
+      "recycleCount": 0
+    },
+    "scheduledFor": "2026-11-24T09:10:00.000Z",
+    "status": "published",
+    "tags": [],
+    "timezone": "Europe/Dublin",
+    "title": "",
+    "updatedAt": "2026-11-24T09:10:41.935Z",
+    "visibility": "public"
+  }
+}

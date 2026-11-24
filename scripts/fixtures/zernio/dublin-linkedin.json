@@ -1,0 +1,46 @@
+{
+  "post": {
+    "_id": "6b037d95c27714f90d341fa4",
+    "content": "Everyone agrees AI agents should be treated like employees: their own identity, scoped permissions,  ... a three-layer model: org rules, per-agent contracts, runtime enforcement\n\nThe deck is online, with the abstract:\nhttps://damianflynn.com/talks/agents-need-an-identity/?utm_source=linkedin\n\nWhere does your organisation draw the line between \"draft a message\" and \"send a message\"?\n\n#Azure #AIAgents #EntraID #AIGovernance",
+    "createdAt": "2026-11-22T23:41:09.622Z",
+    "crosspostingEnabled": true,
+    "hashtags": [],
+    "lastEnqueuedAt": "2026-11-23T08:01:19.106Z",
+    "mentions": [],
+    "platforms": [
+      {
+        "_id": "ent-linkedin",
+        "accountId": {
+          "_id": "acc-linkedin",
+          "displayName": "Test Author",
+          "isActive": true,
+          "platform": "linkedin",
+          "username": "Test Author"
+        },
+        "contentHash": "74162c2e70b1ee0b3a6ab78e63267dcf",
+        "platform": "linkedin",
+        "platformPostId": "urn:li:share:7530541469049229314",
+        "platformPostUrl": "https://www.linkedin.com/feed/update/urn:li:share:7530541469049229314/",
+        "publishAttempts": 1,
+        "publishedAt": "2026-11-23T08:03:17.899Z",
+        "scheduledFor": "2026-11-23T08:00:00.000Z",
+        "status": "published"
+      }
+    ],
+    "publishingClaimedAt": "2026-11-23T08:00:21.310Z",
+    "recycling": {
+      "contentVariationIndex": 0,
+      "contentVariations": [],
+      "enabled": false,
+      "gapFreq": "month",
+      "recycleCount": 0
+    },
+    "scheduledFor": "2026-11-23T08:00:00.000Z",
+    "status": "published",
+    "tags": [],
+    "timezone": "Europe/Dublin",
+    "title": "",
+    "updatedAt": "2026-11-23T08:03:17.933Z",
+    "visibility": "public"
+  }
+}
