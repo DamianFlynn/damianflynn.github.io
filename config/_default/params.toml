@@ -61,13 +61,15 @@ paginate = 10
 [section]
   paginate = 20
   dateFormat = "2 Jan, 2006"
-  # amount of RSS pages
-  rss = 10
+  # amount of RSS pages (the home feed carries 20; keep /posts/index.xml the same)
+  rss = 20
   [section.recentlyUpdated]
     days = 30
     enable = true
     maxCount = 10
-    rss = true
+    # false: /posts/index.xml lists the latest posts. true would list only posts edited in the
+    # last `days` days whose last-modified differs from their date, which is almost always none.
+    rss = false
 
 # List (category or tag) page config
 [list]

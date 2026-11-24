@@ -59,3 +59,45 @@ test('the item pixel returns a gif and counts one view', async () => {
   const bad = await proxy({ request: new Request('https://example.test/pulse/p/Bad_Slug.gif'), env: {}, waitUntil() {} });
   assert.equal(bad.status, 404);
 });
+
+test('a 304 to a conditional request is a feed fetch and is passed through untouched', async () => {
+  const calls = capture(); const pending = [];
+  const headers = { ETag: '"abc"', 'Last-Modified': 'Mon, 23 Nov 2026 10:00:00 GMT', 'Cache-Control': 'public, max-age=0, must-revalidate' };
+  let seen;
+  const e = { RYBBIT_API_KEY: 'k', ASSETS: { fetch: async (req) => { seen = req; return new Response(null, { status: 304, headers }); } } };
+  const request = new Request('https://example.test/posts/index.xml', { headers: { 'User-Agent': 'NetNewsWire (RSS Reader)', 'If-None-Match': '"abc"', 'If-Modified-Since': headers['Last-Modified'] } });
+  const r = await serveFeed({ request, env: e, waitUntil: (p) => pending.push(p) });
+  await Promise.all(pending);
+  assert.equal(r.status, 304); assert.equal(await r.text(), '');
+  for (const [k, v] of Object.entries(headers)) assert.equal(r.headers.get(k), v);
+  assert.equal(seen.headers.get('If-None-Match'), '"abc"'); assert.equal(seen.headers.get('If-Modified-Since'), headers['Last-Modified']);
+  assert.equal(calls.length, 1);
+  const body = JSON.parse(calls[0].opts.body);
+  assert.equal(body.event_name, 'rss_fetch'); assert.equal(body.pathname, '/posts/index.xml');
+});
+
+test('errors, redirects and crawlers on a conditional request are not counted', async () => {
+  const calls = capture(); const pending = [];
+  for (const [status, ua] of [[404, 'Feedly/1.0 (2 subscribers)'], [301, 'Feedly/1.0 (2 subscribers)'], [304, 'Googlebot/2.1']]) {
+    const e = { RYBBIT_API_KEY: 'k', ASSETS: { fetch: async () => new Response(null, { status, headers: status === 301 ? { Location: '/x' } : {} }) } };
+    await serveFeed({ request: new Request('https://example.test/index.xml', { headers: { 'User-Agent': ua } }), env: e, waitUntil: (p) => pending.push(p) });
+  }
+  await Promise.all(pending); assert.equal(calls.length, 0);
+});
+
+test('the pixel keeps the post form and records talks under /talks/', async () => {
+  const calls = capture(); const pending = [];
+  const hit = async (path) => {
+    calls.length = 0;
+    const r = await proxy({ request: new Request('https://example.test' + path, { headers: { 'User-Agent': 'Inoreader/1.0 (4 subscribers)' } }), env: { RYBBIT_API_KEY: 'k' }, waitUntil: (p) => pending.push(p) });
+    await Promise.all(pending); assert.equal(r.headers.get('Content-Type'), 'image/gif');
+    return JSON.parse(calls[0].opts.body);
+  };
+  let b = await hit('/pulse/p/talks/agents-need-an-identity.gif');
+  assert.equal(b.pathname, '/talks/agents-need-an-identity/'); assert.equal(JSON.parse(b.properties).slug, 'agents-need-an-identity');
+  assert.equal(JSON.parse(b.properties).section, 'talks');
+  b = await hit('/pulse/p/old-post.gif'); assert.equal(b.pathname, '/posts/old-post/');
+  b = await hit('/pulse/p/posts/new-post.gif'); assert.equal(b.pathname, '/posts/new-post/');
+  const bad = await proxy({ request: new Request('https://example.test/pulse/p/Talks/x.gif'), env: {}, waitUntil() {} });
+  assert.equal(bad.status, 404);
+});
