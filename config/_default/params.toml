@@ -480,3 +480,7 @@ paginate = 10
 [rybbit]
   host = "pulse.deercrest.info"
   siteId = "82add8b3b627"
+
+# Pages with no thread links show a "Join the conversation" block with share links. Per page: shareBlock: false in front matter.
+[socialComments]
+fallbackShare = true
