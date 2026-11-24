@@ -8,6 +8,11 @@ on:
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
+    inputs:
+      force_read:
+        description: 'Re-read every thread that has comments, ignoring the stored counts'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -37,6 +42,7 @@ jobs:
       - name: Sync from Zernio
         id: sync
         env:
+          FORCE_READ: ${{ inputs.force_read && '1' || '' }}
           ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
           GARDEN_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN || secrets.GITHUB_TOKEN }}
         run: node scripts/sync-comments.mjs
