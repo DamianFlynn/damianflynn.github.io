@@ -1,43 +1,16 @@
 {
-  "fetchedAt": "2026-11-24T09:48:56.796Z",
+  "fetchedAt": "2026-11-24T15:47:13.317Z",
   "page": "/posts/markdown-notion-obsidian-building-this-blog/",
   "threads": [
     {
-      "comments": [
-        {
-          "author": {
-            "handle": "damian_flynn",
-            "name": "Damian Flynn"
-          },
-          "createdAt": "2026-11-24T09:03:30.000Z",
-          "id": "2125153324408205383",
-          "isOwner": true,
-          "likes": 0,
-          "replies": [],
-          "text": "The full post, with the code and the mistakes: https://t.co/tAYSSj4gUR",
-          "url": "https://twitter.com/i/status/2125153324408205383"
-        }
-      ],
-      "count": 1,
+      "comments": [],
+      "count": 0,
       "platform": "x",
       "url": "https://x.com/damian_flynn/status/2125153322625585254"
     },
     {
-      "comments": [
-        {
-          "author": {
-            "handle": "damianflynn",
-            "name": "Damian Flynn"
-          },
-          "createdAt": "2026-11-24T09:03:08.898Z",
-          "id": "urn:li:comment:(urn:li:activity:7530918912050364416,7530918922779385856)",
-          "isOwner": true,
-          "likes": 0,
-          "replies": [],
-          "text": "The full post, with the code and the mistakes: https://damianflynn.com/posts/markdown-notion-obsidian-building-this-blog/?utm_source=linkedin"
-        }
-      ],
-      "count": 1,
+      "comments": [],
+      "count": 0,
       "platform": "linkedin",
       "url": "https://www.linkedin.com/feed/update/urn:li:share:7530918910544740353/"
     },

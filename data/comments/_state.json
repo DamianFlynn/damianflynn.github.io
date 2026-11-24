@@ -1,5 +1,5 @@
 {
-  "gardenSha": "5548d30bb68c842e0027d3d63ae091dfbd57fa51",
+  "gardenSha": "be30c42d2d231b91111b5bf0cb5ac6d001aee797",
   "pages": {
     "content/talks/agents-need-an-identity/index.md": {
       "kind": "talks",
@@ -16,24 +16,24 @@
   "platforms": {
     "bluesky": {
       "consecutiveFailures": 0,
-      "lastAttempt": "2026-11-24T13:35:25.606Z",
-      "lastSuccess": "2026-11-24T13:35:25.606Z"
+      "lastAttempt": "2026-11-24T15:47:13.317Z",
+      "lastSuccess": "2026-11-24T15:47:13.317Z"
     },
     "linkedin": {
       "consecutiveFailures": 0,
-      "lastAttempt": "2026-11-24T13:35:25.606Z",
-      "lastSuccess": "2026-11-24T13:35:25.606Z"
+      "lastAttempt": "2026-11-24T15:47:13.317Z",
+      "lastSuccess": "2026-11-24T15:47:13.317Z"
     },
     "x": {
       "consecutiveFailures": 0,
-      "lastAttempt": "2026-11-24T13:35:25.606Z",
-      "lastSuccess": "2026-11-24T13:35:25.606Z"
+      "lastAttempt": "2026-11-24T15:47:13.317Z",
+      "lastSuccess": "2026-11-24T15:47:13.317Z"
     }
   },
   "seen": [
     "062b4cf836560c9c38e6e844d41b3de25b202732",
-    "0725cf7a580e86ca8caf3226a529e1bc93fac6aa",
     "0b652326e6979415357ccb3191352cf117f74357",
+    "11d71bbd063a394658dc6a5dac8278e2621fe7b4",
     "1b2d6a0eb2f2d2457c12ae03c3ed764f4422ba10",
     "1ce023b7d4043af293a9f7e9e57712f9e46e3bd6",
     "1f145ee80d4866edff7175b4d616aa31dc5e0bf1",
@@ -43,6 +43,7 @@
     "299e2650203d95511c81300e95f0daa8b8a47e3b",
     "29a7fd04cd75d488aaa991bd1e7e75772252aa34",
     "2abfbf04ecdd4e118b29081e65a52c47df8c5c59",
+    "2c4bce68a589d871342612313a378ccfd36ad3fb",
     "2dbbb61e8342857fc9de021008f852bb5050b4b1",
     "3e5a46e7bc3ee510144bbcdb58e497833c5b34aa",
     "3ecae21f71dda2c2941b57e387e484f7a99b56f1",
@@ -54,13 +55,13 @@
     "49b8389133acf514ec3fcaaa0429a8b8bd3065a9",
     "4a96f555d711221642c8925206b645c4154c4620",
     "4c89b669ac07d56eb4f870cedeebb0af85a5d2ac",
-    "51279c960b6e24e8ad8dba0b33c08ceedd47bb21",
     "5201d81122f143381a7df429484e8a697fe095df",
     "61f0945e14230724d3d903ea1bc5d95b87fa6e3a",
     "61f0bb822b552f199ebd8e3a4b3d344b8b1d188e",
-    "620624bf8d330f4c0293a85bec831e5f0fe2dd40",
     "63ed477b92e072d489d1e9e1bc031d0d5cd21236",
+    "662e3d8443ac3b3585701ef6a9b51f0911438b83",
     "6a4f2718cf6592282e13717913c64a47f8ad792c",
+    "6ec855c8ef50a4aefac3592b29ec9c24c21a27c5",
     "73fbabeda87f752187bcc7e3fed6c1a4a563d635",
     "75d4553de3a6892bd42da75ceeeb3c2db0e013fd",
     "7632ec1fe4798ca65e5226b2ef8e0b7e1773a95c",
@@ -72,17 +73,16 @@
     "85fe511a605fb175859e7d1b026b3d9df938a69a",
     "86d0e2a7247f9e7d7eb42c63519388da11ce10de",
     "891569ad371a773ce339e303f11133f3b1636516",
-    "94faef4c1ac968519f4f8ce531725148d0d8bdb3",
-    "974049441adc29d596ca6ad6092b22c9b0ea4849",
+    "898985e7706342da117acd58cdc68f18e2beb016",
     "98486fd995d3d35b7a52a4420f0b75f52b1c3cea",
     "99fd698a7339b3605c5b0d87ce9aa9d236f43dae",
+    "9aace57e3aac293f76858f2e12053d516a6f2076",
     "9eee7ecdf96a76af6896e695ff7f1d5b499b30c1",
     "9fab3bbfa66892b9e5a083bb4e2a4848fa78803f",
     "a30cc7ce69abd7e42fc08077f5b0666eae37ab8c",
     "a3b0ab9e209d365603a359388bf95a7c5cd36b61",
     "a860477bf3c604a0d82394180a9d977b847c458e",
     "a88b609fc172188c8c3eaa1f95846f9825b46de5",
-    "aa32915c744b02ab3b73e9938fe3b462dcc124e5",
     "ab3c037da40a761b4b677e81bb68d300f6e52e05",
     "acfb27bb3cf22a5e26e0ea3794ace85706027436",
     "add470e357b0bd29b622087c7767cee73e027daa",
@@ -91,6 +91,7 @@
     "b412eabe858f6c5c9fe240751edfd0f90b21bb8d",
     "b616f94e73af36955885bae4fb2eaac1dfe309ed",
     "b88be9c446db05f085970666e0b86ac5902cad8a",
+    "bb2d8058bf5b6065073afcd54ee50099e7319d42",
     "bec650c01d1cec23a89986b1e429e895efa2e0d4",
     "c049454634c9f7fac437b89c4bdafc34e81092b4",
     "c8003a01042aca96aa618445826eaae3c0407d6c",
@@ -101,9 +102,8 @@
     "d2aded0304accf506e58629d3b01a60fcdb589af",
     "d317e8538c4c89174f8de560517f61a4967a4c18",
     "d38fdc210f5cdfc5b58b94cf49ef505c9269d0c4",
-    "d640f78bc60070247c220c50c57feeb0aa726a16",
     "df14056c61c7fc7777defd36650ebd27666dc7ab",
-    "e0e1105c244ee31bfc2dfb26aab93e7110f71788",
+    "e23e5ce38f19c0736c48f3bd47fb49ab19a76808",
     "e69a3ee7e7a5bd1fc9c5a23e1114f93df335bc15",
     "e89037e8d43f5fa479edc63af553f1bb18c359ed",
     "ecc3a24e0e592e9bfa158f805c3a187e17b8d5a3",
@@ -119,8 +119,8 @@
       "count": 0,
       "created": "2026-11-23T08:10:50.545Z",
       "id": "at://did:plc:epkveu5mlyzlggxg57celkrm/app.bsky.feed.post/3n2xokvq4ae2s",
-      "lastAttempt": "2026-11-24T13:35:25.606Z",
-      "lastSuccess": "2026-11-24T13:35:25.606Z",
+      "lastAttempt": "2026-11-24T15:47:13.317Z",
+      "lastSuccess": "2026-11-24T15:47:13.317Z",
       "newest": ""
     },
     "bluesky:3n32ceud77u22": {
@@ -129,8 +129,8 @@
       "count": 0,
       "created": "2026-11-24T09:10:42.141Z",
       "id": "at://did:plc:epkveu5mlyzlggxg57celkrm/app.bsky.feed.post/3n32ceud77u22",
-      "lastAttempt": "2026-11-24T13:35:25.606Z",
-      "lastSuccess": "2026-11-24T13:35:25.606Z",
+      "lastAttempt": "2026-11-24T15:47:13.317Z",
+      "lastSuccess": "2026-11-24T15:47:13.317Z",
       "newest": ""
     },
     "linkedin:7530541469049229314": {
@@ -139,8 +139,8 @@
       "count": 2,
       "created": "2026-11-23T08:03:17.899Z",
       "id": "urn:li:share:7530541469049229314",
-      "lastAttempt": "2026-11-24T13:35:25.606Z",
-      "lastSuccess": "2026-11-24T13:35:25.606Z",
+      "lastAttempt": "2026-11-24T15:47:13.317Z",
+      "lastSuccess": "2026-11-24T15:47:13.317Z",
       "newest": "2026-11-23T20:10:43.349Z"
     },
     "linkedin:7530918910544740353": {
@@ -149,9 +149,9 @@
       "count": 1,
       "created": "2026-11-24T09:03:09.587Z",
       "id": "urn:li:share:7530918910544740353",
-      "lastAttempt": "2026-11-24T13:35:25.606Z",
-      "lastSuccess": "2026-11-24T13:35:25.606Z",
-      "newest": "2026-11-24T09:03:08.898Z"
+      "lastAttempt": "2026-11-24T15:47:13.317Z",
+      "lastSuccess": "2026-11-24T15:47:13.317Z",
+      "newest": ""
     },
     "x:2124775768513204629": {
       "accountId": "6b02d1167d530f1ebe6a60a6",
@@ -159,8 +159,8 @@
       "count": 1,
       "created": "2026-11-23T08:03:14.000Z",
       "id": "2124775768513204629",
-      "lastAttempt": "2026-11-24T13:35:25.606Z",
-      "lastSuccess": "2026-11-24T13:35:25.606Z",
+      "lastAttempt": "2026-11-24T15:47:13.317Z",
+      "lastSuccess": "2026-11-24T15:47:13.317Z",
       "newest": "2026-11-23T23:15:05.000Z"
     },
     "x:2125153322625585254": {
@@ -169,9 +169,9 @@
       "count": 1,
       "created": "2026-11-24T09:03:30.000Z",
       "id": "2125153322625585254",
-      "lastAttempt": "2026-11-24T13:35:25.606Z",
-      "lastSuccess": "2026-11-24T13:35:25.606Z",
-      "newest": "2026-11-24T09:03:30.000Z"
+      "lastAttempt": "2026-11-24T15:47:13.317Z",
+      "lastSuccess": "2026-11-24T15:47:13.317Z",
+      "newest": ""
     }
   }
 }
