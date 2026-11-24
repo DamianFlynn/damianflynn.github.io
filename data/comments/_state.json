@@ -1,5 +1,5 @@
 {
-  "gardenSha": "616aceca18e97d43f27e2c86f879b527bb7b7337",
+  "gardenSha": "516a3ee67c0edbaebbb0342aee3334d76bafeae2",
   "pages": {
     "content/talks/agents-need-an-identity/index.md": {
       "kind": "talks",
@@ -16,18 +16,18 @@
   "platforms": {
     "bluesky": {
       "consecutiveFailures": 0,
-      "lastAttempt": "2026-11-23T16:27:38.179Z",
-      "lastSuccess": "2026-11-23T16:27:38.179Z"
+      "lastAttempt": "2026-11-24T03:07:01.157Z",
+      "lastSuccess": "2026-11-24T03:07:01.157Z"
     },
     "linkedin": {
       "consecutiveFailures": 0,
-      "lastAttempt": "2026-11-23T16:27:38.179Z",
-      "lastSuccess": "2026-11-23T16:27:38.179Z"
+      "lastAttempt": "2026-11-24T03:07:01.157Z",
+      "lastSuccess": "2026-11-24T03:07:01.157Z"
     },
     "x": {
       "consecutiveFailures": 0,
-      "lastAttempt": "2026-11-23T16:27:38.179Z",
-      "lastSuccess": "2026-11-23T16:27:38.179Z"
+      "lastAttempt": "2026-11-24T03:07:01.157Z",
+      "lastSuccess": "2026-11-24T03:07:01.157Z"
     }
   },
   "seen": [
@@ -39,9 +39,11 @@
     "141a8c7a324d55fd23f118efca4bc1ef78a28303",
     "143eca9f3b1cd0768c1f7870cff64783f60a2650",
     "15ed606bcf484144ea4e68296f6718e090dea54a",
-    "160ad41bccc8b85646badc40551ff600d93e442c",
+    "16595db927e20b099bf10cae920c617a76867f49",
     "1c7bd0c16eb7b9574fd16f1e8acaa535d8209261",
+    "1f264a6d9570a9e8b675a228539b1ed3879f00b2",
     "24c019a533b5d77f7e6f7a2f45b8465e468a31c8",
+    "2801edf0e2eb0b97bb86c26b5d9095f4c18ef5da",
     "2e8ed181df494c32c5efbb8829c065c7028c94c0",
     "2eccc1218b182400c7822dc567811df9b2e46fc4",
     "2efff01398eae2b6b32d6534b1df542ba6648deb",
@@ -67,11 +69,13 @@
     "6bad2b8069dcea194c91c7e82cded85dade1b52a",
     "744fbad91d75112b0c5fd45b66df6d39072e3b71",
     "747a313486d2fa8f980157584f96cbb0f3b05c0f",
+    "77bb2455ca059eb3fe19cba4b5c64f5f4e29f09d",
     "79d7667fcdfa9777a72e39334a0fd032ccb44bf8",
     "79dbaff0ac2675046a58bbefe5b30139aafdda12",
     "7b8e30710f89be369ce5e60345298d7fa88a088a",
     "7ee537a858dcc6bc1acfd9251a78fff8a61b1157",
     "82ac783938e25c78863c35af11df5d44a7cb736f",
+    "83f5fbf75ed92d875d063e13b0c379cae1c8502c",
     "88959c2726d9f59fc13205cf402312feadb6acc9",
     "8b932691f6d811cfe1d0ccb53ab7b9dbbe7807a7",
     "8d244650ee00c3df3b4bf8d8475e7e7c19af1d21",
@@ -83,7 +87,9 @@
     "a9cc4bc95e67e67aa1c2724342afdda11aaa0cb3",
     "ab9f8c42c3c3e05ec258b8ef74a9bf5fdece514a",
     "ac2489391279f3d03287eefae6dc698d380aaad9",
+    "af999a2290494a3b60becf037dc9fc5576c9aabd",
     "b2b86de73a735f4eefb04ee12b8b4f79e5af025a",
+    "b2c3fd5eaa33c61f56b7da6af86000642c50d657",
     "b3101a3b5146b8716ca946741ee043fbd40babbb",
     "b70e31e6a3e4c8a51834c73be61e7f20c13c93e7",
     "b77b775023f29a32f6c13ed3250e1152c0dcbae7",
@@ -98,6 +104,7 @@
     "da7a3894b2b4a07d20506c1290c00deae0a39277",
     "dd20a55f6dc35cab26ad07d3dc181f2ff4912083",
     "dd22a1bd52f5f81d72233be54c66281b76212c73",
+    "e085d17d77e78a9bf8d8bc06da19a3a5c5fe9940",
     "e08dfa70775fee09dd922e8de00d0ba509d4f7e8",
     "e2269dff7970f262c35fd8687500adf296ee20cb",
     "e2eb0c334fcc449790e7689f84b225afbcfc1d71",
@@ -111,19 +118,19 @@
       "count": 0,
       "created": "2026-11-23T08:10:50.545Z",
       "id": "at://did:plc:epkveu5mlyzlggxg57celkrm/app.bsky.feed.post/3n2xokvq4ae2s",
-      "lastAttempt": "2026-11-23T16:27:38.179Z",
-      "lastSuccess": "2026-11-23T16:27:38.179Z",
+      "lastAttempt": "2026-11-24T03:07:01.157Z",
+      "lastSuccess": "2026-11-24T03:07:01.157Z",
       "newest": ""
     },
     "linkedin:7530541469049229314": {
       "accountId": "6a4c1a569d9472faae9d2d0c",
       "consecutiveFailures": 0,
-      "count": 1,
+      "count": 2,
       "created": "2026-11-23T08:03:17.899Z",
       "id": "urn:li:share:7530541469049229314",
-      "lastAttempt": "2026-11-23T16:27:38.179Z",
-      "lastSuccess": "2026-11-23T16:27:38.179Z",
-      "newest": "2026-11-23T11:06:05.828Z"
+      "lastAttempt": "2026-11-24T03:07:01.157Z",
+      "lastSuccess": "2026-11-24T03:07:01.157Z",
+      "newest": "2026-11-23T20:10:43.349Z"
     },
     "x:2124775768513204629": {
       "accountId": "6b02d1167d530f1ebe6a60a6",
@@ -131,8 +138,8 @@
       "count": 0,
       "created": "2026-11-23T08:03:14.000Z",
       "id": "2124775768513204629",
-      "lastAttempt": "2026-11-23T16:27:38.179Z",
-      "lastSuccess": "2026-11-23T16:27:38.179Z",
+      "lastAttempt": "2026-11-24T03:07:01.157Z",
+      "lastSuccess": "2026-11-24T03:07:01.157Z",
       "newest": ""
     }
   }

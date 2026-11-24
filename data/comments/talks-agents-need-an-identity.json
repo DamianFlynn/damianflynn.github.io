@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-23T16:27:38.179Z",
+  "fetchedAt": "2026-11-24T03:07:01.157Z",
   "page": "/talks/agents-need-an-identity/",
   "threads": [
     {
@@ -20,9 +20,20 @@
           "likes": 0,
           "replies": [],
           "text": "Agree 100% :)"
+        },
+        {
+          "author": {
+            "handle": "chrhall",
+            "name": "Christian Hall"
+          },
+          "createdAt": "2026-11-23T20:10:43.349Z",
+          "id": "urn:li:comment:(urn:li:activity:7530541470781562881,7530724535457714176)",
+          "likes": 0,
+          "replies": [],
+          "text": "Agents running as the person who set them up is close to the default right now. On your question I'd draw the line at anything that leaves the team. A draft is cheap to fix, a sent message isn't."
         }
       ],
-      "count": 1,
+      "count": 2,
       "platform": "linkedin",
       "url": "https://www.linkedin.com/feed/update/urn:li:share:7530541469049229314/"
     },
