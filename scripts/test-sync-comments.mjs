@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { run, postKey, normaliseComments, parseFrontMatter, plainText, serialize } from './sync-comments.mjs';
+import { run, postKey, normaliseComments, parseFrontMatter, plainText, serialize, readSocialPages, unionPages } from './sync-comments.mjs';
 
 const BSKY_URL = 'https://bsky.app/profile/damianflynn.com/post/3n2xokvq4ae2s';
 const X_URL = 'https://x.com/damian_flynn/status/2124775768513204629';
@@ -309,4 +309,60 @@ test('the script never prints the key', async () => {
   const lines = []; const h = harness({ failList: 429 });
   await h.run({ log: m => lines.push(m) });
   assert.ok(lines.length > 0 && !lines.join('\n').includes('test-key-not-real'));
+});
+
+// ---------- data/social: the second source of thread links ----------
+function socialDir(files) {
+  const dir = mkdtempSync(join(tmpdir(), 'soc-'));
+  for (const [n, d] of Object.entries(files)) writeFileSync(join(dir, n), typeof d === 'string' ? d : JSON.stringify(d));
+  return dir;
+}
+const X2 = 'https://x.com/damian_flynn/status/5555';
+const X_LIST = () => { const l = LIST({ x: 0 }); l.data.push(listItem('twitter', '5555', 'https://twitter.com/i/web/status/5555', 0)); return l; };
+
+test('union: a page with no front matter links is followed through data/social alone', async () => {
+  const h = harness({ list: X_LIST() });
+  const socialDirPath = socialDir({ 'posts-plain.json': { page: '/posts/plain/', links: { x: X2 }, updatedAt: 't' } });
+  await h.run({ socialDir: socialDirPath });
+  const d = h.read('posts-plain.json');
+  assert.equal(d.page, '/posts/plain/');
+  assert.deepEqual(d.threads.map(t => [t.platform, t.url]), [['x', X2]]);
+});
+
+test('union: front matter wins per network and data fills the gaps; pages absent from the garden still sync', async () => {
+  const other = 'https://x.com/damian_flynn/status/9999';
+  const dir = socialDir({
+    'talks-agents-need-an-identity.json': { page: '/talks/agents-need-an-identity/', links: { x: other, mastodon: 'https://social.example/@d/7' }, updatedAt: 't' },
+    'posts-only-in-data.json': { page: '/posts/only-in-data/', links: { x: X2 }, updatedAt: 't' },
+  });
+  const pages = unionPages([{ kind: 'talks', slug: 'agents-need-an-identity', src: 'content/talks/agents-need-an-identity/index.md', links: { x: X_URL, bluesky: BSKY_URL } }], readSocialPages(dir));
+  assert.equal(pages.length, 2);
+  const talk = pages.find(p => p.slug === 'agents-need-an-identity');
+  assert.deepEqual(talk.links, { bluesky: BSKY_URL, mastodon: 'https://social.example/@d/7', x: X_URL });
+  assert.equal(pages.find(p => p.slug === 'only-in-data').src, 'data/social/posts-only-in-data.json');
+  const h = harness({ list: X_LIST() });
+  await h.run({ socialDir: dir });
+  assert.equal(h.read('talks-agents-need-an-identity.json').threads.find(t => t.platform === 'x').url, X_URL);
+});
+
+test('union: invalid, mismatched or malformed data files are ignored', () => {
+  const dir = socialDir({
+    'posts-a.json': { page: '/posts/a/', links: { x: 'javascript:alert(1)', bluesky: 'http://bsky.app/profile/a/post/3n2xokvq4ae2s', linkedin: 'https://evil.example/www.linkedin.com/feed/update/1' }, updatedAt: 't' },
+    'posts-b.json': { page: '/posts/not-b/', links: { x: X2 }, updatedAt: 't' },
+    'posts-c.json': 'not json',
+    'notes.json': { page: '/posts/n/', links: { x: X2 } },
+    '_state.json': {},
+  });
+  assert.deepEqual(readSocialPages(dir), []);
+  assert.deepEqual(readSocialPages(join(dir, 'missing')), []);
+  assert.deepEqual(readSocialPages(null), []);
+});
+
+test('union keeps the cheap path: a second run with unchanged data makes two calls and writes nothing', async () => {
+  const h = harness({ list: X_LIST() });
+  const dir = socialDir({ 'posts-plain.json': { page: '/posts/plain/', links: { x: X2 }, updatedAt: 't' } });
+  await h.run({ socialDir: dir });
+  h.urls.length = 0;
+  const r = await h.run({ socialDir: dir });
+  assert.deepEqual(r.changed, []); assert.equal(r.calls, 2);
 });

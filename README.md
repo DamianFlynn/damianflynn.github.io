@@ -112,6 +112,7 @@ Replies to a page's social announcement posts (X, LinkedIn, Bluesky) are shown o
 - Hide a comment: add its `id` (as found in the data file) to the JSON list in `data/comments/_hidden.json`, e.g. `["urn:li:comment:(...)"]`. Its replies go with it. Hiding the comment on the platform itself (Zernio `isHidden`) has the same effect.
 - Cost: the repository is public so Actions minutes are free; Zernio inbox reads are cheap but X reads are metered (fractions of a cent), which is why X threads are read only when their count changes.
 - Tests: `node --test scripts/test-sync-comments.mjs` (offline, mocked Zernio and GitHub).
+- Social links (Zernio webhook to a recorded `data/social` link on each page): see [docs/social-links.md](docs/social-links.md). Tests: `node --test scripts/ tests/`.
 
 ## Deployment Strategy
 

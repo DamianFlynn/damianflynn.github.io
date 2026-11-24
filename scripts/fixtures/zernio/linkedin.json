@@ -1,0 +1,49 @@
+{
+  "post": {
+    "_id": "6b04d54a0b5053e8bfd819c6",
+    "content": "When a quick Quartz test failed, I was finally able to build the blog I wanted.\n\nI wanted the graph and the backlinks fr ... s is part one of a series called Building this blog.\n\nIf you run your own site, what do you pin and what do you let float?\n\n#Hugo #Obsidian #DevOps #StaticSites",
+    "createdAt": "2026-11-24T00:07:40.041Z",
+    "crosspostingEnabled": true,
+    "hashtags": [],
+    "lastEnqueuedAt": "2026-11-24T09:01:36.571Z",
+    "mentions": [],
+    "platforms": [
+      {
+        "_id": "ent-linkedin",
+        "accountId": {
+          "_id": "acc-linkedin",
+          "displayName": "Test Author",
+          "isActive": true,
+          "platform": "linkedin",
+          "username": "Test Author"
+        },
+        "contentHash": "3b7a9922c800894df57b15992a0fe53f",
+        "platform": "linkedin",
+        "platformPostId": "urn:li:share:7530918910544740353",
+        "platformPostUrl": "https://www.linkedin.com/feed/update/urn:li:share:7530918910544740353/",
+        "platformSpecificData": {
+          "firstComment": "The full post, with the code and the mistakes: https://damianflynn.com/posts/markdown-notion-obsidian-building-this-blog/?utm_source=linkedin"
+        },
+        "publishAttempts": 1,
+        "publishedAt": "2026-11-24T09:03:09.587Z",
+        "scheduledFor": "2026-11-24T09:00:00.000Z",
+        "status": "published"
+      }
+    ],
+    "publishingClaimedAt": "2026-11-24T09:00:21.215Z",
+    "recycling": {
+      "contentVariationIndex": 0,
+      "contentVariations": [],
+      "enabled": false,
+      "gapFreq": "month",
+      "recycleCount": 0
+    },
+    "scheduledFor": "2026-11-24T09:00:00.000Z",
+    "status": "published",
+    "tags": [],
+    "timezone": "Europe/Dublin",
+    "title": "",
+    "updatedAt": "2026-11-24T09:03:09.650Z",
+    "visibility": "public"
+  }
+}

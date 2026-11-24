@@ -1,0 +1,91 @@
+# Record the social post that announces a page in data/social/<kind>-<slug>.json.
+# Triggered by the Zernio webhook through the Pages Function functions/hooks/zernio.js (workflow_dispatch),
+# by hand, and nightly as a backfill that catches anything a webhook missed. See docs/social-links.md.
+# Secret: ZERNIO_API_KEY (already used by sync-comments).
+
+name: Social Links
+
+on:
+  workflow_dispatch:
+    inputs:
+      post_id:
+        description: Zernio post id (24 hex characters); ignored when backfill is true
+        required: false
+        default: ''
+        type: string
+      event_id:
+        description: Zernio webhook event id (for the log only)
+        required: false
+        default: ''
+        type: string
+      event:
+        description: Zernio event name (for the log only)
+        required: false
+        default: ''
+        type: string
+      backfill:
+        description: Process every post published in the last 30 days
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    - cron: '17 3 * * *'
+
+permissions:
+  contents: write
+  actions: write
+
+# One run at a time. GitHub keeps only the newest PENDING run, so a burst can drop one; the nightly backfill catches up.
+concurrency:
+  group: social-links
+  cancel-in-progress: false
+
+jobs:
+  record:
+    name: Record social links
+    if: github.repository == 'DamianFlynn/damianflynn.github.io'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Record links from Zernio
+        id: record
+        env:
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+          POST_ID: ${{ inputs.post_id }}
+          EVENT_ID: ${{ inputs.event_id }}
+          EVENT: ${{ inputs.event }}
+          BACKFILL: ${{ github.event_name == 'schedule' || inputs.backfill }}
+        run: node scripts/social-links.mjs
+
+      - name: Commit, push and deploy when data changed
+        if: ${{ steps.record.outputs.changed == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MESSAGE: ${{ steps.record.outputs.message }}
+        run: |
+          if [ -z "$(git status --porcelain -- data/social)" ]; then
+            echo "No social link data changed; nothing to do."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/social
+          git commit -m "chore(social): ${MESSAGE:-record social threads}"
+          if ! git push origin HEAD:main; then
+            echo "Push raced with another commit; rebasing once."
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+          # Pushes made with GITHUB_TOKEN do not trigger other workflows; a dispatch does.
+          gh workflow run deploy-production.yaml --ref main
+          gh workflow run sync-comments.yaml --ref main
