@@ -57,9 +57,12 @@ export function send(env, event) {
 }
 
 // Serve the static feed untouched and count the fetch in the background.
+// The response, including a 304 with its ETag, Last-Modified and Cache-Control, is returned as the
+// asset store produced it. A reader revalidating with If-None-Match / If-Modified-Since is still a
+// feed fetch, so 200 and 304 both count; errors and redirects do not.
 export async function serveFeed({ request, env, waitUntil }) {
   const response = await env.ASSETS.fetch(request);
-  if (request.method === 'GET' && response.ok) {
+  if (request.method === 'GET' && (response.ok || response.status === 304)) {
     const url = new URL(request.url);
     const event = buildEvent({
       name: 'rss_fetch', pathname: url.pathname, hostname: url.hostname,

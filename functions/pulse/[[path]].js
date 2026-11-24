@@ -17,14 +17,15 @@ export async function onRequest({ request, env, waitUntil }) {
   const url = new URL(request.url);
   const name = url.pathname.replace(/^\/pulse\//, '');
 
-  // /pulse/p/<slug>.gif: the end-of-item image of a feed; counts one item view.
-  const pixel = name.match(/^p\/([a-z0-9-]{1,120})\.gif$/);
+  // /pulse/p/<slug>.gif (posts, the original form) or /pulse/p/<section>/<slug>.gif (talks, ...):
+  // the end-of-item image of a feed; counts one item view under the item's real section.
+  const pixel = name.match(/^p\/(?:([a-z0-9-]{1,40})\/)?([a-z0-9-]{1,120})\.gif$/);
   if (pixel) {
     if (request.method === 'GET') {
       const event = buildEvent({
-        name: 'rss_view', pathname: '/posts/' + pixel[1] + '/', hostname: url.hostname,
+        name: 'rss_view', pathname: '/' + (pixel[1] || 'posts') + '/' + pixel[2] + '/', hostname: url.hostname,
         ip: request.headers.get('CF-Connecting-IP'), userAgent: request.headers.get('User-Agent'),
-        extra: { slug: pixel[1] },
+        extra: { slug: pixel[2], section: pixel[1] || 'posts' },
       });
       if (JSON.parse(event.properties).kind !== 'crawler') waitUntil(send(env, event));
     }
