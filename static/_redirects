@@ -31,3 +31,15 @@
 /posts/configuring-freeradius-for-802.1x/ /posts/configuring-freeradius-for-802-1x/ 301
 /search/ /posts/ 301
 /contact/ /about-me/ 301
+
+# Feed addresses used by the previous site and by readers that guess
+/feed/ /index.xml 301
+/feed /index.xml 301
+/feed.xml /index.xml 301
+/rss.xml /index.xml 301
+/rss /index.xml 301
+/rss/ /index.xml 301
+/atom.xml /index.xml 301
+/blog/index.xml /index.xml 301
+/blog/feed/ /index.xml 301
+/posts/feed/ /posts/index.xml 301

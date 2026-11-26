@@ -1,0 +1,8 @@
+/index.xml
+  Content-Type: application/rss+xml; charset=utf-8
+/posts/index.xml
+  Content-Type: application/rss+xml; charset=utf-8
+/talks/index.xml
+  Content-Type: application/rss+xml; charset=utf-8
+/index.feed
+  Content-Type: application/feed+json; charset=utf-8
